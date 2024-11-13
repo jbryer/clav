@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# clav: Cluster Analysis Validation
+# Cluster Analysis Validation (`clav`)
 
 <!-- badges: start -->
 `r badger::badge_cran_release("clav", "orange")`

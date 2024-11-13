@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# clav: Cluster Analysis Validation
+# Cluster Analysis Validation (`clav`)
 
 <!-- badges: start -->
 
