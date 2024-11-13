@@ -80,7 +80,7 @@ cluster_validation <- function(
 		pb <- utils::txtProgressBar(min = 0, max = n_samples, style = 3)
 	}
 
-	if(!missing(seed)) { set.seed(seed + i) }
+	if(!missing(seed)) { set.seed(seed) }
 	full_fit <- cluster_fun(df, n_clusters)
 	full_fit_result <- df |>
 		dplyr::mutate(
