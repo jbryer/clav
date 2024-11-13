@@ -3,6 +3,7 @@
 S3method(plot,clustervalidation)
 S3method(plot,optimalclusters)
 S3method(predict,kmeans)
+S3method(print,clustervalidation)
 export(cluster_validation)
 export(optimal_clusters)
 export(print_p_value)
