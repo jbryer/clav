@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+data-raw/PISA/
+README_cache/
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
