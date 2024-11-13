@@ -11,7 +11,13 @@
 status](https://github.com/jbryer/clav/workflows/R-CMD-check/badge.svg)](https://github.com/jbryer/clav/actions)
 <!-- badges: end -->
 
-The goal of clav is to …
+The `clav` package provides utilities for conducting cluster (profile)
+analysis with an emphasis on the validating the stability of the
+profiles both within a given data set as well as across data sets.
+Unlike supervised models where the known class is measured, validation
+of unsupervised models where there is no known class can be challenging.
+The approach implemented here attempts to compare the cluster results
+across many random samples.
 
 ## Installation
 
@@ -56,12 +62,12 @@ Finding the optimal number of clusters.
 optimal <- optimal_clusters(pisa_usa[,cluster_vars], max_k = 5)
 optimal
 #>   k      wss silhoutte       gap calinski_harabasz davies_bouldin
-#> 1 1 22099.00        NA 0.9208849               NaN            NaN
-#> 2 2 17389.55 0.2004559 0.8991599         1255.2531       1.921547
-#> 3 3 15474.62 0.2090841 0.8890258          970.1266       2.135113
-#> 4 4 14166.14 0.1644960 0.8773056          864.8122       1.947182
-#> 5 5 13129.28 0.1629131 0.8731925          873.2061       1.785895
-plot(optimal)
+#> 1 1 22099.00        NA 0.9201448               NaN            NaN
+#> 2 2 17389.55 0.2004559 0.8984924         1255.2547       1.921547
+#> 3 3 15575.47 0.2090841 0.8877103          991.8627       2.135113
+#> 4 4 14254.57 0.1649883 0.8770958          864.8128       1.859489
+#> 5 5 13116.20 0.1637914 0.8792677          873.2673       1.811864
+plot(optimal, ncol = 2)
 ```
 
 <img src="man/figures/README-optimal-clusters-1.png" width="100%" />

@@ -33,7 +33,7 @@
 #' \describe{
 #'   \item{complete_sample}{data frame of results using the entire data set.}
 #'   \item{in_sample}{data frame of in sample results.}
-#'   \item{oob}{data frame of out-of-bag results.}
+#'   \item{oob_sample}{data frame of out-of-bag results.}
 #'   \item{complete_model_fit}{model fit for the full data set.}
 #'   \item{in_sample_model_fits}{model fits for each sample.}
 #' }
@@ -136,12 +136,25 @@ cluster_validation <- function(
 	if(verbose) { close(pb) }
 	cv <- list(complete_sample = full_fit_result,
 			   in_sample = results,
-			   oob = results_oob,
+			   oob_sample = results_oob,
 			   complete_model_fit = full_fit,
 			   in_sample_model_fits = model_results)
 	class(cv) <- c('clustervalidation')
 	attr(cv, 'standardize') <- standardize
 	return(cv)
+}
+
+#' @rdname cluster_validation
+#' @param x the results of `cluster_validation`.
+#' @param ... currently not used.
+#' @method print clustervalidation
+#' @export
+print.clustervalidation <- function(x, ...) {
+	cat(paste0(
+		length(unique(x$in_sample$iter)), ' random samples estimated.\n',
+		'Correlation between in sample and out-of-bag sample means for each\n',
+		'cluster and variable is ', round(cor(x$in_sample$value, x$oob_sample$value), digits = 3)
+	))
 }
 
 #' @rdname cluster_validation
@@ -172,7 +185,7 @@ plot.clustervalidation <- function(
 ) {
 	results <- x$in_sample
 	results$estimate <- 'Sample'
-	results_oob <- x$oob
+	results_oob <- x$oob_sample
 	results_oob$estimate <- 'Out of bag sample'
 	thedata <- results
 	if(plot_oob) {
@@ -219,7 +232,7 @@ summary.clustervalidation <- function(
 		df <- rbind(df, object$in_sample)
 	}
 	if(oob_sample) {
-		df <- rbind(df, object$oob)
+		df <- rbind(df, object$oob_sample)
 	}
 
 	full <- object$complete_sample |>

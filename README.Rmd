@@ -69,12 +69,12 @@ Finding the optimal number of clusters.
 ```{r optimal-clusters, cache=TRUE, message=FALSE, warning=FALSE}
 optimal <- optimal_clusters(pisa_usa[,cluster_vars], max_k = 5)
 optimal
-plot(optimal)
+plot(optimal, ncol = 2)
 ```
 
 Validating cluster profiles using random samples of 50%. Out-of-bag uses the remaining 50% to predict cluster membership.
 
-```{r random-validation}
+```{r random-validation, fig.width=10, fig.height=5}
 pisa_cv_random <- pisa_usa |> 
 	dplyr::select(dplyr::all_of(cluster_vars)) |>
 	clav::cluster_validation(
@@ -89,7 +89,7 @@ plot(pisa_cv_random)
 
 Re-estimate the clusters using the OOB sample instead of predicting using the in sample model.
 
-```{r oob-reestimate-validation}
+```{r oob-reestimate-validation, fig.width=10, fig.height=5}
 pisa_cv_random2 <- pisa_usa |> 
 	dplyr::select(dplyr::all_of(cluster_vars)) |>
 	clav::cluster_validation(
@@ -108,7 +108,7 @@ plot(pisa_cv_random2)
 
 Bootstrap approach to validation.
 
-```{r bootstrap-validation}
+```{r bootstrap-validation, fig.width=10, fig.height=5}
 pisa_cv_bootstrap <- pisa_usa |> 
 	dplyr::select(dplyr::all_of(cluster_vars)) |>
 	clav::cluster_validation(
@@ -123,7 +123,7 @@ plot(pisa_cv_bootstrap)
 
 Using latent profile analysis for estimating clusters.
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, fig.width=10, fig.height=5}
 lpa <- estimate_profiles(pisaUSA15, 3)
 lpa_predict <- predict(lpa, pisaUSA15[sample(nrow(pisaUSA15), 100),])
 # lpa_estimates <- get_estimates(lpa)
@@ -150,7 +150,7 @@ plot(lpa_cv_random)
 
 ## Profile Plot
 
-```{r profile-plot}
+```{r profile-plot, fig.width=10, fig.height=5}
 fit <- pisa_usa |> 
 	dplyr::select(dplyr::all_of(cluster_vars)) |>
 	stats::kmeans(centers = 3)
@@ -164,7 +164,7 @@ clav::profile_plot(pisa_usa[,cluster_vars],
 
 
 
-```{r palmerpenguins, include=FALSE, eval=FALSE}
+```{r palmerpenguins, include=FALSE, eval=FALSE, fig.width=10, fig.height=5}
 library(palmerpenguins)
 library(ggplot2)
 

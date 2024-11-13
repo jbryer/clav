@@ -49,10 +49,7 @@ optimal_clusters <- function(
 #' @method plot optimalclusters
 #' @import ggplot2
 #' @importFrom cowplot plot_grid
-plot.optimalclusters <- function(
-		x,
-		...
-) {
+plot.optimalclusters <- function(x, ...) {
 	plots <- list()
 
 	plots[['davies_bouldin']] <- ggplot(x,
@@ -111,5 +108,11 @@ plot.optimalclusters <- function(
 		xlab('') + ylab('') +
 		ggtitle('Gap Statistic', subtitle = 'Higher values desired')
 
-	do.call(cowplot::plot_grid, plots, ...)
+	params <- list(...)
+	for(i in seq_len(length(params))) {
+		plots[[names(params)[i]]] <- params[[i]]
+	}
+
+	do.call(cowplot::plot_grid, plots)
 }
+
