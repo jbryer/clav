@@ -33,24 +33,24 @@
 #' * I feel lonely at school.
 #'
 #' **Interest:** How much do you disagree or agree with the statements about yourself below? (`ST094`)
-#' * I generally have fun when I am learning <broad science> topics.
-#' * I like reading about <broad science>.
-#' * I am happy working on <broad science> topics.
-#' * I enjoy acquiring new knowledge in <broad science>.
-#' * I am interested in learning about <broad science>.
+#' * I generally have fun when I am learning *broad science* topics.
+#' * I like reading about *broad science*.
+#' * I am happy working on *broad science* topics.
+#' * I enjoy acquiring new knowledge in *broad science*.
+#' * I am interested in learning about *broad science*.
 #'
 #' **Enjoyment:** How much do you disagree or agree with the statements about yourself below? (`ST094`)
-#' * I generally have fun when I am learning <broad science> topics.
-#' * I like reading about <broad science>.
-#' * I am happy working on <broad science> topics.
-#' * I enjoy acquiring new knowledge in <broad science>.
-#' * I am interested in learning about <broad science>.
+#' * I generally have fun when I am learning *broad science* topics.
+#' * I like reading about *broad science*.
+#' * I am happy working on *broad science* topics.
+#' * I enjoy acquiring new knowledge in *broad science*.
+#' * I am interested in learning about *broad science*.
 #'
 #' **Motivation:** How much do you agree with the statements below? (`ST113`)
-#' * Making an effort in my <school science> subject(s) is worth it because this will help me in the work I want to do later on.
-#' * What I learn in my <school science> subject(s) is important for me because I need this for what I want to do later on.
-#' * Studying my <school science> subject(s) is worthwhile for me because what I learn will improve my career prospects.
-#' * Many things I learn in my <school science> subject(s) will help me to get a job.
+#' * Making an effort in my *school science* subject(s) is worth it because this will help me in the work I want to do later on.
+#' * What I learn in my *school science* subject(s) is important for me because I need this for what I want to do later on.
+#' * Studying my *school science* subject(s) is worthwhile for me because what I learn will improve my career prospects.
+#' * Many things I learn in my *school science* subject(s) will help me to get a job.
 #'
 #' **Efficacy:** How easy do you think it would be for you to perform the following tasks on your own? (`ST129`)
 #' * Recognise the science question that underlies a newspaper report on a health issue.
@@ -64,11 +64,11 @@
 #'
 #' **Principals:** How much do you disagree or agree with the statements below? (`ST131`)
 #' * A good way to know if something is true is to do an experiment.
-#' * Ideas in <broad science> sometimes change.
+#' * Ideas in *broad science* sometimes change.
 #' * Good answers are based on evidence from many different experiments.
 #' * It is good to try experiments more than once to make sure of your findings.
-#' * Sometimes <broad science> scientists change their minds about what is true in science.
-#' * The ideas in <broad science> science books sometimes change.
+#' * Sometimes *broad science* scientists change their minds about what is true in science.
+#' * The ideas in *broad science* science books sometimes change.
 #'
 #' @docType data
 #' @keywords datasets

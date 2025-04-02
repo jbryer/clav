@@ -19,7 +19,9 @@ plot.clustervalidation <- function(
 		plot_complete = TRUE,
 		plot_oob = TRUE,
 		point_alpha = 0.1,
+		point_size = 1,
 		line_alpha = 0.1,
+		line_width = 1,
 		xlab = '',
 		ylab = ifelse(attr(x, 'standardize'), 'Mean Standard Score', 'Mean Score'),
 		...
@@ -38,8 +40,8 @@ plot.clustervalidation <- function(
 										ordered = TRUE)) |>
 		ggplot(aes(x = .data$variable, y = .data$value, color = .data$estimate,
 				   group = paste0(.data$estimate, .data$iter, .data$cluster))) +
-		geom_path(alpha = line_alpha) +
-		geom_point(alpha = point_alpha) +
+		geom_path(alpha = line_alpha, linewidth = line_width) +
+		geom_point(alpha = point_alpha, size = point_size) +
 		theme_minimal() +
 		theme(legend.position = 'none') +
 		scale_color_brewer(type = 'qual', palette = 2) +
@@ -52,7 +54,7 @@ plot.clustervalidation <- function(
 		p <- p + geom_path(data = cbind(x$complete_sample, estimate = 'Complete', iter = 0),
 						   color = 'blue',
 						   alpha = 0.5,
-						   linewidth = 2)
+						   linewidth = line_width)
 	}
 	return(p)
 }

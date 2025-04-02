@@ -157,7 +157,7 @@ profile_plot = function(
 					   fill = 'white', hjust = hjust, size = text_size, show.legend = FALSE)
 	}
 
-	if(missing(df_dep)) {
+	if(missing(df_dep) | is.null(df_dep)) {
 		return(plots[[1]])
 	} else {
 		if(is.vector(df_dep)) {

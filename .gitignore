@@ -8,3 +8,7 @@ README_cache/
 .httr-oauth
 .DS_Store
 .quarto
+inst/daacs/
+README_cache/
+inst/doc
+private/

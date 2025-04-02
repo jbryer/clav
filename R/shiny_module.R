@@ -1,12 +1,14 @@
+#' Output for printing status messages from the Shiny module.
 #'
-#'
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
 n_cluster_message <- function(id) {
 	shiny::textOutput(NS(id, id = 'n_message'))
 }
 
+#' Slider input for the desired number of clusters.
 #'
-#'
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
 n_clusters_input <- function(id, label = "Number of clusters:",
 						   min = 2, max = 10, value = 4) {
@@ -19,100 +21,114 @@ n_clusters_input <- function(id, label = "Number of clusters:",
 	)
 }
 
+#' Input to select the variables to perform the cluster analysis with.
 #'
-#'
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
-cluster_variable_select_intput <- function(id) {
+cluster_variable_input <- function(id) {
 	shiny::uiOutput(NS(id, id = 'variable_selection'))
 }
 
+#' Plot output for the figure to determine the optimal number of clusters.
 #'
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
-n_cluster_plot <- function(id) {
+n_cluster_plot_output <- function(id) {
 	shiny::plotOutput(NS(id, id = 'n_clusters_plot'))
 }
 
+#' Plot output for the bar plot of cluster sizes.
 #'
-#'
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
-cluster_size_bar_plot <- function(id, ...) {
+cluster_size_bar_plot_output <- function(id, ...) {
 	shiny::plotOutput(NS(id, id = 'cluster_size_bar'), ...)
 }
 
+#' Plot output for the profiles.
 #'
-#'
+#' @seealso [profile_plot()]
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
-variable_cluster_plot <- function(id, ...) {
-	shiny::plotOutput(NS(id, id ='variable_cluster_plot'), height = '600px')
+profile_plot_output <- function(id, ...) {
+	shiny::plotOutput(NS(id, id ='profile_plot'), height = '600px')
 }
 
+#' Plot output for the pairs plot.
 #'
-#'
+#' @seealso [GGally::ggpairs()]
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
-cluster_pairs_plot <- function(id, ...) {
+cluster_pairs_plot_output <- function(id, ...) {
 	shiny::plotOutput(NS(id, id = 'cluster_pairs_plot'), height = '600px')
 }
 
+#' Plot output for the bivariate cluster figure.
 #'
-#'
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
-bivariate_cluster_plot <- function(id, ...) {
+bivariate_cluster_plot_output <- function(id, ...) {
 	shiny::plotOutput(NS(id, id = 'bivariate_cluster_plot'), ...)
 }
 
+#' Plot output for the discriminant project figure.
 #'
-#'
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
-discriminant_projection_plot <- function(id, ...) {
+discriminant_projection_plot_output <- function(id, ...) {
 	shiny::plotOutput(NS(id, id ='discriminant_projection_plot'), ...)
 }
 
-#' Convert to z-score.
+#' Shiny input to select the dependent (outcome) variable.
 #'
-#' @param x numeric vector to convert to standard (z) score.
-scale_this <- function(x) {
-	(x - mean(x, na.rm = TRUE)) / sd(x, na.rm = TRUE)
-}
-
-#'
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
-dependent_variable_select <- function(id) {
+dependent_variable_input <- function(id) {
 	shiny::uiOutput(NS(id, id = 'dependent_variable_ui'))
 }
 
-#'
+#' TODO: REMOVE
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
-dependent_variable_plot <- function(id, ...) {
+dependent_variable_plot_output <- function(id, ...) {
 	shiny::plotOutput(NS(id, id = 'dependent_plot'), ...)
 }
 
+#' Output of the dependent variable analysis.
 #'
+#' Table output for analyzing the dependent variable from the clusters. This will
+#' either be an ANOVA for a quantitative dependent variable or a chi-squared test
+#' for qualitative dependent variable.
+#'
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
-dependent_variable_table <- function(id) {
+dependent_variable_table_output <- function(id) {
 	shiny::tableOutput(NS(id, id = 'dependent_table'))
 }
 
+#' Output from the dependent varaible analysis.
 #'
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
-dependent_null_hypothesis <- function(id) {
+dependent_null_hypothesis_output <- function(id) {
 	shiny::verbatimTextOutput(NS(id, id = 'dependent_null_hypothesis'))
 }
 
 #' Shiny module for cluster analysis.
 #'
-#' @param id ID for the module.
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param data a function to return the data (probably a reactive function).
 #' @export
 cluster_module <- function(id,
 						   data,
-						   default_vars = c(),
+						   default_vars = names(data())[sapply(data(), function(x) { is.numeric(x) })],
 						   default_dependent_variable = NULL,
-						   ci = 1) {
+						   se_factor = 1) {
 	moduleServer(id, function(input, output, session) {
 		get_data_raw <- shiny::reactive({
 			if(is.reactive(data)) {
@@ -123,10 +139,11 @@ cluster_module <- function(id,
 		})
 
 		get_data <- shiny::reactive({
-			# req(input$variable_selection)
+			req(input$variable_selection)
+			req(input$dependent_variable)
 			get_data_raw() |>
-				dplyr::select(c(input$variable_selection, input$dependent_variable)) %>%
-				dplyr::filter(complete.cases(.)) |>
+				dplyr::select(dplyr::any_of(c(input$variable_selection, input$dependent_variable))) |>
+				stats::na.omit() |>
 				dplyr::mutate_if(is.numeric, scale_this)
 		})
 
@@ -134,8 +151,13 @@ cluster_module <- function(id,
 			req(input$k)
 			req(input$variable_selection)
 
+			# TODO: Allow for other clustering algorithms other than k-means
 			thedata <- get_data()
-			fit <- kmeans(thedata[,input$variable_selection], input$k)
+			fit <- NULL
+			if(ncol(thedata) > 0 & nrow(thedata) > 20) {
+				# TODO: Need to standardize
+				fit <- kmeans(thedata[,input$variable_selection], input$k)
+			}
 			return(fit)
 		})
 
@@ -162,15 +184,16 @@ cluster_module <- function(id,
 			shiny::selectInput(
 				inputId = NS(id, id = 'dependent_variable'),
 				label = 'Dependent variable',
-				choices = names(get_data_raw()),
+				choices = c('None', names(get_data_raw())),
 				multiple = FALSE,
-				selected = default_dependent_variable
+				selected = ifelse(is.null(default_dependent_variable),
+								  'None',
+								  default_dependent_variable)
 			)
 		})
 
 		output$regression_output <- renderPrint({
 			req(input$dependent_variable)
-
 		})
 
 		output$n_clusters_plot <- shiny::renderPlot({
@@ -199,27 +222,19 @@ cluster_module <- function(id,
 				ggtitle('Cluster Sizes')
 		})
 
-		output$variable_cluster_plot <- shiny::renderPlot({
+		output$profile_plot <- shiny::renderPlot({
 			fit <- get_cluster_fit()
-			thedata <- get_data() |> dplyr::select(!input$dependent_variable)
-			thedata$cluster <- factor(fit$cluster, labels = letters[1:input$k])
-
-			thedata.melted <- melt(thedata, id.vars = 'cluster')
-			tab <- describeBy(thedata.melted$value,
-							  group = list(thedata.melted$cluster, thedata.melted$variable),
-							  mat = TRUE)
-			tab <- tab[,c('group1', 'group2', 'n', 'mean', 'se', 'sd', 'median')]
-			names(tab)[1:2] <- c('Cluster', 'Factor')
-
-			ggplot(tab[order(tab$Factor),],
-				   aes(x = Factor, y = mean, color = Cluster, group = Cluster)) +
-				geom_path(alpha = 0.5) +
-				geom_point() +
-				geom_errorbar(aes(ymin = mean - se_bar_multiplier * se, ymax = mean + se_bar_multiplier * se),
-							  width = 0.25, alpha = 0.5) +
-				geom_text(aes(label = round(mean, digits = 2)), hjust = -0.5, size = 4) +
-				xlab('Scale') + ylab('Mean Standardized Scale Score')
-
+			thedata <- get_data()
+			thedata_dep <- NULL
+			if(input$dependent_variable != 'None') {
+				thedata_dep <- thedata |> dplyr::select(input$dependent_variable)
+				thedata <- thedata |> dplyr::select(!input$dependent_variable)
+			}
+			clusters <- factor(fit$cluster, labels = letters[1:input$k])
+			profile_plot(df = thedata,
+						 clusters = clusters,
+						 df_dep = thedata_dep,
+						 cluster_order = input$variable_selection)
 		})
 
 		output$cluster_pairs_plot <- shiny::renderPlot({
@@ -227,16 +242,15 @@ cluster_module <- function(id,
 			thedata <- get_data()
 			thedata$cluster <- factor(fit$cluster, labels = letters[1:input$k])
 
-			ggpairs(thedata,
-					columns = names(thedata),
-					axisLabels = 'show',
-					mapping = ggplot2::aes_string(color='cluster'),
-					# upper='blank',
-					upper = list(continuous = "cor"),
-					diag = list(continuous = "densityDiag", discrete = 'barDiag',
-								aes_string(group = 'cluster', fill = 'cluster')),
-					lower = list(continuous="density", combo="box", alpha = 0.2))
-
+			GGally::ggpairs(
+				thedata,
+				columns = names(thedata),
+				axisLabels = 'show',
+				mapping = ggplot2::aes_string(color='cluster'),
+				upper = list(continuous = "cor"),
+				diag = list(continuous = "densityDiag", discrete = 'barDiag',
+							ggplot2::aes_string(group = 'cluster', fill = 'cluster')),
+				lower = list(continuous="density", combo="box", alpha = 0.2))
 		})
 
 		output$bivariate_cluster_plot <- shiny::renderPlot({
@@ -272,8 +286,8 @@ cluster_module <- function(id,
 									 mat = TRUE)
 			p <- ggplot(thedata, aes_string(x = 'cluster', y = input$dependent_variable)) +
 				geom_boxplot() +
-				geom_errorbar(data = tab, aes(x = group1, y = mean, ymin = mean - ci * se, ymax = mean + ci* se),
-							  color = 'darkgreen', width = 0.5) +0
+				geom_errorbar(data = tab, aes(x = group1, y = mean, ymin = mean - se_factor * se, ymax = mean + se_factor* se),
+							  color = 'darkgreen', width = 0.5) +
 				geom_point(data = tab, aes(x = group1, y = mean), color = 'blue', size = 2)
 			# ggsave(filename = 'test.png', plot = p)
 			return(p)

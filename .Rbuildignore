@@ -5,3 +5,8 @@
 data-raw
 README_cache
 ^\.github$
+README_cache/
+private/
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

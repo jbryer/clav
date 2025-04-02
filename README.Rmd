@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Cluster Analysis Validation (`clav`)
+# <a href='https://github.com/jbryer/clav'><img src='man/figures/clav.png' align="right" width="120" /></a> Cluster Analysis Validation (`clav`)
 
 <!-- badges: start -->
 `r badger::badge_cran_release("clav", "orange")`
@@ -49,6 +49,8 @@ devtools::document()
 devtools::install()
 # Run CRAN check for any issues
 devtools::check(cran = TRUE)
+# Build the pkgdown site
+pkgdown::build_site()
 ```
 
 ## Example
@@ -66,7 +68,7 @@ pisa_usa <- pisa2015 |> dplyr::filter(country == 'UNITED STATES')
 
 Finding the optimal number of clusters.
 
-```{r optimal-clusters, cache=TRUE, message=FALSE, warning=FALSE}
+```{r optimal-clusters, cache=TRUE, message=FALSE, warning=FALSE, fig.height=6}
 optimal <- optimal_clusters(pisa_usa[,cluster_vars], max_k = 5)
 optimal
 plot(optimal, ncol = 2)
@@ -118,14 +120,18 @@ pisa_cv_bootstrap <- pisa_usa |>
 		n_samples = 100,
 		seed = 42
 )
+summary(pisa_cv_bootstrap)
 plot(pisa_cv_bootstrap)
 ```
 
 Using latent profile analysis for estimating clusters.
 
 ```{r, eval=FALSE, fig.width=10, fig.height=5}
-lpa <- estimate_profiles(pisaUSA15, 3)
-lpa_predict <- predict(lpa, pisaUSA15[sample(nrow(pisaUSA15), 100),])
+library(tidyLPA)
+lpa <- pisa_usa |> 
+	dplyr::select(dplyr::all_of(cluster_vars)) |>
+	tidyLPA::estimate_profiles(3)
+# lpa_predict <- predict(lpa, pisaUSA15[sample(nrow(pisaUSA15), 100),])
 # lpa_estimates <- get_estimates(lpa)
 lpa_data <- get_data(lpa)
 

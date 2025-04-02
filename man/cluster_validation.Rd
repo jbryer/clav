@@ -36,7 +36,9 @@ cluster_validation(
   plot_complete = TRUE,
   plot_oob = TRUE,
   point_alpha = 0.1,
+  point_size = 1,
   line_alpha = 0.1,
+  line_width = 1,
   xlab = "",
   ylab = ifelse(attr(x, "standardize"), "Mean Standard Score", "Mean Score"),
   ...

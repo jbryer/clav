@@ -51,28 +51,28 @@ original PISA database. The questionnaire can be downloaded from
 
 \strong{Interest:} How much do you disagree or agree with the statements about yourself below? (\code{ST094})
 \itemize{
-\item I generally have fun when I am learning \if{html}{\out{<broad science>}} topics.
-\item I like reading about \if{html}{\out{<broad science>}}.
-\item I am happy working on \if{html}{\out{<broad science>}} topics.
-\item I enjoy acquiring new knowledge in \if{html}{\out{<broad science>}}.
-\item I am interested in learning about \if{html}{\out{<broad science>}}.
+\item I generally have fun when I am learning \emph{broad science} topics.
+\item I like reading about \emph{broad science}.
+\item I am happy working on \emph{broad science} topics.
+\item I enjoy acquiring new knowledge in \emph{broad science}.
+\item I am interested in learning about \emph{broad science}.
 }
 
 \strong{Enjoyment:} How much do you disagree or agree with the statements about yourself below? (\code{ST094})
 \itemize{
-\item I generally have fun when I am learning \if{html}{\out{<broad science>}} topics.
-\item I like reading about \if{html}{\out{<broad science>}}.
-\item I am happy working on \if{html}{\out{<broad science>}} topics.
-\item I enjoy acquiring new knowledge in \if{html}{\out{<broad science>}}.
-\item I am interested in learning about \if{html}{\out{<broad science>}}.
+\item I generally have fun when I am learning \emph{broad science} topics.
+\item I like reading about \emph{broad science}.
+\item I am happy working on \emph{broad science} topics.
+\item I enjoy acquiring new knowledge in \emph{broad science}.
+\item I am interested in learning about \emph{broad science}.
 }
 
 \strong{Motivation:} How much do you agree with the statements below? (\code{ST113})
 \itemize{
-\item Making an effort in my \if{html}{\out{<school science>}} subject(s) is worth it because this will help me in the work I want to do later on.
-\item What I learn in my \if{html}{\out{<school science>}} subject(s) is important for me because I need this for what I want to do later on.
-\item Studying my \if{html}{\out{<school science>}} subject(s) is worthwhile for me because what I learn will improve my career prospects.
-\item Many things I learn in my \if{html}{\out{<school science>}} subject(s) will help me to get a job.
+\item Making an effort in my \emph{school science} subject(s) is worth it because this will help me in the work I want to do later on.
+\item What I learn in my \emph{school science} subject(s) is important for me because I need this for what I want to do later on.
+\item Studying my \emph{school science} subject(s) is worthwhile for me because what I learn will improve my career prospects.
+\item Many things I learn in my \emph{school science} subject(s) will help me to get a job.
 }
 
 \strong{Efficacy:} How easy do you think it would be for you to perform the following tasks on your own? (\code{ST129})
@@ -90,11 +90,11 @@ original PISA database. The questionnaire can be downloaded from
 \strong{Principals:} How much do you disagree or agree with the statements below? (\code{ST131})
 \itemize{
 \item A good way to know if something is true is to do an experiment.
-\item Ideas in \if{html}{\out{<broad science>}} sometimes change.
+\item Ideas in \emph{broad science} sometimes change.
 \item Good answers are based on evidence from many different experiments.
 \item It is good to try experiments more than once to make sure of your findings.
-\item Sometimes \if{html}{\out{<broad science>}} scientists change their minds about what is true in science.
-\item The ideas in \if{html}{\out{<broad science>}} science books sometimes change.
+\item Sometimes \emph{broad science} scientists change their minds about what is true in science.
+\item The ideas in \emph{broad science} science books sometimes change.
 }
 }
 \keyword{datasets}

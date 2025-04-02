@@ -3,6 +3,8 @@
 #' @param in_sample plot the in sample results.
 #' @param oob_sample plot the out-of-bag sample results.
 #' @param ... currently not used.
+#' @method summary clustervalidation
+#' @export
 summary.clustervalidation <- function(
 		object,
 		in_sample = FALSE,
@@ -32,14 +34,19 @@ summary.clustervalidation <- function(
 		cluster_labs[which(x == min(x))]
 	})
 
-	mapping <- samp |> reshape2::dcast(.data$iter + .data$cluster ~ .data$full_cluster,
-									   fun.aggregate = length)
+	mapping <- samp |> reshape2::dcast(
+		iter + cluster ~ full_cluster, fun.aggregate = length
+	)
+	# mapping <- samp |> reshape2::dcast(.data$iter + .data$cluster ~ .data$full_cluster,
+	# 								   fun.aggregate = length)
+
 	mapping$full_cluster <- apply(mapping[,cluster_labs], 1, FUN = function(x) {
 		cluster_labs[which(x == max(x))][1]
 	})
 
 	samp <- samp |>
-		dplyr::select(.data$variable, .data$iter, .data$cluster, .data$value) |>
+		# dplyr::select(.data$variable, .data$iter, .data$cluster, .data$value) |>
+		dplyr::select(variable, iter, cluster, value) |>
 		merge(mapping[,c('iter', 'cluster', 'full_cluster')],
 			  by = c('iter', 'cluster'), all.x = TRUE)
 
@@ -65,6 +72,7 @@ summary.clustervalidation <- function(
 #' @param ... currently not used.
 #' @return a ggplot2 expression.
 #' @method plot cv_summary
+#' @export
 plot.cv_summary <- function(x, ...) {
 	ggplot(x, aes(x = .data$variable, y = .data$mean, group = .data$cluster, color = .data$cluster)) +
 		geom_path() +
