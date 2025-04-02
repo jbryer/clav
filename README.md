@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# <a href='https://github.com/jbryer/clav'><img src='man/figures/clav.png' align="right" width="120" /></a> Cluster Analysis Validation (`clav`)
+# <a href='https://github.com/jbryer/clav'><img src='man/figures/clav1.png' align="right" width="120" /></a> Cluster Analysis Validation (`clav`)
 
 <!-- badges: start -->
 
