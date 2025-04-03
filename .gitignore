@@ -10,5 +10,6 @@ README_cache/
 .quarto
 inst/daacs/
 README_cache/
-inst/doc
 private/
+articles/
+sticker.R

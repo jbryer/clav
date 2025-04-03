@@ -123,7 +123,13 @@ dependent_null_hypothesis_output <- function(id) {
 #'
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param data a function to return the data (probably a reactive function).
+#' @param default_vars character list for the variables to include by default.
+#' @param default_dependnet_variable the name of the dependent variable, or NULL for none.
+#' @param se_factor how many standard errors to plot.
 #' @export
+#' @importFrom scales percent
+#' @importFrom GGally ggpairs
+#' @import shiny
 cluster_module <- function(id,
 						   data,
 						   default_vars = names(data())[sapply(data(), function(x) { is.numeric(x) })],

@@ -18,6 +18,12 @@ cluster_module(
 \item{id}{An ID string that corresponds with the ID used to call the module's UI function.}
 
 \item{data}{a function to return the data (probably a reactive function).}
+
+\item{default_vars}{character list for the variables to include by default.}
+
+\item{se_factor}{how many standard errors to plot.}
+
+\item{default_dependnet_variable}{the name of the dependent variable, or NULL for none.}
 }
 \description{
 Shiny module for cluster analysis.

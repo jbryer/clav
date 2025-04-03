@@ -31,8 +31,11 @@ Imports:
     reshape2,
     stats
 Suggests: 
+    GGally,
     knitr,
-    rmarkdown
+    rmarkdown,
+    scales,
+    shiny
 Enhances: 
     EdSurvey,
     usethis
