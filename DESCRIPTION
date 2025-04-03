@@ -25,11 +25,11 @@ Imports:
     cowplot,
     dplyr,
     fpc,
+    GGally,
     ggplot2,
     latex2exp,
     psych,
     reshape2,
-    GGally,
     scales,
     shiny,
     stats

@@ -103,12 +103,14 @@ dependent_variable_input <- function(id) {
 	shiny::uiOutput(NS(id, id = 'dependent_variable_ui'))
 }
 
-# TODO: REMOVE
-# @param id An ID string that corresponds with the ID used to call the module's UI function.
-# @export
-# dependent_variable_plot_output <- function(id, ...) {
-# 	shiny::plotOutput(NS(id, id = 'dependent_plot'), ...)
-# }
+#' Shiny output for the dependnet sample plot.
+
+#' @param id An ID string that corresponds with the ID used to call the module's UI function.
+#' @param ... other parmaeters passed to [shiny::plotOutput()].
+#' @export
+dependent_variable_plot_output <- function(id, ...) {
+	shiny::plotOutput(NS(id, id = 'dependent_plot'), ...)
+}
 
 #' Output of the dependent variable analysis.
 #'

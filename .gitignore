@@ -9,7 +9,6 @@ README_cache/
 .DS_Store
 .quarto
 inst/daacs/
-README_cache/
 private/
 articles/
 sticker.R
