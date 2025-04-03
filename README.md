@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![](https://www.r-pkg.org/badges/version/clav?color=orange)](https://cran.r-project.org/package=clav)
-[![](https://img.shields.io/badge/devel%20version-0.1.0-blue.svg)](https://github.com/jbryer/clav)
+[![](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/jbryer/clav)
 [![R build
 status](https://github.com/jbryer/clav/workflows/R-CMD-check/badge.svg)](https://github.com/jbryer/clav/actions)
 <!-- badges: end -->
@@ -50,6 +50,9 @@ pkgdown::build_site()
 
 ``` r
 library(clav)
+#> Registered S3 method overwritten by 'GGally':
+#>   method from   
+#>   +.gg   ggplot2
 data(pisa2015, package = 'clav')
 
 cluster_vars <- c('interest', 'enjoyment', 'motivation', 'efficacy', "belonging")
@@ -127,38 +130,22 @@ pisa_cv_bootstrap <- pisa_usa |>
         seed = 42
 )
 summary(pisa_cv_bootstrap)
-#>    cluster   variable        mean         sd      median        min        max
-#> 1        A   interest -0.08545563 0.20794006 -0.01933662 -0.7085601  0.1756677
-#> 4        A  enjoyment -0.82595260 0.93295509 -0.47238507 -3.1832509 -0.1378171
-#> 7        A motivation  0.03438512 0.13848631  0.04202484 -0.3702120  0.3128139
-#> 10       A   efficacy  0.22793930 0.17151936  0.25302168 -0.7450277  0.4632471
-#> 13       A  belonging -0.08787665 0.33172877 -0.15536938 -0.6198269  0.8427933
-#> 2        B   interest -0.77781817 0.13470049 -0.79356880 -1.1098718 -0.2012293
-#> 5        B  enjoyment -0.19003611 0.08495774 -0.17601959 -0.3800183  0.2629638
-#> 8        B motivation -0.72126670 0.12218609 -0.73539262 -1.1790126 -0.4159184
-#> 11       B   efficacy -0.85402196 0.17709644 -0.92111142 -1.0705855  0.1688400
-#> 14       B  belonging -0.12698507 0.20377914 -0.06562988 -1.0687382  0.2060398
-#> 3        C   interest  0.74539433 0.08386459  0.77098351  0.5343869  0.8885871
-#> 6        C  enjoyment  0.68755697 0.13238031  0.73514008  0.3191332  0.8467393
-#> 9        C motivation  0.67002226 0.12259974  0.65854879  0.4400497  0.9215403
-#> 12       C   efficacy  0.55487637 0.07128235  0.53527944  0.4418459  0.7568697
-#> 15       C  belonging  0.25402569 0.18965134  0.29326390 -0.1399515  0.5487877
-#>        range          se
-#> 1  0.8842278 0.020794006
-#> 4  3.0454338 0.093295509
-#> 7  0.6830259 0.013848631
-#> 10 1.2082748 0.017151936
-#> 13 1.4626202 0.033172877
-#> 2  0.9086425 0.013470049
-#> 5  0.6429820 0.008495774
-#> 8  0.7630942 0.012218609
-#> 11 1.2394255 0.017709644
-#> 14 1.2747780 0.020377914
-#> 3  0.3542002 0.008386459
-#> 6  0.5276060 0.013238031
-#> 9  0.4814906 0.012259974
-#> 12 0.3150238 0.007128235
-#> 15 0.6887392 0.018965134
+#>    cluster   variable   mean    sd median   min   max range     se
+#> 1        A   interest -0.085 0.208 -0.019 -0.71  0.18  0.88 0.0208
+#> 4        A  enjoyment -0.826 0.933 -0.472 -3.18 -0.14  3.05 0.0933
+#> 7        A motivation  0.034 0.138  0.042 -0.37  0.31  0.68 0.0138
+#> 10       A   efficacy  0.228 0.172  0.253 -0.75  0.46  1.21 0.0172
+#> 13       A  belonging -0.088 0.332 -0.155 -0.62  0.84  1.46 0.0332
+#> 2        B   interest -0.778 0.135 -0.794 -1.11 -0.20  0.91 0.0135
+#> 5        B  enjoyment -0.190 0.085 -0.176 -0.38  0.26  0.64 0.0085
+#> 8        B motivation -0.721 0.122 -0.735 -1.18 -0.42  0.76 0.0122
+#> 11       B   efficacy -0.854 0.177 -0.921 -1.07  0.17  1.24 0.0177
+#> 14       B  belonging -0.127 0.204 -0.066 -1.07  0.21  1.27 0.0204
+#> 3        C   interest  0.745 0.084  0.771  0.53  0.89  0.35 0.0084
+#> 6        C  enjoyment  0.688 0.132  0.735  0.32  0.85  0.53 0.0132
+#> 9        C motivation  0.670 0.123  0.659  0.44  0.92  0.48 0.0123
+#> 12       C   efficacy  0.555 0.071  0.535  0.44  0.76  0.32 0.0071
+#> 15       C  belonging  0.254 0.190  0.293 -0.14  0.55  0.69 0.0190
 plot(pisa_cv_bootstrap)
 ```
 

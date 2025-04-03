@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+options(digits = 2)
 ```
 
 # <a href='https://github.com/jbryer/clav'><img src='man/figures/clav1.png' align="right" width="200" /></a> Cluster Analysis Validation (`clav`)
