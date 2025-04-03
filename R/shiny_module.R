@@ -1,3 +1,5 @@
+utils::globalVariables(c("cluster", "count", "group1", "se", "n", "variable", "iter", "value"))
+
 #' Output for printing status messages from the Shiny module.
 #'
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.
@@ -9,9 +11,18 @@ n_cluster_message <- function(id) {
 #' Slider input for the desired number of clusters.
 #'
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.
+#' @param label label for the slider input.
+#' @param min The minimum value (inclusive) that can be selected.
+#' @param max The maximum value (inclusive) that can be selected.
+#' @param value The initial value of the slider.
 #' @export
-n_clusters_input <- function(id, label = "Number of clusters:",
-						   min = 2, max = 10, value = 4) {
+n_clusters_input <- function(
+		id,
+		label = "Number of clusters:",
+		min = 2,
+		max = 10,
+		value = 4
+) {
 	tagList(
 		shiny::sliderInput(inputId = NS(id, id = "k"),
 						   label = label,
@@ -92,12 +103,12 @@ dependent_variable_input <- function(id) {
 	shiny::uiOutput(NS(id, id = 'dependent_variable_ui'))
 }
 
-#' TODO: REMOVE
-#' @param id An ID string that corresponds with the ID used to call the module's UI function.
-#' @export
-dependent_variable_plot_output <- function(id, ...) {
-	shiny::plotOutput(NS(id, id = 'dependent_plot'), ...)
-}
+# TODO: REMOVE
+# @param id An ID string that corresponds with the ID used to call the module's UI function.
+# @export
+# dependent_variable_plot_output <- function(id, ...) {
+# 	shiny::plotOutput(NS(id, id = 'dependent_plot'), ...)
+# }
 
 #' Output of the dependent variable analysis.
 #'
@@ -124,9 +135,10 @@ dependent_null_hypothesis_output <- function(id) {
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param data a function to return the data (probably a reactive function).
 #' @param default_vars character list for the variables to include by default.
-#' @param default_dependnet_variable the name of the dependent variable, or NULL for none.
+#' @param default_dependent_variable the name of the dependent variable, or NULL for none.
 #' @param se_factor how many standard errors to plot.
 #' @export
+#' @importFrom stats as.formula cor median
 #' @importFrom scales percent
 #' @importFrom GGally ggpairs
 #' @import shiny

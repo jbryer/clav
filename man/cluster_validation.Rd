@@ -96,7 +96,11 @@ should be plotted.}
 
 \item{point_alpha}{the alpha (transparency) level for points.}
 
+\item{point_size}{the size of the points.}
+
 \item{line_alpha}{the alpha (transparency) level for lines.}
+
+\item{line_width}{width of the lines.}
 
 \item{xlab}{label for the x-axis.}
 

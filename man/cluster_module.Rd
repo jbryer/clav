@@ -21,9 +21,9 @@ cluster_module(
 
 \item{default_vars}{character list for the variables to include by default.}
 
-\item{se_factor}{how many standard errors to plot.}
+\item{default_dependent_variable}{the name of the dependent variable, or NULL for none.}
 
-\item{default_dependnet_variable}{the name of the dependent variable, or NULL for none.}
+\item{se_factor}{how many standard errors to plot.}
 }
 \description{
 Shiny module for cluster analysis.

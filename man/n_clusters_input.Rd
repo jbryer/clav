@@ -14,6 +14,14 @@ n_clusters_input(
 }
 \arguments{
 \item{id}{An ID string that corresponds with the ID used to call the module's UI function.}
+
+\item{label}{label for the slider input.}
+
+\item{min}{The minimum value (inclusive) that can be selected.}
+
+\item{max}{The maximum value (inclusive) that can be selected.}
+
+\item{value}{The initial value of the slider.}
 }
 \description{
 Slider input for the desired number of clusters.

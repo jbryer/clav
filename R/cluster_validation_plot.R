@@ -9,6 +9,8 @@
 #' @param line_alpha the alpha (transparency) level for lines.
 #' @param xlab label for the x-axis.
 #' @param ylab label for the y-axis.
+#' @param point_size the size of the points.
+#' @param line_width width of the lines.
 #' @param ... currently not used.
 #' @return a ggplot2 expression.
 #' @export
