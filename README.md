@@ -66,12 +66,12 @@ Finding the optimal number of clusters.
 ``` r
 optimal <- optimal_clusters(pisa_usa[,cluster_vars], max_k = 5)
 optimal
-#>   k      wss silhoutte       gap calinski_harabasz davies_bouldin
-#> 1 1 22099.00        NA 0.9204865               NaN            NaN
-#> 2 2 17389.55 0.2004559 0.8978032         1255.2531       1.921547
-#> 3 3 15576.01 0.2090841 0.8873620          970.3241       2.140642
-#> 4 4 13853.12 0.1648447 0.8739126          892.9079       1.806862
-#> 5 5 12598.94 0.1635484 0.8691637          871.9466       1.699252
+#>   k   wss silhoutte  gap calinski_harabasz davies_bouldin
+#> 1 1 22099        NA 0.92               NaN            NaN
+#> 2 2 17390      0.20 0.90              1255            1.9
+#> 3 3 15575      0.21 0.89               970            1.7
+#> 4 4 14255      0.16 0.88               844            1.8
+#> 5 5 12768      0.17 0.88               857            1.8
 plot(optimal, ncol = 2)
 ```
 

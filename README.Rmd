@@ -69,6 +69,7 @@ pisa_usa <- pisa2015 |> dplyr::filter(country == 'UNITED STATES')
 
 Finding the optimal number of clusters.
 
+
 ```{r optimal-clusters, cache=TRUE, message=FALSE, warning=FALSE, fig.height=6}
 optimal <- optimal_clusters(pisa_usa[,cluster_vars], max_k = 5)
 optimal
