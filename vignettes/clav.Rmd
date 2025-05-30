@@ -1,0 +1,75 @@
+---
+title: "Cluster Analysis Validation"
+author: "Jason Bryer, Ph.D."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cluster Analysis Validation}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  error = FALSE,
+  comment = "#>",
+  out.width = '100%',
+  fig.height = 6,
+  fig.width = 9
+)
+ggplot2::theme_set(ggplot2::theme_minimal())
+library(clav)
+```
+
+
+Cluster analysis is a statistical procedure for grouping observations using an observation-centered approach as compared to variable-centric approaches (e.g. PCA, factor analysis). Whether a preprocessing step for predictive modeling or the primary analysis, validation is critical for determining generalizability across datasets. Theodoridis and Koutroumbas (2008) identified three broad types of validation for cluster analysis: 1) Internal cluster validation, 2) Relative cluster validation, and 3) External cluster validation. Strategies for steps 1 and 2 are well established, however cluster analysis is typically an unsupervised learning method where there is no observed outcome. Ullman et al (2021) proposed an approach to validating a cluster solution by visually inspecting the cluster solutions across a training and validation dataset. This talk introduces the clav R package that implements and expands this approach by generating multiple random samples (using either a simple random split or bootstrap samples). Visualizations of both the cluster profiles as well as distributions of the cluster means are provided along with a Shiny application to assist the researcher.
+
+
+```{r datasetup}
+data(daacs)
+cluster_vars <- c('Motivation', 'Metacogntion', 'Strategies', 'Mathematics', 'Reading', 'Writing')
+daacs <- daacs |>
+	dplyr::mutate(LogFeedbackViews = log(daacs$FeedbackViews)) |>
+	dplyr::mutate(dplyr::across(cluster_vars, clav::scale_this))
+```
+
+```{r optimal-clusters, cache=TRUE}
+optimal <- optimal_clusters(daacs[,cluster_vars], max_k = 6)
+optimal
+```
+
+```{r plot-optimal-clusters}
+plot(optimal, ncol = 2)
+```
+
+```{r cluster-validation}
+cv <- cluster_validation(daacs[,cluster_vars],
+						 n_clusters = 5)
+plot(cv, facet = FALSE)
+```
+
+```{r plot-distributions}
+plot_distributions(cv, plot_in_sample = TRUE, plot_oob_sample = TRUE)
+```
+
+```{r bootstrap-validation}
+cv_boot <- cluster_validation(daacs[,cluster_vars],
+						 n_clusters = 5,
+						 sample_size = nrow(daacs),
+						 replace = TRUE)
+plot(cv_boot, facet = FALSE)
+```
+
+
+```{r profile-plot}
+fit <- stats::kmeans(daacs[,cluster_vars], centers = 5)
+profile_plot(daacs[,cluster_vars],
+			 clusters = fit$cluster,
+			 df_dep = daacs[,c('LogFeedbackViews', 'TermSuccess')],
+			 cluster_order = cluster_vars)
+```
+

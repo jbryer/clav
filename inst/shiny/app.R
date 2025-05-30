@@ -5,7 +5,7 @@ library(GGally)
 
 # source('../../R/shiny_module.R')
 
-# If there are no data.frames in the environment we will laod some.
+# If there are no data.frames in the environment we will load some.
 if(!any(sapply(ls(), FUN = function(x) { is.data.frame(get(x)) }))) {
     # Load the PISA data and separate into separate data.frames by country
     data("pisa2015", package = "clav")

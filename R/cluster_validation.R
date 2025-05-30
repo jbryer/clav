@@ -140,6 +140,7 @@ cluster_validation <- function(
 			   oob_sample = results_oob,
 			   complete_model_fit = full_fit,
 			   in_sample_model_fits = model_results)
+	cv <- fix_cluster_labels(cv)
 	class(cv) <- c('clustervalidation')
 	attr(cv, 'standardize') <- standardize
 	return(cv)

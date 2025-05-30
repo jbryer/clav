@@ -1,0 +1,41 @@
+#' Diagnostic Assessment and Achievement of College Skills
+#'
+#' The Diagnostic Assessment and Achievement of College Skills (DAACS) is a suite of technological
+#' and social supports designed to optimize student learning (see https://daacs.net). These data
+#' are a subset of data collected as part of a randomized control trial (Bryer, et al, 2025) and
+#' used in a study exploring a person centered approach to define learning profiles (Cleary, Bryer,
+#' & Yu, 2025). Students in the treatment group completed four assessments during orientation:
+#' self-regulated learning (including sub domains of metacognition, strategy use, and motivation),
+#' mathematics, reading, and writing. Students receive immediate and customized feedback in terms
+#' of one, two, or three dots indicating whether they are developing, emerging, or mastering in the
+#' given skills. The two outcome variables for the Cleary et al (2025) paper explored how the results
+#' of the DAACS assessments were related to feedback page views and term one success.
+#'
+#' @docType data
+#' @keywords datasets
+#' @name daacs
+#' @usage data(daacs)
+#' @source https://daacs.net
+#' @references
+#' Cleary, J. T., Bryer, J., & Yu, E. C. Y. (2025, April 23–27). Examining college
+#'   readiness profiles among students enrolling in an online college: The importance of leveraging
+#'   academic skills and self-regulated learning data. [Paper presentation]. American Educational
+#'   Research Association, Denver, CO, United States.
+#' Bryer, J. M., Andrade, H., Cleary, T., Lui, A., & Franklin, D. (2024). The eﬃcacy and
+#'   predictive power of the diagnostic assessment and achievement of college skills on academic
+#'   success indicators. Educational Technology Research and Development.
+#' Lui, A. M., Franklin, D., Akhmedjanova, D., Gorgun, G., Bryer, J., Andrade, H. L., & Cleary, T.
+#'   (2018). Validity evidence of the internal structure of the DAACS self-regulated learning
+#'   survey. Future Review: International Journal of Transition, College, and Career Success, 1 (1).
+#' @format A data frame with 6,376 rows and 8 variables
+#' \describe{
+#'   \item{Motivation}{Self-regulated learning motivation total score. Scores can range from 0 to 4.}
+#'   \item{Metacognition}{Self-regulated learning metacognition total score. Scores can range from 0 to 4.}
+#'   \item{Strategies}{Self-regulated learning strategy use total score. Scores can range from 0 to 4.}
+#'   \item{Mathematics}{Mathematics total score. Scores can range from 0 to 1.}
+#'   \item{Reading}{Reading comprehension total score. Scores can range from 0 to 1.}
+#'   \item{Writing}{Writing total score. Scores can range from 0 to 1.}
+#'   \item{FeedbackViews}{Number of feedback page views in the DAACS system.}
+#'   \item{TermSuccess}{Whether the student successfully completed 12 credits within the first term.}
+#' }
+"daacs"
