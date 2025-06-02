@@ -1,6 +1,6 @@
 load("data-raw/DAACS-WGU-SRL.rda")
 
-cluster_vars <- c('Motivation', 'Metacogntion', 'Strategies', 'Mathematics', 'Reading', 'Writing')
+cluster_vars <- c('Motivation', 'Metacognition', 'Strategies', 'Mathematics', 'Reading', 'Writing')
 names(daacs.wgu)[1:6] <- cluster_vars
 
 daacs.wgu <- daacs.wgu[complete.cases(daacs.wgu[,cluster_vars]),]

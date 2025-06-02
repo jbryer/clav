@@ -31,7 +31,7 @@ Cluster analysis is a statistical procedure for grouping observations using an o
 
 ```{r datasetup}
 data(daacs)
-cluster_vars <- c('Motivation', 'Metacogntion', 'Strategies', 'Mathematics', 'Reading', 'Writing')
+cluster_vars <- c('Motivation', 'Metacognition', 'Strategies', 'Mathematics', 'Reading', 'Writing')
 daacs <- daacs |>
 	dplyr::mutate(LogFeedbackViews = log(daacs$FeedbackViews)) |>
 	dplyr::mutate(dplyr::across(cluster_vars, clav::scale_this))
