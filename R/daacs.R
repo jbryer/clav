@@ -19,7 +19,7 @@
 #' @references
 #' Cleary, J. T., Bryer, J., & Yu, E. C. Y. (2025, April 23–27). Examining college
 #'   readiness profiles among students enrolling in an online college: The importance of leveraging
-#'   academic skills and self-regulated learning data. [Paper presentation]. American Educational
+#'   academic skills and self-regulated learning data. Paper presentation. American Educational
 #'   Research Association, Denver, CO, United States.
 #' Bryer, J. M., Andrade, H., Cleary, T., Lui, A., & Franklin, D. (2024). The eﬃcacy and
 #'   predictive power of the diagnostic assessment and achievement of college skills on academic
