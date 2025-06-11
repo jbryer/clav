@@ -11,9 +11,12 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  message = FALSE,
+  warning = FALSE
 )
 options(digits = 2)
+ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
 # <a href='https://github.com/jbryer/clav'><img src='man/figures/clav1.png' align="right" width="200" /></a> Cluster Analysis Validation (`clav`)
@@ -57,7 +60,7 @@ pkgdown::build_site()
 ## Example
 
 
-```{r setup, eval=TRUE}
+```{r setup, eval=TRUE, message=FALSE, warning=FALSE}
 library(clav)
 data(pisa2015, package = 'clav')
 
@@ -186,12 +189,13 @@ clusters <- factor(kmeans_fit$cluster, labels = LETTERS[1:n_clusters])
 
 profile_plot(df = penguins[,cluster_cols],
 			 clusters = clusters,
-			 df_dep = penguins[,'body_mass_g',drop=FALSE])
+			 df_dep = NULL)
 
-ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm, color = clusters)) +
-	geom_point() + 
-	theme_minimal()
+# ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm, color = clusters)) +
+# 	geom_point()
 
-table(clusters, penguins$species)
+table(clusters, penguins$species) |> print() |> prop.table() * 100
 
+# How similar are the clusters to the actual species?
+fossil::rand.index(as.integer(clusters), as.integer(penguins$species))
 ```

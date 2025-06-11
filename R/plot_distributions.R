@@ -25,6 +25,7 @@ plot_distributions <- function(
 									 group = list(df$variable, df$cluster),
 									 mat = TRUE, skew = FALSE)
 		names(tab_out)[2:3] <- c('variable', 'cluster')
+		tab_out$variable <- factor(tab_out$variable, levels = cv$variables, ordered = TRUE)
 		ggplot(df, aes(x = value, color = cluster, fill = cluster)) +
 			geom_density(alpha = 0.5) +
 			geom_point(data = tab_out, aes(x = median, y = 0), size = 3) +

@@ -65,6 +65,10 @@ profile_plot = function(
 		clusters <- as.factor(clusters)
 	}
 
+	if(missing(df_dep)) {
+		df_dep <- NULL
+	}
+
 	n_clusters <- clusters |> levels() |> length()
 
 	if(missing(cluster_labels)) {
@@ -157,7 +161,7 @@ profile_plot = function(
 					   fill = 'white', hjust = hjust, size = text_size, show.legend = FALSE)
 	}
 
-	if(missing(df_dep) | is.null(df_dep)) {
+	if(is.null(df_dep)) {
 		return(plots[[1]])
 	} else {
 		if(is.vector(df_dep)) {

@@ -51,8 +51,8 @@ pisa2015 <- pisa2015 |>
 	) |>
 	ungroup() |>
 	select(cnt, science_score, principals, belonging, interest, enjoyment, motivation, efficacy) |>
-	rename(country = cnt) |>
-	mutate_if(is.numeric, scale_this)
+	rename(country = cnt)
+	# |>	mutate_if(is.numeric, scale_this)
 
 usethis::use_data(pisa2015, overwrite = TRUE)
 tools::resaveRdaFiles('data/')

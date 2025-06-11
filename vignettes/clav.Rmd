@@ -23,6 +23,7 @@ knitr::opts_chunk$set(
 )
 ggplot2::theme_set(ggplot2::theme_minimal())
 library(clav)
+library(ggplot2)
 ```
 
 
@@ -30,18 +31,35 @@ Cluster analysis is a statistical procedure for grouping observations using an o
 
 
 ```{r datasetup}
-data(daacs)
-cluster_vars <- c('Motivation', 'Metacognition', 'Strategies', 'Mathematics', 'Reading', 'Writing')
-daacs <- daacs |>
-	dplyr::mutate(LogFeedbackViews = log(daacs$FeedbackViews)) |>
+library(clav)
+data(pisa2015, package = 'clav')
+
+cluster_vars <- c('interest', 'enjoyment', 'motivation', 'efficacy', 'belonging')
+outcome_vars <- c('science_score', 'principals')
+
+pisa_usa <- pisa2015 |> 
+	dplyr::filter(country == 'UNITED STATES') |>
 	dplyr::mutate(dplyr::across(dplyr::all_of(cluster_vars), clav::scale_this))
 ```
 
+```{r}
+lm_out <- lm(science_score ~ interest + enjoyment + motivation + efficacy + belonging,
+			 data = pisa_usa)
+summary(lm_out)
+```
+
+```{r full-kmeans, include=FALSE, eval=FALSE}
+kmeans_out <- stats::kmeans(pisa_usa[,cluster_vars], 3)
+pisa_usa$cluster <- kmeans_out$cluster
+lm_out <- lm(science_score ~ interest + enjoyment + motivation + efficacy + belonging + cluster,
+			 data = pisa_usa)
+summary(lm_out)
+```
 
 # Finding the desired number of clusters
 
 ```{r optimal-clusters, cache=TRUE}
-optimal <- optimal_clusters(daacs[,cluster_vars], max_k = 6)
+optimal <- optimal_clusters(pisa_usa[,cluster_vars], max_k = 6)
 optimal
 ```
 
@@ -67,19 +85,20 @@ plot(optimal, ncol = 2)
 
 
 ```{r cluster-validation}
-cv <- cluster_validation(daacs[,cluster_vars],
-						 n_clusters = 5)
-plot(cv, facet = FALSE)
+cv <- cluster_validation(pisa_usa[,cluster_vars],
+						 n_clusters = 3)
+plot(cv)
 ```
+
 
 ```{r plot-distributions}
 plot_distributions(cv, plot_in_sample = TRUE, plot_oob_sample = TRUE)
 ```
 
 ```{r bootstrap-validation}
-cv_boot <- cluster_validation(daacs[,cluster_vars],
-						 n_clusters = 5,
-						 sample_size = nrow(daacs),
+cv_boot <- cluster_validation(pisa_usa[,cluster_vars],
+						 n_clusters = 3,
+						 sample_size = nrow(pisa_usa),
 						 replace = TRUE)
 plot(cv_boot, facet = FALSE)
 ```
@@ -87,11 +106,11 @@ plot(cv_boot, facet = FALSE)
 
 # Profile plots
 
-```{r profile-plot}
-fit <- stats::kmeans(daacs[,cluster_vars], centers = 5)
-profile_plot(daacs[,cluster_vars],
+```{r profile-plot, fig.width=12}
+fit <- stats::kmeans(pisa_usa[,cluster_vars], centers = 3)
+profile_plot(pisa_usa[,cluster_vars],
 			 clusters = fit$cluster,
-			 df_dep = daacs[,c('LogFeedbackViews', 'TermSuccess')],
+			 df_dep = pisa_usa[,outcome_vars],
 			 cluster_order = cluster_vars)
 ```
 
@@ -100,12 +119,71 @@ profile_plot(daacs[,cluster_vars],
 
 Caliński, T., & Harabasz, J. (1974). A dendrite method for cluster analysis. Communications in Statistics, 3(1), 1–27. https://doi.org/10.1080/03610927408827101
 
-Davies, D. L., & Bouldin, D.W. (1979). A cluster separation measure. *IEEE Transactions on Pattern Analysis and Machine Intelligence. PAMI-1* (2): 224–227. doi:10.1109/TPAMI.1979.4766909
+Davies, D. L., & Bouldin, D.W. (1979). A cluster separation measure. *IEEE Transactions on Pattern Analysis and Machine Intelligence. PAMI-1* (2): 224–227. https://doi.org/10.1109/TPAMI.1979.4766909
 
 Rand, W. M. (1971). Objective Criteria for the Evaluation of Clustering Methods. *Journal of the American Statistical Association, 66*(336), 846–850. https://doi.org/10.1080/01621459.1971.10482356
 
-Rousseeuw, P.J. (1986). Silhouettes: A graphical aid to the interpretation and validation of cluster analysis. *Journal of Computational and Applied Mathematics* (20): 53-65. doi:10.1016/0377-0427(87)90125-7
+Rousseeuw, P.J. (1986). Silhouettes: A graphical aid to the interpretation and validation of cluster analysis. *Journal of Computational and Applied Mathematics* (20): 53-65. https://doi.org/10.1016/0377-0427(87)90125-7
 
-Thorndike, R. L. (1953). Who Belongs in the Family? Psychometrika, 18(4), 267–276. doi:10.1007/BF02289263
+Theodoridis, S., & Koutroumbas, K. (2008). *Pattern Recognition, Fourth Edition.* Academic Press, Inc.
+
+Thorndike, R. L. (1953). Who Belongs in the Family? Psychometrika, 18(4), 267–276. https://doi.org/10.1007/BF02289263
 
 Tibshirani, R., Walther, G., & Hastie, T. (2001) Estimating the number of clusters in a data set via the gap statistic. *Journal of the Royal Statistical Society Series B: Statistical Methodology, 63*(2), 411–423, https://doi.org/10.1111/1467-9868.00293
+
+Ullmann, T., Hennig, C., & Boulesteix, A.-L. (2022). Validation of cluster analysis results on validation data: A systematic framework. WIREs Data Mining and Knowledge Discovery, 12(3), e1444. https://doi.org/10.1002/widm.1444
+
+
+# Appendix A: Student Questionaire Items and Scales
+
+**Belonging**: Thinking about your school: to what extent do you agree with the following statements? (`ST034`)
+
+* I feel like an outsider (or left out of things) at school.
+* I make friends easily at school.
+* I feel like I belong at school.
+* I feel awkward and out of place in my school.
+* Other students seem to like me.
+* I feel lonely at school.
+
+**Interest**: How much do you disagree or agree with the statements about yourself below? (`ST094`)
+
+* I generally have fun when I am learning broad science topics.
+* I like reading about broad science.
+* I am happy working on broad science topics.
+* I enjoy acquiring new knowledge in broad science.
+* I am interested in learning about broad science.
+
+**Enjoyment**: How much do you disagree or agree with the statements about yourself below? (`ST094`)
+
+* I generally have fun when I am learning broad science topics.
+* I like reading about broad science.
+* I am happy working on broad science topics.
+* I enjoy acquiring new knowledge in broad science.
+* I am interested in learning about broad science.
+
+**Motivation**: How much do you agree with the statements below? (`ST113`)
+
+* Making an effort in my school science subject(s) is worth it because this will help me in the work I want to do later on.
+* What I learn in my school science subject(s) is important for me because I need this for what I want to do later on.
+* Studying my school science subject(s) is worthwhile for me because what I learn will improve my career prospects.
+* Many things I learn in my school science subject(s) will help me to get a job.
+
+**Efficacy**: How easy do you think it would be for you to perform the following tasks on your own? (`ST129`)
+
+* Recognize the science question that underlies a newspaper report on a health issue.
+* Explain why earthquakes occur more frequently in some areas than in others.
+* Describe the role of antibiotics in the treatment of disease.
+* Identify the science question associated with the disposal of garbage.
+* Predict how changes to an environment will affect the survival of certain species.
+* Interpret the scientific information provided on the labelling of food items.
+* Discuss how new evidence can lead you to change your understanding about the possibility of life on Mars.
+* Identify the better of two explanations for the formation of acid rain.
+
+**Principals**: How much do you disagree or agree with the statements below? (`ST131`)
+
+* A good way to know if something is true is to do an experiment.
+* Ideas in broad science sometimes change.
+* Good answers are based on evidence from many different experiments.
+* It is good to try experiments more than once to make sure of your findings.
+* Sometimes broad science scientists change their minds about what is true in science.
+* The ideas in broad science science books sometimes change.

@@ -35,7 +35,6 @@ cluster_validation(
 
 \method{plot}{clustervalidation}(
   x,
-  facet = TRUE,
   plot_complete = TRUE,
   plot_in_sample = TRUE,
   plot_oob_sample = TRUE,
@@ -43,6 +42,9 @@ cluster_validation(
   point_size = 1,
   line_alpha = 0.1,
   line_width = 1,
+  complete_color = "blue",
+  complete_size = 1.5,
+  complete_point_size = 3,
   xlab = "",
   ylab = ifelse(attr(x, "standardize"), "Mean Standard Score", "Mean Score"),
   ...
@@ -106,9 +108,6 @@ to \code{seed + i} where \code{i} is the iteration number.}
 
 \item{x}{result of \code{summary.clustervalidation()}}
 
-\item{facet}{whether the different samples (i.e. in sample, out-of-bag, and
-and complete) should be faceted.}
-
 \item{plot_complete}{whether the profile line using the complete data set
 should be plotted.}
 
@@ -123,6 +122,15 @@ should be plotted.}
 \item{line_alpha}{the alpha (transparency) level for lines.}
 
 \item{line_width}{width of the lines.}
+
+\item{complete_color}{the color of the path for the path using the complete dataset
+(i.e. \code{plot_complete = TRUE})}
+
+\item{complete_size}{the size of the path for the path using the complete dataset
+(i.e. \code{plot_complete = TRUE})}
+
+\item{complete_point_size}{the point size of the path for the path using the complete dataset
+(i.e. \code{plot_complete = TRUE})}
 
 \item{xlab}{label for the x-axis.}
 

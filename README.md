@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![](https://www.r-pkg.org/badges/version/clav?color=orange)](https://cran.r-project.org/package=clav)
-[![](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/jbryer/clav)
+[![](https://img.shields.io/badge/devel%20version-0.9.1-blue.svg)](https://github.com/jbryer/clav)
 [![R build
 status](https://github.com/jbryer/clav/workflows/R-CMD-check/badge.svg)](https://github.com/jbryer/clav/actions)
 <!-- badges: end -->
@@ -50,9 +50,6 @@ pkgdown::build_site()
 
 ``` r
 library(clav)
-#> Registered S3 method overwritten by 'GGally':
-#>   method from   
-#>   +.gg   ggplot2
 data(pisa2015, package = 'clav')
 
 cluster_vars <- c('interest', 'enjoyment', 'motivation', 'efficacy', "belonging")

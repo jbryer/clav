@@ -1,0 +1,84 @@
+---
+title: "College Readiness Profiles"
+author: "Jason Bryer, Ph.D."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{College Readiness Profiles}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  error = FALSE,
+  comment = "#>",
+  out.width = '100%',
+  fig.height = 6,
+  fig.width = 9
+)
+ggplot2::theme_set(ggplot2::theme_minimal())
+library(clav)
+```
+
+
+This vignette outlines the analysis for the paper Identifying and Distinguishing College Readiness Profiles Across Academic Outcomes: The Importance of Integrating Academic Skills and Self-Regulated Learning by Timothy J. Cleary, Jason Bryer, Elie ChingYen Yu presented at AERA 2025.
+
+```{r datasetup}
+data(daacs)
+cluster_vars <- c('Motivation', 'Metacognition', 'Strategies', 'Mathematics', 'Reading', 'Writing')
+daacs <- daacs |>
+	dplyr::mutate(LogFeedbackViews = log(daacs$FeedbackViews)) |>
+	dplyr::mutate(dplyr::across(dplyr::all_of(cluster_vars), clav::scale_this))
+```
+
+
+# Finding the desired number of clusters
+
+```{r optimal-clusters, cache=TRUE}
+optimal <- optimal_clusters(daacs[,cluster_vars], max_k = 6)
+optimal
+```
+
+
+```{r plot-optimal-clusters}
+plot(optimal, ncol = 2)
+```
+
+# Validating cluster solution
+
+
+```{r cluster-validation}
+cv <- cluster_validation(daacs[,cluster_vars],
+						 n_clusters = 5)
+plot(cv, facet = FALSE)
+```
+
+```{r plot-distributions}
+plot_distributions(cv, plot_in_sample = TRUE, plot_oob_sample = TRUE)
+```
+
+```{r bootstrap-validation}
+cv_boot <- cluster_validation(daacs[,cluster_vars],
+						 n_clusters = 5,
+						 sample_size = nrow(daacs),
+						 replace = TRUE)
+plot(cv_boot, facet = FALSE)
+```
+
+
+# Profile plots
+
+```{r profile-plot}
+fit <- stats::kmeans(daacs[,cluster_vars], centers = 5)
+profile_plot(daacs[,cluster_vars],
+			 clusters = fit$cluster,
+			 df_dep = daacs[,c('LogFeedbackViews', 'TermSuccess')],
+			 cluster_order = cluster_vars)
+```
+
+

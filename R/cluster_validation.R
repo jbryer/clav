@@ -135,11 +135,13 @@ cluster_validation <- function(
 		results_oob <- rbind(results_oob, result_oob)
 	}
 	if(verbose) { close(pb) }
-	cv <- list(complete_sample = full_fit_result,
-			   in_sample = results,
-			   oob_sample = results_oob,
-			   complete_model_fit = full_fit,
-			   in_sample_model_fits = model_results)
+	cv <- list(
+		variables = names(df),
+		complete_sample = full_fit_result,
+		in_sample = results,
+		oob_sample = results_oob,
+		complete_model_fit = full_fit,
+		in_sample_model_fits = model_results)
 	cv <- fix_cluster_labels(cv, ...)
 	class(cv) <- c('clustervalidation')
 	attr(cv, 'standardize') <- standardize
