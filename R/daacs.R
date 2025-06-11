@@ -1,8 +1,8 @@
 #' Diagnostic Assessment and Achievement of College Skills
 #'
 #' The Diagnostic Assessment and Achievement of College Skills (DAACS) is a suite of technological
-#' and social supports designed to optimize student learning (see https://daacs.net). These data
-#' are a subset of data collected as part of a randomized control trial (Bryer, et al, 2025) and
+#' and social supports designed to optimize student learning (see [www.daacs.net](https://daacs.net).
+#' These data are a subset of data collected as part of a randomized control trial (Bryer, et al, 2025) and
 #' used in a study exploring a person centered approach to define learning profiles (Cleary, Bryer,
 #' & Yu, 2025). Students in the treatment group completed four assessments during orientation:
 #' self-regulated learning (including sub domains of metacognition, strategy use, and motivation),
@@ -21,9 +21,11 @@
 #'   readiness profiles among students enrolling in an online college: The importance of leveraging
 #'   academic skills and self-regulated learning data. Paper presentation. American Educational
 #'   Research Association, Denver, CO, United States.
+#'
 #' Bryer, J. M., Andrade, H., Cleary, T., Lui, A., & Franklin, D. (2024). The eﬃcacy and
 #'   predictive power of the diagnostic assessment and achievement of college skills on academic
 #'   success indicators. Educational Technology Research and Development.
+#'
 #' Lui, A. M., Franklin, D., Akhmedjanova, D., Gorgun, G., Bryer, J., Andrade, H. L., & Cleary, T.
 #'   (2018). Validity evidence of the internal structure of the DAACS self-regulated learning
 #'   survey. Future Review: International Journal of Transition, College, and Career Success, 1 (1).

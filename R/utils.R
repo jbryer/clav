@@ -55,27 +55,33 @@ print_p_value <- function(p_value, digits = 2) {
 }
 
 #' Calculate within sum of squares.
+#' @rdname fitmeasures
 #' @param df data frame to calculate the WSS from.
 #' @param k number of clusters.
+#' @param cluster_fun clustering function.
 #' @importFrom stats kmeans
-wss <- function(df, k = 9) {
+#' @export
+wss <- function(df, k = 9, cluster_fun = stats::kmeans) {
 	wss <- (nrow(df) - 1) * sum(apply(df, 2, var))
 	for(i in 1:k) {
-		wss[i] <- sum(stats::kmeans(df, centers = i)$withinss)
+		wss[i] <- sum(cluster_fun(df, centers = i)$withinss)
 	}
 	return(wss)
 }
 
 #' Calculate Silhouette score
+#' @rdname fitmeasures
 #' @param df data frame to calculate the Silhouette from.
 #' @param k number of clusters.
+#' @param cluster_fun clustering function.
 #' @param ... other parameters passed to [cluster::silhouette()]
 #' @importFrom cluster silhouette
 #' @importFrom stats kmeans
-silhouette_score <- function(df, k = 9, ...) {
+#' @export
+silhouette_score <- function(df, k = 9, cluster_fun = stats::kmeans, ...) {
 	ssall <- numeric(length(k))
 	for(i in 1:k) {
-		km <- stats::kmeans(df, centers = i, nstart = 25)
+		km <- cluster_fun(df, centers = i, nstart = 25)
 		ss <- cluster::silhouette(km$cluster, dist(df), ...)
 		ssall[i] <- ifelse(is.na(ss), NA, mean(ss[, 3]))
 	}
@@ -83,11 +89,14 @@ silhouette_score <- function(df, k = 9, ...) {
 }
 
 #' Calculate Calinski-Harabasz score
+#' @rdname fitmeasures
 #' @param df data frame to calculate the Calinski-Harabasz from.
 #' @param k number of clusters.
+#' @param cluster_fun clustering function.
 #' @param ... other parameters passed to [fpc::calinhara()]
 #' @importFrom fpc calinhara
-calinski_harabasz <- function(df, k = 9, ...) {
+#' @export
+calinski_harabasz <- function(df, k = 9, cluster_fun = stats::kmeans, ...) {
 	cal <- numeric(length(k))
 	for(i in 1:k) {
 		km <- kmeans(df, i)
@@ -97,17 +106,42 @@ calinski_harabasz <- function(df, k = 9, ...) {
 }
 
 #' Calculate Davies-Bouldin score
+#' @rdname fitmeasures
 #' @param df data frame to calculate the Davies-Bouldin from.
 #' @param k number of clusters.
+#' @param cluster_fun clustering function.
 #' @param ... other parameters passed to [clusterSim::index.DB()]
 #' @importFrom stats kmeans
 #' @importFrom clusterSim index.DB
-davies_bouldin <- function(df, k = 9, ...) {
+#' @export
+davies_bouldin <- function(df, k = 9, cluster_fun = stats::kmeans, ...) {
 	davies <- numeric(length(k))
 	for(i in 1:k) {
-		km <- stats::kmeans(df, i)
+		km <- cluster_fun(df, i)
 		db <- clusterSim::index.DB(df, km$cluster, ...)
 		davies[i] <- db$DB
 	}
 	return(davies)
 }
+
+#' Calculate Rand index
+#' @rdname fitmeasures
+#' @param df data frame to calculate the Rand index from.
+#' @param k number of clusters.
+#' @param cluster_fun clustering function.
+#' @param ... other parameters passed to [fossil::rand.index()].
+#' @importFrom fossil rand.index
+#' @importFrom stats fitted kmeans
+#' @export
+rand_index <- function(df, k = 9, cluster_fun = stats::kmeans, ...) {
+	rand <- numeric(length(k))
+	rand[1] <- NA
+	out1 <- cluster_fun(df, 1) |> stats::fitted(method = 'classes')
+	for(i in 2:k) {
+		out2 <- cluster_fun(df, i) |> stats::fitted(method = 'classes')
+		rand[i] <- fossil::rand.index(out1, out2)
+		out1 <- out2
+	}
+	return(rand)
+}
+

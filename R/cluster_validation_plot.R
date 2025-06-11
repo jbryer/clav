@@ -4,7 +4,7 @@
 #'        and complete) should be faceted.
 #' @param plot_complete whether the profile line using the complete data set
 #'        should be plotted.
-#' @param plot_oob whether the out-of-bag sample should be plotted.
+#' @param plot_oob_sample whether the out-of-bag sample should be plotted.
 #' @param point_alpha the alpha (transparency) level for points.
 #' @param line_alpha the alpha (transparency) level for lines.
 #' @param xlab label for the x-axis.
@@ -19,7 +19,8 @@ plot.clustervalidation <- function(
 		x,
 		facet = TRUE,
 		plot_complete = TRUE,
-		plot_oob = TRUE,
+		plot_in_sample = TRUE,
+		plot_oob_sample = TRUE,
 		point_alpha = 0.1,
 		point_size = 1,
 		line_alpha = 0.1,
@@ -28,19 +29,25 @@ plot.clustervalidation <- function(
 		ylab = ifelse(attr(x, 'standardize'), 'Mean Standard Score', 'Mean Score'),
 		...
 ) {
-	results <- x$in_sample
-	results$estimate <- 'Sample'
+	results_is <- x$in_sample
+	results_is$estimate <- 'Sample'
 	results_oob <- x$oob_sample
 	results_oob$estimate <- 'Out of bag sample'
-	thedata <- results
-	if(plot_oob) {
-		thedata <- rbind(thedata, results_oob)
+	thedata <- data.frame()
+
+	if(plot_in_sample & plot_oob_sample) {
+		thedata <- rbind(results_is, results_oob)
+	} else if(plot_oob_sample) {
+		thedata <- results_oob
+	} else if(plot_in_sample) {
+		thedata <- results_is
+	} else {
+		stop('plot_in_sample and/or plot_oob_sample must be TRUE.')
 	}
-	p <- rbind(results, results_oob) |>
+	p <- thedata |>
 		dplyr::mutate(estimate = factor(.data$estimate,
-										levels = c('Sample', 'Out of bag sample'),
-										ordered = TRUE)) |>
-		ggplot(aes(x = .data$variable, y = .data$value, color = .data$estimate,
+										levels = c('Sample', 'Out of bag sample'))) |>
+		ggplot(aes(x = .data$variable, y = .data$value, color = cluster, #color = .data$estimate,
 				   group = paste0(.data$estimate, .data$iter, .data$cluster))) +
 		geom_path(alpha = line_alpha, linewidth = line_width) +
 		geom_point(alpha = point_alpha, size = point_size) +

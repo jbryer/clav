@@ -41,12 +41,12 @@ plot_distributions <- function(
 			ggtitle('Distribution of mean values from bootstrap samples')
 		p_oob <- gg_base(cv$oob_sample, nrow = 1) +
 			ggtitle('Distribution of mean values from out-of-bag samples')
-		p <- cowplot::plot_grid(p_in, p_oob, ncol= 1)
+		p <- cowplot::plot_grid(p_in, p_oob, ncol = 1)
 	} else if(plot_in_sample) {
-		p <- gg_base(cv$in_sample) +
+		p <- gg_base(cv$in_sample, nrow = nrow) +
 			ggtitle('Distribution of mean values from bootstrap samples')
 	} else if(plot_oob_sample) {
-		p <- gg_base(cv$oob_sample) +
+		p <- gg_base(cv$oob_sample, nrow = nrow) +
 			ggtitle('Distribution of mean values from out-of-bag samples')
 	} else {
 		stop('Either plot_in_sample or plot_oob_sample (or both) must be TRUE.')

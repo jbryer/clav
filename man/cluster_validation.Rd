@@ -37,7 +37,8 @@ cluster_validation(
   x,
   facet = TRUE,
   plot_complete = TRUE,
-  plot_oob = TRUE,
+  plot_in_sample = TRUE,
+  plot_oob_sample = TRUE,
   point_alpha = 0.1,
   point_size = 1,
   line_alpha = 0.1,
@@ -53,7 +54,12 @@ cluster_validation(
 
 \method{plot}{cv_summary}(x, ...)
 
-fix_cluster_labels(cv, var, ...)
+fix_cluster_labels(
+  cv,
+  greedy = (length(unique(cv$oob_sample$cluster)) > 7),
+  var,
+  ...
+)
 
 plot_distributions(
   cv,
@@ -106,7 +112,9 @@ and complete) should be faceted.}
 \item{plot_complete}{whether the profile line using the complete data set
 should be plotted.}
 
-\item{plot_oob}{whether the out-of-bag sample should be plotted.}
+\item{plot_in_sample}{whether to plot the in sample (i.e. bootstrap) distributions.}
+
+\item{plot_oob_sample}{whether to plot the out-of-bag samples.}
 
 \item{point_alpha}{the alpha (transparency) level for points.}
 
@@ -128,11 +136,11 @@ should be plotted.}
 
 \item{cv}{the results from \code{\link[=cluster_validation]{cluster_validation()}}.}
 
-\item{var}{the variable name used to match cluster labels.}
+\item{greedy}{if \code{FALSE} this will find the optimal cluster pattern by calculating difference
+for all combinations. If \code{TRUE} this will consider only one variable (the one with the
+largest variance across means).}
 
-\item{plot_in_sample}{whether to plot the in sample (i.e. bootstrap) distributions.}
-
-\item{plot_oob_sample}{whether to plot the out-of-bag samples.}
+\item{var}{the variable to use if \code{greedy = TRUE}.}
 
 \item{nrow}{number of rows. This is ignored if \code{plot_in_sample = TRUE} and \code{plot_oob_sample = TRUE}.}
 
@@ -172,11 +180,8 @@ statistic can be specified using the \code{summary_fun} parameter, e.g. \code{me
 may be appropriate) for each cluster using both the in sample and out-of-bag
 (i.e. out of sample). For the out-of-bag sample
 
-This will look at the first iteration and sort the cluster assignment. The cluster labels for the
-remaining iterations will be updated to match the first iteration by sorting the value of
-the \code{var} variable. By default it will use the variable with the largest median differences
-between adjacent clusters but for best results select a variable that has the greatest
-separation between cluster values.
+This function will re-assign cluster labels such that the mean absolute difference to the the
+cluster labels from the full dataset is as small as possible.
 }
 \details{
 The number of rows in the resulting data frames will be equal to:

@@ -116,7 +116,7 @@ cluster_validation <- function(
 			dplyr::mutate(variable = factor(.data$variable,
 											levels = names(df),
 											ordered = TRUE)) |>
-			dplyr::relocate(.data$iter)
+			dplyr::relocate(iter)
 		results <- rbind(results, result)
 
 		result_oob <- df[-rows,] |>
@@ -140,7 +140,7 @@ cluster_validation <- function(
 			   oob_sample = results_oob,
 			   complete_model_fit = full_fit,
 			   in_sample_model_fits = model_results)
-	cv <- fix_cluster_labels(cv)
+	cv <- fix_cluster_labels(cv, ...)
 	class(cv) <- c('clustervalidation')
 	attr(cv, 'standardize') <- standardize
 	return(cv)

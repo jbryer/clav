@@ -34,17 +34,37 @@ data(daacs)
 cluster_vars <- c('Motivation', 'Metacognition', 'Strategies', 'Mathematics', 'Reading', 'Writing')
 daacs <- daacs |>
 	dplyr::mutate(LogFeedbackViews = log(daacs$FeedbackViews)) |>
-	dplyr::mutate(dplyr::across(cluster_vars, clav::scale_this))
+	dplyr::mutate(dplyr::across(dplyr::all_of(cluster_vars), clav::scale_this))
 ```
+
+
+# Finding the desired number of clusters
 
 ```{r optimal-clusters, cache=TRUE}
 optimal <- optimal_clusters(daacs[,cluster_vars], max_k = 6)
 optimal
 ```
 
+* [Davies-Bouldin Index](https://ieeexplore.ieee.org/document/4766909) (1979)
+
+* [Calinski-Harbasz Statistic](https://www.tandfonline.com/doi/abs/10.1080/03610927408827101) (Caliński & Harabasz, 1974)
+
+* [Within group sum of squares](https://www.cambridge.org/core/journals/psychometrika/article/abs/who-belongs-in-the-family/5270D9B37A258A06C7CE7C0A528145F5) (Thorndike, 1953)
+
+* [Silhoutte score](https://www.sciencedirect.com/science/article/pii/0377042787901257?via%3Dihub) (Rousseeuw, 1986)
+
+* [Gap statistic](https://academic.oup.com/jrsssb/article-abstract/63/2/411/7083348?redirectedFrom=fulltext&login=false) (Tibshirani, Walther, & Hastie, 2001)
+
+* [Rand index](https://www.tandfonline.com/doi/abs/10.1080/01621459.1971.10482356) (2012s)
+
+
+
 ```{r plot-optimal-clusters}
 plot(optimal, ncol = 2)
 ```
+
+# Validating cluster solution
+
 
 ```{r cluster-validation}
 cv <- cluster_validation(daacs[,cluster_vars],
@@ -65,6 +85,8 @@ plot(cv_boot, facet = FALSE)
 ```
 
 
+# Profile plots
+
 ```{r profile-plot}
 fit <- stats::kmeans(daacs[,cluster_vars], centers = 5)
 profile_plot(daacs[,cluster_vars],
@@ -73,3 +95,17 @@ profile_plot(daacs[,cluster_vars],
 			 cluster_order = cluster_vars)
 ```
 
+
+# References
+
+Caliński, T., & Harabasz, J. (1974). A dendrite method for cluster analysis. Communications in Statistics, 3(1), 1–27. https://doi.org/10.1080/03610927408827101
+
+Davies, D. L., & Bouldin, D.W. (1979). A cluster separation measure. *IEEE Transactions on Pattern Analysis and Machine Intelligence. PAMI-1* (2): 224–227. doi:10.1109/TPAMI.1979.4766909
+
+Rand, W. M. (1971). Objective Criteria for the Evaluation of Clustering Methods. *Journal of the American Statistical Association, 66*(336), 846–850. https://doi.org/10.1080/01621459.1971.10482356
+
+Rousseeuw, P.J. (1986). Silhouettes: A graphical aid to the interpretation and validation of cluster analysis. *Journal of Computational and Applied Mathematics* (20): 53-65. doi:10.1016/0377-0427(87)90125-7
+
+Thorndike, R. L. (1953). Who Belongs in the Family? Psychometrika, 18(4), 267–276. doi:10.1007/BF02289263
+
+Tibshirani, R., Walther, G., & Hastie, T. (2001) Estimating the number of clusters in a data set via the gap statistic. *Journal of the Royal Statistical Society Series B: Statistical Methodology, 63*(2), 411–423, https://doi.org/10.1111/1467-9868.00293
