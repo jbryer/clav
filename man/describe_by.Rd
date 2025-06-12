@@ -8,9 +8,12 @@ describe_by(
   df,
   group,
   group_name = "group",
-  funs = list(n = length, mean = mean, sd = sd, se = se, median = median, min = min, max
-    = max, range = function(x) {
-     diff(range(x))
+  funs = list(n = length, mean = mean, sd = sd, se = function(x, ...) {
+     sd(x,
+    ...)/sqrt(length(x))
+ }, median = median, min = min, max = max, range = function(x,
+    ...) {
+     diff(range(x, ...))
  })
 )
 }
