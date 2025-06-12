@@ -9,6 +9,7 @@
 #' @param group a grouping vector.
 #' @param funs a named list of functions. The names of the list will be used as the column names
 #'        in the returned data frame.
+#' @param group_name name of the grouping variable in the returned data frame.
 #' @return a data frame with a column `group` corresponding to the group variable and column
 #'         `variable` corresponding to the names of the data frame. Additional columns for each
 #'         function in the `funs` parameter.

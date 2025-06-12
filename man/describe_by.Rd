@@ -22,6 +22,8 @@ describe_by(
 
 \item{group}{a grouping vector.}
 
+\item{group_name}{name of the grouping variable in the returned data frame.}
+
 \item{funs}{a named list of functions. The names of the list will be used as the column names
 in the returned data frame.}
 }
