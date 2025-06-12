@@ -34,7 +34,8 @@ Imports:
     reshape2,
     scales,
     shiny,
-    stats
+    stats,
+    tidyr
 Suggests: 
     knitr,
     rmarkdown
