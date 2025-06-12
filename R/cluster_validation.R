@@ -49,7 +49,7 @@
 cluster_validation <- function(
 		df,
 		n_clusters = 2,
-		cluster_fun = kmeans,
+		cluster_fun = stats::kmeans,
 		get_cluster_fun = function(x) { x$cluster },
 		oob_predict_fun = function(fit, newdata) { predict(fit, newdata = newdata) },
 		summary_fun = mean,
@@ -82,14 +82,11 @@ cluster_validation <- function(
 
 	if(!missing(seed)) { set.seed(seed) }
 	full_fit <- cluster_fun(df, n_clusters)
-	full_fit_result <- df |>
-		dplyr::mutate(
-			cluster = factor(get_cluster_fun(full_fit),
-							 labels = LETTERS[1:n_clusters],
-							 ordered = TRUE)) |>
-		dplyr::group_by(.data$cluster) |>
-		dplyr::summarise_at(names(df), summary_fun) |>
-		reshape2::melt(id.vars = 'cluster') |>
+	full_fit_result <- describe_by(df,
+								   group = factor(get_cluster_fun(full_fit),
+								   			   labels = LETTERS[1:n_clusters],
+								   			   ordered = TRUE),
+								   group_name = 'cluster') |>
 		dplyr::mutate(variable = factor(.data$variable,
 										levels = names(df),
 										ordered = TRUE))
@@ -97,41 +94,37 @@ cluster_validation <- function(
 	results <- data.frame()
 	results_oob <- data.frame()
 	model_results <- list()
-	for(i in 1:n_samples) {
+	for(i in 1:n_samples) { # TODO: Run in parallel?!
 		if(verbose) { utils::setTxtProgressBar(pb, i) }
 		if(!missing(seed)) { set.seed(seed + i) }
 		rows <- sample(nrow(df), size = sample_size, replace = replace)
 		fit <- cluster_fun(df[rows,], n_clusters, ...)
 		model_results[[i]] <- fit
 
-		result <- df[rows,] |>
-			dplyr::mutate(
-				cluster = factor(get_cluster_fun(fit),
-								 labels = LETTERS[1:n_clusters],
-								 ordered = TRUE)) |>
-			dplyr::group_by(.data$cluster) |>
-			dplyr::summarise_at(names(df), summary_fun) |>
-			reshape2::melt(id.vars = 'cluster') |>
+		result <- describe_by(df[rows,],
+					group = factor(get_cluster_fun(fit),
+								   labels = LETTERS[1:n_clusters],
+								   ordered = TRUE),
+					group_name = 'cluster') |>
 			dplyr::mutate(iter = i) |>
 			dplyr::mutate(variable = factor(.data$variable,
 											levels = names(df),
 											ordered = TRUE)) |>
 			dplyr::relocate(iter)
+
 		results <- rbind(results, result)
 
-		result_oob <- df[-rows,] |>
-			dplyr::mutate(
-				cluster = factor(oob_predict_fun(fit, df[-rows,]),
-								 labels = LETTERS[1:n_clusters],
-								 ordered = TRUE)) |>
-			dplyr::group_by(.data$cluster) |>
-			dplyr::summarise_at(names(df), summary_fun) |>
-			reshape2::melt(id.vars = 'cluster') |>
+		result_oob <- describe_by(df[-rows,],
+								  group = factor(oob_predict_fun(fit, df[-rows,]),
+								  			   labels = LETTERS[1:n_clusters],
+								  			   ordered = TRUE),
+								  group_name = 'cluster') |>
 			dplyr::mutate(iter = i) |>
 			dplyr::mutate(variable = factor(.data$variable,
 											levels = names(df),
 											ordered = TRUE)) |>
-			dplyr::relocate(.data$iter)
+			dplyr::relocate(iter)
+
 		results_oob <- rbind(results_oob, result_oob)
 	}
 	if(verbose) { close(pb) }

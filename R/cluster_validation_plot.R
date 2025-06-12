@@ -37,29 +37,44 @@ plot.clustervalidation <- function(
 ) {
 	p <- NULL
 
+	ylim <- range(c(x$in_sample$mean, x$oob_sample$mean))
+
+	complete_sample <- x$complete_sample |> dplyr::arrange(variable)
+
 	if(plot_in_sample) {
 		p_is <- x$in_sample |>
-			ggplot(aes(x = .data$variable, y = .data$value, color = cluster,
+			dplyr::arrange(variable) |>
+			ggplot(aes(x = .data$variable,
+					   y = .data$mean,
+					   color = .data$cluster,
 					   group = paste0(.data$iter, .data$cluster))) +
 			geom_path(alpha = line_alpha, linewidth = line_width) +
 			geom_point(alpha = point_alpha, size = point_size) +
 			theme_minimal() +
+			# scale_x_discrete(breaks = levels(x$in_sample$variable)) +
 			theme(legend.position = 'none') +
 			scale_color_brewer(type = 'qual', palette = 2) +
 			xlab(xlab) + ylab(ylab) +
-			ggtitle('Sample')
+			ylim(ylim) +
+			ggtitle('Training sample')
 		if(plot_complete) {
 			p_is <- p_is +
-				geom_path(data = x$complete_sample, aes(group = cluster),
-						  color = complete_color, size = complete_size) +
-				geom_point(data = x$complete_sample, aes(group = cluster),
-						   color = complete_color, size = complete_point_size)
+				geom_path(data = complete_sample,
+						  aes(group = cluster),
+						  color = complete_color,
+						  size = complete_size) +
+				geom_point(data = complete_sample,
+						   aes(group = cluster),
+						   color = complete_color,
+						   size = complete_point_size)
 		}
 	}
 
 	if(plot_oob_sample) {
 		p_oob <- x$oob_sample |>
-			ggplot(aes(x = .data$variable, y = .data$value, color = cluster,
+			ggplot(aes(x = .data$variable,
+					   y = .data$mean,
+					   color = .data$cluster,
 					   group = paste0(.data$iter, .data$cluster))) +
 			geom_path(alpha = line_alpha, linewidth = line_width) +
 			geom_point(alpha = point_alpha, size = point_size) +
@@ -67,13 +82,18 @@ plot.clustervalidation <- function(
 			theme(legend.position = 'none') +
 			scale_color_brewer(type = 'qual', palette = 2) +
 			xlab(xlab) + ylab(ylab) +
+			ylim(ylim) +
 			ggtitle('Out-of-bag sample')
 		if(plot_complete) {
 			p_oob <- p_oob +
-				geom_path(data = x$complete_sample, aes(group = cluster),
-						  color = complete_color, size = complete_size) +
-				geom_point(data = x$complete_sample, aes(group = cluster),
-						   color = complete_color, size = complete_point_size)
+				geom_path(data = complete_sample,
+						  aes(group = cluster),
+						  color = complete_color,
+						  size = complete_size) +
+				geom_point(data = complete_sample,
+						   aes(group = cluster),
+						   color = complete_color,
+						   size = complete_point_size)
 		}
 	}
 	if(plot_in_sample & plot_oob_sample) {

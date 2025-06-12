@@ -21,14 +21,14 @@ plot_distributions <- function(
 		...
 ) {
 	gg_base <- function(df, nrow = nrow) {
-		tab_out <- psych::describeBy(df$value,
+		tab_out <- psych::describeBy(df$mean,
 									 group = list(df$variable, df$cluster),
 									 mat = TRUE, skew = FALSE)
 		names(tab_out)[2:3] <- c('variable', 'cluster')
 		tab_out$variable <- factor(tab_out$variable, levels = cv$variables, ordered = TRUE)
-		ggplot(df, aes(x = value, color = cluster, fill = cluster)) +
+		ggplot(df, aes(x = mean, color = cluster, fill = cluster)) +
 			geom_density(alpha = 0.5) +
-			geom_point(data = tab_out, aes(x = median, y = 0), size = 3) +
+			geom_point(data = tab_out, aes(x = mean, y = 0), size = 3) +
 			facet_wrap(~ variable, nrow = nrow) +
 			scale_fill_brewer(type = 'qual', palette = palette) +
 			scale_color_brewer(type = 'qual', palette = palette) +
@@ -39,13 +39,13 @@ plot_distributions <- function(
 	p <- NULL
 	if(plot_in_sample & plot_oob_sample) {
 		p_in <- gg_base(cv$in_sample, nrow = 1) +
-			ggtitle('Distribution of mean values from bootstrap samples')
+			ggtitle('Distribution of mean values from training samples')
 		p_oob <- gg_base(cv$oob_sample, nrow = 1) +
 			ggtitle('Distribution of mean values from out-of-bag samples')
 		p <- cowplot::plot_grid(p_in, p_oob, ncol = 1)
 	} else if(plot_in_sample) {
 		p <- gg_base(cv$in_sample, nrow = nrow) +
-			ggtitle('Distribution of mean values from bootstrap samples')
+			ggtitle('Distribution of mean values from training samples')
 	} else if(plot_oob_sample) {
 		p <- gg_base(cv$oob_sample, nrow = nrow) +
 			ggtitle('Distribution of mean values from out-of-bag samples')

@@ -16,7 +16,7 @@
 cluster_validation(
   df,
   n_clusters = 2,
-  cluster_fun = kmeans,
+  cluster_fun = stats::kmeans,
   get_cluster_fun = function(x) {
      x$cluster
  },
@@ -43,8 +43,8 @@ cluster_validation(
   line_alpha = 0.1,
   line_width = 1,
   complete_color = "blue",
-  complete_size = 1.5,
-  complete_point_size = 3,
+  complete_size = 1,
+  complete_point_size = 2,
   xlab = "",
   ylab = ifelse(attr(x, "standardize"), "Mean Standard Score", "Mean Score"),
   ...

@@ -24,7 +24,7 @@ fix_cluster_labels <- function(
 	oob <- cv$oob_sample
 	is <- cv$in_sample
 	base <- cv$complete_sample
-	base_means <- reshape2::dcast(base, cluster ~ variable, value.var = 'value')
+	base_means <- reshape2::dcast(base, cluster ~ variable, value.var = 'mean')
 	row.names(base_means) <- base_means$cluster
 	clusters <- unique(oob$cluster) |> as.character()
 	n_inters <- max(oob$iter)
@@ -34,7 +34,7 @@ fix_cluster_labels <- function(
 			diffs <- sapply(
 				unique(cv$complete_sample$variable),
 				FUN = function(x) {
-					cv$complete_sample[cv$complete_sample$variable == x,]$value |> sort() |> diff() |> median()
+					cv$complete_sample[cv$complete_sample$variable == x,]$mean |> sort() |> diff() |> median()
 				}
 			)
 			names(diffs) <- unique(cv$complete_sample$variable)
@@ -42,7 +42,7 @@ fix_cluster_labels <- function(
 		}
 
 		base_order <- base[base$variable == var,] |>
-			dplyr::arrange(dplyr::desc(value)) |>
+			dplyr::arrange(dplyr::desc(mean)) |>
 			dplyr::pull(cluster) |>
 			as.character()
 
@@ -50,7 +50,7 @@ fix_cluster_labels <- function(
 		for(i in 1:n_inters) {
 			comp <- is[is$iter == i,]
 			comp_order <- comp[comp$variable == var,] |>
-				dplyr::arrange(dplyr::desc(value)) |>
+				dplyr::arrange(dplyr::desc(mean)) |>
 				dplyr::pull(cluster) |>
 				as.character()
 			rows <- list()
@@ -66,7 +66,7 @@ fix_cluster_labels <- function(
 		for(i in 1:n_inters) {
 			comp <- oob[oob$iter == i,]
 			comp_order <- comp[comp$variable == var,] |>
-				dplyr::arrange(dplyr::desc(value)) |>
+				dplyr::arrange(dplyr::desc(mean)) |>
 				dplyr::pull(cluster) |>
 				as.character()
 			rows <- list()
@@ -80,7 +80,7 @@ fix_cluster_labels <- function(
 	} else {
 		perms <- combinat::permn(clusters)
 
-		if(length(clusters) > 7) {
+		if(length(clusters) > 7 & interactive()) {
 			ans <- utils::menu(choices = c('Yes', 'No'),
 							   title = paste0('With ', length(clusters), ' clusters there will be ',
 							   			   length(perms), ' permutations to calculate. This may take a while.\n',
@@ -91,9 +91,9 @@ fix_cluster_labels <- function(
 		}
 
 		# Fix in sample
-		for(i in 1:n_inters) {
+		for(i in 1:n_inters) { # TODO: This is something that could be run in parallel to speed up
 			comp <- is[is$iter == i,]
-			comp_means <- reshape2::dcast(comp, cluster ~ variable, value.var = 'value')
+			comp_means <- reshape2::dcast(comp, cluster ~ variable, value.var = 'mean')
 			row.names(comp_means) <- comp_means$cluster
 			dists <- sapply(perms, FUN = function(x) {
 				mean(as.matrix(abs(base_means[,-1] - comp_means[x,-1])))
@@ -112,7 +112,7 @@ fix_cluster_labels <- function(
 		# Fix out-of-bag
 		for(i in 1:n_inters) {
 			comp <- oob[oob$iter == i,]
-			comp_means <- reshape2::dcast(comp, cluster ~ variable, value.var = 'value')
+			comp_means <- reshape2::dcast(comp, cluster ~ variable, value.var = 'mean')
 			row.names(comp_means) <- comp_means$cluster
 			dists <- sapply(perms, FUN = function(x) {
 				mean(as.matrix(abs(base_means[,-1] - comp_means[x,-1])))

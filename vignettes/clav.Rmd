@@ -24,10 +24,15 @@ knitr::opts_chunk$set(
 ggplot2::theme_set(ggplot2::theme_minimal())
 library(clav)
 library(ggplot2)
+set.seed(2112)
 ```
 
 
-Cluster analysis is a statistical procedure for grouping observations using an observation-centered approach as compared to variable-centric approaches (e.g. PCA, factor analysis). Whether a preprocessing step for predictive modeling or the primary analysis, validation is critical for determining generalizability across datasets. Theodoridis and Koutroumbas (2008) identified three broad types of validation for cluster analysis: 1) Internal cluster validation, 2) Relative cluster validation, and 3) External cluster validation. Strategies for steps 1 and 2 are well established, however cluster analysis is typically an unsupervised learning method where there is no observed outcome. Ullman et al (2021) proposed an approach to validating a cluster solution by visually inspecting the cluster solutions across a training and validation dataset. This talk introduces the clav R package that implements and expands this approach by generating multiple random samples (using either a simple random split or bootstrap samples). Visualizations of both the cluster profiles as well as distributions of the cluster means are provided along with a Shiny application to assist the researcher.
+Cluster analysis is a statistical procedure for grouping observations using an observation-centered approach as compared to variable-centric approaches (e.g. PCA, factor analysis). Whether a preprocessing step for predictive modeling or the primary analysis, validation is critical for determining generalizability across datasets. Theodoridis and Koutroumbas (2008) identified three broad types of validation for cluster analysis: 1) Internal cluster validation, 2) Relative cluster validation, and 3) External cluster validation. Strategies for steps 1 and 2 are well established, however cluster analysis is typically an unsupervised learning method where there is no observed outcome. Ullman et al (2021) proposed an approach to validating a cluster solution by visually inspecting the cluster solutions across a training and validation dataset. This paper introduces the `clav` R package that implements and expands this approach by generating multiple random samples (using either a simple random split or bootstrap samples). Visualizations of both the cluster profiles as well as distributions of the cluster means are provided along with a Shiny application to assist the researcher.
+
+
+# Working example: Programme for International Student Assessment
+
 
 
 ```{r datasetup}
@@ -83,26 +88,47 @@ plot(optimal, ncol = 2)
 
 # Validating cluster solution
 
+One of the biggest challenges of estimating unsupervised models is determining the accuracy of the model given that in most instances there is now know, or observed, outcome. Since we cannot compare model outputs with a know value, we instead look for stability of model estimates across multiple samples. Ullman et al (2021) proposed splitting data and visually comparing the cluster profiles across the two samples. The `clav` package extends this idea by implementing an algorithm where many samples are drawn, cluster membership is estimated with a training dataset, and cluster membership for the out-of-bag sample is predicted. We can then use a number of visualizations to determine the stability of the profiles across many random samples.
+
+The `cluster_validation` function implements this algorithm. The default will estimate 100 cluster models (using the K-means cluster, but other methods can be specified using the `cluster_fun` parameter). For each iteration, 50% of the observations will be randomly selected (the training size can be modified using the `sample_size` parameter) and the cluster model will be estimated. Cluster membership will then be predicted using this model for the other 50% of observations. A cluster model will also be estimated using the full dataset. The figure below shows the cluster profiles for 100 samples for the training data on the left and for the out-of-bag sample on the right (the paths are color coded by cluster membership). The cluster profile using the full dataset is represented by the blue line. For each path the mean of each variable grouped by cluster membership is plotted. In this example we can see that there is one cluster that is above average across all the variables (green lines). The other two clusters are a bit mixed with the orange lines indicating that there is a cluster that is generally below average with the exception belonging and interest which are near the mean. The purple lines represent a cluster that is generally nearly normal across all variables. These plots are not intended to assist in interpreting clusters (that will be discussed in a later section), but instead determine if there is stability in the cluster estimates across many samples.
 
 ```{r cluster-validation}
-cv <- cluster_validation(pisa_usa[,cluster_vars],
-						 n_clusters = 3)
+cv <- cluster_validation(
+	pisa_usa[,cluster_vars],
+	n_clusters = 3)
 plot(cv)
 ```
 
+The figure below provides an alternative approach for determining stability by plotting the distribution of means across clusters and variables. Ideally we would want the standard deviation of these distributions to be as small as possible.
 
 ```{r plot-distributions}
 plot_distributions(cv, plot_in_sample = TRUE, plot_oob_sample = TRUE)
 ```
 
+## Bootstrapping
+
 ```{r bootstrap-validation}
-cv_boot <- cluster_validation(pisa_usa[,cluster_vars],
-						 n_clusters = 3,
-						 sample_size = nrow(pisa_usa),
-						 replace = TRUE)
-plot(cv_boot, facet = FALSE)
+cv_boot <- cluster_validation(
+	pisa_usa[,cluster_vars],
+	n_clusters = 3,
+	sample_size = nrow(pisa_usa),
+	replace = TRUE)
+plot(cv_boot)
 ```
 
+## Retraining
+
+
+```{r}
+cv_retrain <- cluster_validation(
+	pisa_usa[,cluster_vars],
+	n_clusters = 3,
+	oob_predict_fun = function(fit, newdata) {
+		stats::kmeans(newdata, 3)$cluster
+	}
+)
+plot(cv_retrain)
+```
 
 # Profile plots
 
@@ -113,6 +139,10 @@ profile_plot(pisa_usa[,cluster_vars],
 			 df_dep = pisa_usa[,outcome_vars],
 			 cluster_order = cluster_vars)
 ```
+
+
+# Discussion
+
 
 
 # References
