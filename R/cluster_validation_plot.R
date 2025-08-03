@@ -72,6 +72,7 @@ plot.clustervalidation <- function(
 
 	if(plot_oob_sample) {
 		p_oob <- x$oob_sample |>
+			dplyr::arrange(variable) |>
 			ggplot(aes(x = .data$variable,
 					   y = .data$mean,
 					   color = .data$cluster,

@@ -2,7 +2,7 @@
 ^\.Rproj\.user$
 ^README\.Rmd$
 ^LICENSE\.md$
-data-raw
+data-raw/
 README_cache
 ^\.github$
 README_cache/
@@ -12,3 +12,4 @@ private/
 ^pkgdown$
 articles/
 sticker.R
+slides/

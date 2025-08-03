@@ -27,13 +27,20 @@ library(ggplot2)
 set.seed(2112)
 ```
 
+# Abstract
 
 Cluster analysis is a statistical procedure for grouping observations using an observation-centered approach as compared to variable-centric approaches (e.g. PCA, factor analysis). Whether a preprocessing step for predictive modeling or the primary analysis, validation is critical for determining generalizability across datasets. Theodoridis and Koutroumbas (2008) identified three broad types of validation for cluster analysis: 1) Internal cluster validation, 2) Relative cluster validation, and 3) External cluster validation. Strategies for steps 1 and 2 are well established, however cluster analysis is typically an unsupervised learning method where there is no observed outcome. Ullman et al (2021) proposed an approach to validating a cluster solution by visually inspecting the cluster solutions across a training and validation dataset. This paper introduces the `clav` R package that implements and expands this approach by generating multiple random samples (using either a simple random split or bootstrap samples). Visualizations of both the cluster profiles as well as distributions of the cluster means are provided along with a Shiny application to assist the researcher.
 
+# Introduction
 
-# Working example: Programme for International Student Assessment
 
 
+
+## Data source
+
+The [Programme for International Student Assessment](http://pisa.oecd.org/) (PISA) is large scale study conducted by the [Organisation for Economic Co-operation and Development](https://www.oecd.org) (OECD) every three years designed to measure 15-year-olds' reading, mathematics, and science skill. In addition to measuring academic skills, students complete questionnaires on other areas including motivation, self-efficacy, interest, among other demographics. This study uses data from the 2015 administration in the United States. Cluster analysis will be performed on student interest, motivation, and self-efficacy and we will explore how these variables are related to two dependent variables: science skills and self-reported knowledge of science principals (see Appendix A for items that inform these scales).
+
+The `clav` package includes data for the United States and Canada, but we will only use the United States here^[The R script to prepare this data file is available here: https://github.com/jbryer/clav/blob/master/data-raw/data-prep-pisa-2015.R which allows for easy modification to include other countries.].
 
 ```{r datasetup}
 library(clav)
@@ -47,19 +54,25 @@ pisa_usa <- pisa2015 |>
 	dplyr::mutate(dplyr::across(dplyr::all_of(cluster_vars), clav::scale_this))
 ```
 
-```{r}
-lm_out <- lm(science_score ~ interest + enjoyment + motivation + efficacy + belonging,
-			 data = pisa_usa)
-summary(lm_out)
+
+## Variable centric analysis
+
+```{r science-lm}
+science_lm_out <- lm(
+	science_score ~ interest + enjoyment + motivation + efficacy + belonging,
+	data = pisa_usa)
+summary(science_lm_out)
 ```
 
-```{r full-kmeans, include=FALSE, eval=FALSE}
-kmeans_out <- stats::kmeans(pisa_usa[,cluster_vars], 3)
-pisa_usa$cluster <- kmeans_out$cluster
-lm_out <- lm(science_score ~ interest + enjoyment + motivation + efficacy + belonging + cluster,
-			 data = pisa_usa)
-summary(lm_out)
+```{r principals-lm}
+principals_lm_out <- lm(
+	science_score ~ interest + enjoyment + motivation + efficacy + belonging,
+	data = pisa_usa)
+summary(principals_lm_out)
 ```
+
+
+
 
 # Finding the desired number of clusters
 
@@ -68,17 +81,18 @@ optimal <- optimal_clusters(pisa_usa[,cluster_vars], max_k = 6)
 optimal
 ```
 
-* [Davies-Bouldin Index](https://ieeexplore.ieee.org/document/4766909) (1979)
+* [Davies-Bouldin Index](https://ieeexplore.ieee.org/document/4766909) (1979) - DBI is a metric used to evaluate the quality of a cluster analysis by measuring the compactness of clusters and their separation from each other. A lower DBI indicates better clustering, with well-separated and compact clusters. 
 
-* [Calinski-Harbasz Statistic](https://www.tandfonline.com/doi/abs/10.1080/03610927408827101) (Caliński & Harabasz, 1974)
 
-* [Within group sum of squares](https://www.cambridge.org/core/journals/psychometrika/article/abs/who-belongs-in-the-family/5270D9B37A258A06C7CE7C0A528145F5) (Thorndike, 1953)
+* [Calinski-Harabasz Statistic](https://www.tandfonline.com/doi/abs/10.1080/03610927408827101) (Caliński & Harabasz, 1974) - CH statistic measures the ratio of between-cluster variance to within-cluster variance, indicating how well-separated and compact the clusters are. Higher CH values generally indicate better clustering performance. 
 
-* [Silhoutte score](https://www.sciencedirect.com/science/article/pii/0377042787901257?via%3Dihub) (Rousseeuw, 1986)
+* [Within group sum of squares](https://www.cambridge.org/core/journals/psychometrika/article/abs/who-belongs-in-the-family/5270D9B37A258A06C7CE7C0A528145F5) (Thorndike, 1953) - WSS quantifies the dispersion of data points within each cluster, with lower WSS values indicating more compact and well-defined clusters. 
 
-* [Gap statistic](https://academic.oup.com/jrsssb/article-abstract/63/2/411/7083348?redirectedFrom=fulltext&login=false) (Tibshirani, Walther, & Hastie, 2001)
+* [Silhoutte score](https://www.sciencedirect.com/science/article/pii/0377042787901257?via%3Dihub) (Rousseeuw, 1986) - The silhouette value is a measure of how similar an object is to its own cluster (cohesion) compared to other clusters (separation). The silhouette value ranges from −1 to +1, where a high value indicates that the object is well matched to its own cluster and poorly matched to neighboring clusters.
 
-* [Rand index](https://www.tandfonline.com/doi/abs/10.1080/01621459.1971.10482356) (2012s)
+* [Gap statistic](https://academic.oup.com/jrsssb/article-abstract/63/2/411/7083348?redirectedFrom=fulltext&login=false) (Tibshirani, Walther, & Hastie, 2001) - The Gap statistic works by comparing the within-cluster variation of the actual data to that of a null reference distribution, typically a uniform distribution. The *gap* is the difference between these two, and the optimal number of clusters is chosen where the gap statistic is maximized. 
+
+* [Rand index](https://www.tandfonline.com/doi/abs/10.1080/01621459.1971.10482356) (2012) - The Rand index measures how often pairs of data points are assigned to the same or different clusters in both partitions. A higher Rand Index indicates greater similarity between the two clusterings. 
 
 
 
@@ -119,7 +133,7 @@ plot(cv_boot)
 ## Retraining
 
 
-```{r}
+```{r retraining-validation}
 cv_retrain <- cluster_validation(
 	pisa_usa[,cluster_vars],
 	n_clusters = 3,
@@ -130,7 +144,10 @@ cv_retrain <- cluster_validation(
 plot(cv_retrain)
 ```
 
-# Profile plots
+
+# Analyzing dependent variables
+
+## Profile plots
 
 ```{r profile-plot, fig.width=12}
 fit <- stats::kmeans(pisa_usa[,cluster_vars], centers = 3)
@@ -141,7 +158,20 @@ profile_plot(pisa_usa[,cluster_vars],
 ```
 
 
+## Using clusters in regression analysis
+
+```{r full-kmeans, include=TRUE, eval=TRUE}
+kmeans_out <- stats::kmeans(pisa_usa[,cluster_vars], 3)
+pisa_usa$cluster <- kmeans_out$cluster
+lm_out <- lm(science_score ~ interest + enjoyment + motivation + efficacy + belonging + cluster,
+			 data = pisa_usa)
+summary(lm_out)
+```
+
+
 # Discussion
+
+## Shiny application
 
 
 

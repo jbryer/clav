@@ -5,7 +5,7 @@ utils::globalVariables(c("cluster", "count", "group1", "se", "n", "variable", "i
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
 n_cluster_message <- function(id) {
-	shiny::textOutput(NS(id, id = 'n_message'))
+	shiny::textOutput(shiny::NS(id, id = 'n_message'))
 }
 
 #' Slider input for the desired number of clusters.
@@ -23,8 +23,8 @@ n_clusters_input <- function(
 		max = 10,
 		value = 4
 ) {
-	tagList(
-		shiny::sliderInput(inputId = NS(id, id = "k"),
+	shiny::tagList(
+		shiny::sliderInput(inputId = shiny::NS(id, id = "k"),
 						   label = label,
 						   min = 2,
 						   max = 10,
@@ -37,7 +37,7 @@ n_clusters_input <- function(
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
 cluster_variable_input <- function(id) {
-	shiny::uiOutput(NS(id, id = 'variable_selection'))
+	shiny::uiOutput(shiny::NS(id, id = 'variable_selection'))
 }
 
 #' Plot output for the figure to determine the optimal number of clusters.
@@ -45,7 +45,7 @@ cluster_variable_input <- function(id) {
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
 n_cluster_plot_output <- function(id) {
-	shiny::plotOutput(NS(id, id = 'n_clusters_plot'))
+	shiny::plotOutput(shiny::NS(id, id = 'n_clusters_plot'))
 }
 
 #' Plot output for the bar plot of cluster sizes.
@@ -54,7 +54,7 @@ n_cluster_plot_output <- function(id) {
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
 cluster_size_bar_plot_output <- function(id, ...) {
-	shiny::plotOutput(NS(id, id = 'cluster_size_bar'), ...)
+	shiny::plotOutput(shiny::NS(id, id = 'cluster_size_bar'), ...)
 }
 
 #' Plot output for the profiles.
@@ -64,7 +64,7 @@ cluster_size_bar_plot_output <- function(id, ...) {
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
 profile_plot_output <- function(id, ...) {
-	shiny::plotOutput(NS(id, id ='profile_plot'), height = '600px')
+	shiny::plotOutput(shiny::NS(id, id ='profile_plot'), height = '600px')
 }
 
 #' Plot output for the pairs plot.
@@ -74,7 +74,7 @@ profile_plot_output <- function(id, ...) {
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
 cluster_pairs_plot_output <- function(id, ...) {
-	shiny::plotOutput(NS(id, id = 'cluster_pairs_plot'), height = '600px')
+	shiny::plotOutput(shiny::NS(id, id = 'cluster_pairs_plot'), height = '600px')
 }
 
 #' Plot output for the bivariate cluster figure.
@@ -83,7 +83,7 @@ cluster_pairs_plot_output <- function(id, ...) {
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
 bivariate_cluster_plot_output <- function(id, ...) {
-	shiny::plotOutput(NS(id, id = 'bivariate_cluster_plot'), ...)
+	shiny::plotOutput(shiny::NS(id, id = 'bivariate_cluster_plot'), ...)
 }
 
 #' Plot output for the discriminant project figure.
@@ -92,7 +92,7 @@ bivariate_cluster_plot_output <- function(id, ...) {
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
 discriminant_projection_plot_output <- function(id, ...) {
-	shiny::plotOutput(NS(id, id ='discriminant_projection_plot'), ...)
+	shiny::plotOutput(shiny::NS(id, id ='discriminant_projection_plot'), ...)
 }
 
 #' Shiny input to select the dependent (outcome) variable.
@@ -100,16 +100,16 @@ discriminant_projection_plot_output <- function(id, ...) {
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
 dependent_variable_input <- function(id) {
-	shiny::uiOutput(NS(id, id = 'dependent_variable_ui'))
+	shiny::uiOutput(shiny::NS(id, id = 'dependent_variable_ui'))
 }
 
 #' Shiny output for the dependnet sample plot.
-
+#'
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param ... other parmaeters passed to [shiny::plotOutput()].
 #' @export
 dependent_variable_plot_output <- function(id, ...) {
-	shiny::plotOutput(NS(id, id = 'dependent_plot'), ...)
+	shiny::plotOutput(shiny::NS(id, id = 'dependent_plot'), ...)
 }
 
 #' Output of the dependent variable analysis.
@@ -121,7 +121,7 @@ dependent_variable_plot_output <- function(id, ...) {
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
 dependent_variable_table_output <- function(id) {
-	shiny::tableOutput(NS(id, id = 'dependent_table'))
+	shiny::tableOutput(shiny::NS(id, id = 'dependent_table'))
 }
 
 #' Output from the dependent varaible analysis.
@@ -129,7 +129,7 @@ dependent_variable_table_output <- function(id) {
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
 dependent_null_hypothesis_output <- function(id) {
-	shiny::verbatimTextOutput(NS(id, id = 'dependent_null_hypothesis'))
+	shiny::verbatimTextOutput(shiny::NS(id, id = 'dependent_null_hypothesis'))
 }
 
 #' Shiny module for cluster analysis.
@@ -139,11 +139,11 @@ dependent_null_hypothesis_output <- function(id) {
 #' @param default_vars character list for the variables to include by default.
 #' @param default_dependent_variable the name of the dependent variable, or NULL for none.
 #' @param se_factor how many standard errors to plot.
-#' @export
 #' @importFrom stats as.formula cor median
 #' @importFrom scales percent
 #' @importFrom GGally ggpairs
 #' @import shiny
+#' @export
 cluster_module <- function(id,
 						   data,
 						   default_vars = names(data())[sapply(data(), function(x) { is.numeric(x) })],
@@ -192,7 +192,7 @@ cluster_module <- function(id,
 
 		output$variable_selection <- shiny::renderUI({
 			shiny::selectizeInput(
-				inputId = NS(id, id ='variable_selection'),
+				inputId = shiny::NS(id, id ='variable_selection'),
 				label = 'Variables to include',
 				choices = names(get_data_raw()),
 				multiple = TRUE,
@@ -202,7 +202,7 @@ cluster_module <- function(id,
 
 		output$dependent_variable_ui <- shiny::renderUI({
 			shiny::selectInput(
-				inputId = NS(id, id = 'dependent_variable'),
+				inputId = shiny::NS(id, id = 'dependent_variable'),
 				label = 'Dependent variable',
 				choices = c('None', names(get_data_raw())),
 				multiple = FALSE,
@@ -233,7 +233,7 @@ cluster_module <- function(id,
 			thedata <- get_data()
 			thedata$cluster <- factor(fit$cluster, labels = letters[1:input$k])
 			ggplot(thedata, aes(x = cluster,
-							  label = scales::percent(prop.table(stat(count))))) +
+							  label = scales::percent(prop.table(after_stat(count))))) +
 				geom_bar() +
 				geom_text(stat = 'count',
 						  position = position_dodge(.9),
