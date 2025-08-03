@@ -6,10 +6,13 @@
 <!-- badges: start -->
 
 [![](https://www.r-pkg.org/badges/version/clav?color=orange)](https://cran.r-project.org/package=clav)
-[![](https://img.shields.io/badge/devel%20version-0.9.1-blue.svg)](https://github.com/jbryer/clav)
+[![](https://img.shields.io/badge/devel%20version-1.0.0-blue.svg)](https://github.com/jbryer/clav)
 [![R build
 status](https://github.com/jbryer/clav/workflows/R-CMD-check/badge.svg)](https://github.com/jbryer/clav/actions)
 <!-- badges: end -->
+
+[Slides from Joint Statistical Meeting (JSM)
+2025](slides/clav_jsm_2025.pdf)
 
 The `clav` package provides utilities for conducting cluster (profile)
 analysis with an emphasis on the validating the stability of the
@@ -63,12 +66,12 @@ Finding the optimal number of clusters.
 ``` r
 optimal <- optimal_clusters(pisa_usa[,cluster_vars], max_k = 5)
 optimal
-#>   k   wss silhoutte  gap calinski_harabasz davies_bouldin
-#> 1 1 22099        NA 0.92               NaN            NaN
-#> 2 2 17390      0.20 0.90              1255            1.9
-#> 3 3 15575      0.21 0.89               970            1.7
-#> 4 4 14255      0.16 0.88               844            1.8
-#> 5 5 12768      0.17 0.88               857            1.8
+#>   k  wss silhoutte  gap calinski_harabasz davies_bouldin rand_index
+#> 1 1 9232        NA 0.83               NaN            NaN         NA
+#> 2 2 6746      0.24 0.87              1708            1.6       0.50
+#> 3 3 5965      0.20 0.86              1329            1.8       0.64
+#> 4 4 5198      0.20 0.86              1198            1.7       0.75
+#> 5 5 4682      0.20 0.86              1124            1.5       0.75
 plot(optimal, ncol = 2)
 ```
 
@@ -126,23 +129,6 @@ pisa_cv_bootstrap <- pisa_usa |>
         n_samples = 100,
         seed = 42
 )
-summary(pisa_cv_bootstrap)
-#>    cluster   variable   mean    sd median   min   max range     se
-#> 1        A   interest -0.085 0.208 -0.019 -0.71  0.18  0.88 0.0208
-#> 4        A  enjoyment -0.826 0.933 -0.472 -3.18 -0.14  3.05 0.0933
-#> 7        A motivation  0.034 0.138  0.042 -0.37  0.31  0.68 0.0138
-#> 10       A   efficacy  0.228 0.172  0.253 -0.75  0.46  1.21 0.0172
-#> 13       A  belonging -0.088 0.332 -0.155 -0.62  0.84  1.46 0.0332
-#> 2        B   interest -0.778 0.135 -0.794 -1.11 -0.20  0.91 0.0135
-#> 5        B  enjoyment -0.190 0.085 -0.176 -0.38  0.26  0.64 0.0085
-#> 8        B motivation -0.721 0.122 -0.735 -1.18 -0.42  0.76 0.0122
-#> 11       B   efficacy -0.854 0.177 -0.921 -1.07  0.17  1.24 0.0177
-#> 14       B  belonging -0.127 0.204 -0.066 -1.07  0.21  1.27 0.0204
-#> 3        C   interest  0.745 0.084  0.771  0.53  0.89  0.35 0.0084
-#> 6        C  enjoyment  0.688 0.132  0.735  0.32  0.85  0.53 0.0132
-#> 9        C motivation  0.670 0.123  0.659  0.44  0.92  0.48 0.0123
-#> 12       C   efficacy  0.555 0.071  0.535  0.44  0.76  0.32 0.0071
-#> 15       C  belonging  0.254 0.190  0.293 -0.14  0.55  0.69 0.0190
 plot(pisa_cv_bootstrap)
 ```
 
