@@ -146,8 +146,9 @@ lpa <- pisa_usa |>
 lpa_data <- get_data(lpa)
 
 plot_profiles(lpa)
-clav::profile_plot(pisaUSA15,
-             clusters = lpa_data$Class)
+clav::profile_plot(pisa_usa[,cluster_vars],
+                   clusters = lpa_data$Class,
+                   df_dep = pisa_usa[,c('science_score')])
 
 lpa_cv_random <- cluster_validation(
     pisaUSA15,

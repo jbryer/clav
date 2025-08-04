@@ -25,7 +25,9 @@ editor_options:
 
 ```{r generate-pdf, include=FALSE, eval=FALSE}
 # This will generate a PDF of the slide deck.
-pagedown::chrome_print(input = 'clav_jsm_2025.html', timeout = 120)
+pagedown::chrome_print(input = paste0(here::here(), '/slides/clav_jsm_2025.html'),
+					   timeout = 120, 
+					   format = 'pdf')
 ```
 
 ```{r setup, include = FALSE}
