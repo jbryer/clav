@@ -404,14 +404,14 @@ shiny::shinyApp(ui = ui, server = server)                         # Run the app
 ---
 class: inverse, right, middle, hide-logo, font130
 
-.pull-left[
+.left-column[
 
-```{r qrcode, echo=FALSE, out.width='90%', out.height='90%', fig.width=4, fig.height=4}
+```{r qrcode, echo=FALSE, out.width='100%', out.height='100%', fig.width=4, fig.height=4}
 qrcode::qr_code('https://github.com/jbryer/clav', 'M') |> plot(col = c('#005DAC', 'white'))
 ```
 
 ]
-.pull-right[
+
 .font180[Thank you!]
 
 [`r icons::fontawesome("paper-plane")` jason.bryer@cuny.edu](mailto:jason.bryer@cuny.edu)  
@@ -419,4 +419,3 @@ qrcode::qr_code('https://github.com/jbryer/clav', 'M') |> plot(col = c('#005DAC'
 [`r icons::fontawesome('mastodon')` @jbryer@vis.social](https://vis.social/@jbryer)  
 [`r icons::fontawesome("link")` github.com/jbryer/clav](https://github.com/jbryer/clav)   
 
-]

@@ -2,23 +2,26 @@
 <url><loc>/404.html</loc></url>
 <url><loc>/LICENSE.html</loc></url>
 <url><loc>/articles/clav.html</loc></url>
+<url><loc>/articles/daacs.html</loc></url>
 <url><loc>/articles/index.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
 <url><loc>/reference/bivariate_cluster_plot_output.html</loc></url>
-<url><loc>/reference/calinski_harabasz.html</loc></url>
+<url><loc>/reference/clav_shiny.html</loc></url>
 <url><loc>/reference/cluster_module.html</loc></url>
 <url><loc>/reference/cluster_pairs_plot_output.html</loc></url>
 <url><loc>/reference/cluster_shiny.html</loc></url>
 <url><loc>/reference/cluster_size_bar_plot_output.html</loc></url>
 <url><loc>/reference/cluster_validation.html</loc></url>
 <url><loc>/reference/cluster_variable_input.html</loc></url>
-<url><loc>/reference/davies_bouldin.html</loc></url>
+<url><loc>/reference/daacs.html</loc></url>
 <url><loc>/reference/dependent_null_hypothesis_output.html</loc></url>
 <url><loc>/reference/dependent_variable_input.html</loc></url>
 <url><loc>/reference/dependent_variable_plot_output.html</loc></url>
 <url><loc>/reference/dependent_variable_table_output.html</loc></url>
+<url><loc>/reference/describe_by.html</loc></url>
 <url><loc>/reference/discriminant_projection_plot_output.html</loc></url>
+<url><loc>/reference/fitmeasures.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
 <url><loc>/reference/n_cluster_message.html</loc></url>
 <url><loc>/reference/n_cluster_plot_output.html</loc></url>
@@ -30,7 +33,5 @@
 <url><loc>/reference/profile_plot.html</loc></url>
 <url><loc>/reference/profile_plot_output.html</loc></url>
 <url><loc>/reference/scale_this.html</loc></url>
-<url><loc>/reference/silhouette_score.html</loc></url>
-<url><loc>/reference/wss.html</loc></url>
 </urlset>
 
