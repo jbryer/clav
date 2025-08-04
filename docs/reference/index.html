@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">clav</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,6 +17,10 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/clav.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/daacs.html">College Readiness Profiles</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/jbryer/clav/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -50,10 +54,10 @@
         <dd>Plot output for the bivariate cluster figure.</dd>
       </dl><dl><dt>
 
-          <code><a href="calinski_harabasz.html">calinski_harabasz()</a></code>
+          <code><a href="clav_shiny.html">cluster_shiny()</a></code> <code><a href="clav_shiny.html">clav_shiny_ui()</a></code> <code><a href="clav_shiny.html">clav_shiny_server()</a></code>
 
         </dt>
-        <dd>Calculate Calinski-Harabasz score</dd>
+        <dd>Run the Shiny application.</dd>
       </dl><dl><dt>
 
           <code><a href="cluster_module.html">cluster_module()</a></code>
@@ -68,19 +72,13 @@
         <dd>Plot output for the pairs plot.</dd>
       </dl><dl><dt>
 
-          <code><a href="cluster_shiny.html">cluster_shiny()</a></code>
-
-        </dt>
-        <dd>Run the Shiny application.</dd>
-      </dl><dl><dt>
-
           <code><a href="cluster_size_bar_plot_output.html">cluster_size_bar_plot_output()</a></code>
 
         </dt>
         <dd>Plot output for the bar plot of cluster sizes.</dd>
       </dl><dl><dt>
 
-          <code><a href="cluster_validation.html">cluster_validation()</a></code> <code><a href="cluster_validation.html">plot(<i>&lt;clustervalidation&gt;</i>)</a></code> <code><a href="cluster_validation.html">print(<i>&lt;clustervalidation&gt;</i>)</a></code> <code><a href="cluster_validation.html">summary(<i>&lt;clustervalidation&gt;</i>)</a></code> <code><a href="cluster_validation.html">plot(<i>&lt;cv_summary&gt;</i>)</a></code>
+          <code><a href="cluster_validation.html">cluster_validation()</a></code> <code><a href="cluster_validation.html">plot(<i>&lt;clustervalidation&gt;</i>)</a></code> <code><a href="cluster_validation.html">print(<i>&lt;clustervalidation&gt;</i>)</a></code> <code><a href="cluster_validation.html">summary(<i>&lt;clustervalidation&gt;</i>)</a></code> <code><a href="cluster_validation.html">plot(<i>&lt;cv_summary&gt;</i>)</a></code> <code><a href="cluster_validation.html">fix_cluster_labels()</a></code> <code><a href="cluster_validation.html">plot_distributions()</a></code>
 
         </dt>
         <dd>Cluster profile validation</dd>
@@ -92,10 +90,10 @@
         <dd>Input to select the variables to perform the cluster analysis with.</dd>
       </dl><dl><dt>
 
-          <code><a href="davies_bouldin.html">davies_bouldin()</a></code>
+          <code><a href="daacs.html">daacs</a></code>
 
         </dt>
-        <dd>Calculate Davies-Bouldin score</dd>
+        <dd>Diagnostic Assessment and Achievement of College Skills</dd>
       </dl><dl><dt>
 
           <code><a href="dependent_null_hypothesis_output.html">dependent_null_hypothesis_output()</a></code>
@@ -113,7 +111,7 @@
           <code><a href="dependent_variable_plot_output.html">dependent_variable_plot_output()</a></code>
 
         </dt>
-        <dd>TODO: REMOVE</dd>
+        <dd>Shiny output for the dependnet sample plot.</dd>
       </dl><dl><dt>
 
           <code><a href="dependent_variable_table_output.html">dependent_variable_table_output()</a></code>
@@ -122,10 +120,22 @@
         <dd>Output of the dependent variable analysis.</dd>
       </dl><dl><dt>
 
+          <code><a href="describe_by.html">describe_by()</a></code>
+
+        </dt>
+        <dd>Basic summary statistics by group</dd>
+      </dl><dl><dt>
+
           <code><a href="discriminant_projection_plot_output.html">discriminant_projection_plot_output()</a></code>
 
         </dt>
         <dd>Plot output for the discriminant project figure.</dd>
+      </dl><dl><dt>
+
+          <code><a href="fitmeasures.html">optimal_clusters()</a></code> <code><a href="fitmeasures.html">plot(<i>&lt;optimalclusters&gt;</i>)</a></code> <code><a href="fitmeasures.html">wss()</a></code> <code><a href="fitmeasures.html">silhouette_score()</a></code> <code><a href="fitmeasures.html">calinski_harabasz()</a></code> <code><a href="fitmeasures.html">davies_bouldin()</a></code> <code><a href="fitmeasures.html">rand_index()</a></code>
+
+        </dt>
+        <dd>Utility function used to determine the optimal number of clusters.</dd>
       </dl><dl><dt>
 
           <code><a href="n_cluster_message.html">n_cluster_message()</a></code>
@@ -144,12 +154,6 @@
 
         </dt>
         <dd>Slider input for the desired number of clusters.</dd>
-      </dl><dl><dt>
-
-          <code><a href="optimal_clusters.html">optimal_clusters()</a></code> <code><a href="optimal_clusters.html">plot(<i>&lt;optimalclusters&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Utility function used to determine the optimal number of clusters.</dd>
       </dl><dl><dt>
 
           <code><a href="pisa2015.html">pisa2015</a></code>
@@ -186,18 +190,6 @@
 
         </dt>
         <dd>Convert vector to z-scores</dd>
-      </dl><dl><dt>
-
-          <code><a href="silhouette_score.html">silhouette_score()</a></code>
-
-        </dt>
-        <dd>Calculate Silhouette score</dd>
-      </dl><dl><dt>
-
-          <code><a href="wss.html">wss()</a></code>
-
-        </dt>
-        <dd>Calculate within sum of squares.</dd>
       </dl></div>
   </main></div>
 

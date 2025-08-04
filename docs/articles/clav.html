@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">clav</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,12 @@
       <ul class="navbar-nav me-auto">
 <li class="active nav-item"><a class="nav-link" href="../articles/clav.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/daacs.html">College Readiness Profiles</a></li>
+  </ul>
+</li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -61,9 +67,413 @@ Ph.D.</h4>
 
     
     
+<div class="section level2">
+<h2 id="abstract">Abstract<a class="anchor" aria-label="anchor" href="#abstract"></a>
+</h2>
+<p>Cluster analysis is a statistical procedure for grouping observations
+using an observation-centered approach as compared to variable-centric
+approaches (e.g. PCA, factor analysis). Whether a preprocessing step for
+predictive modeling or the primary analysis, validation is critical for
+determining generalizability across datasets. Theodoridis and
+Koutroumbas (2008) identified three broad types of validation for
+cluster analysis: 1) Internal cluster validation, 2) Relative cluster
+validation, and 3) External cluster validation. Strategies for steps 1
+and 2 are well established, however cluster analysis is typically an
+unsupervised learning method where there is no observed outcome. Ullman
+et al (2021) proposed an approach to validating a cluster solution by
+visually inspecting the cluster solutions across a training and
+validation dataset. This paper introduces the <code>clav</code> R
+package that implements and expands this approach by generating multiple
+random samples (using either a simple random split or bootstrap
+samples). Visualizations of both the cluster profiles as well as
+distributions of the cluster means are provided along with a Shiny
+application to assist the researcher.</p>
+</div>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<div class="section level3">
+<h3 id="data-source">Data source<a class="anchor" aria-label="anchor" href="#data-source"></a>
+</h3>
+<p>The <a href="http://pisa.oecd.org/" class="external-link">Programme for International
+Student Assessment</a> (PISA) is large scale study conducted by the <a href="https://www.oecd.org" class="external-link">Organisation for Economic Co-operation and
+Development</a> (OECD) every three years designed to measure
+15-year-olds’ reading, mathematics, and science skill. In addition to
+measuring academic skills, students complete questionnaires on other
+areas including motivation, self-efficacy, interest, among other
+demographics. This study uses data from the 2015 administration in the
+United States. Cluster analysis will be performed on student interest,
+motivation, and self-efficacy and we will explore how these variables
+are related to two dependent variables: science skills and self-reported
+knowledge of science principals (see Appendix A for items that inform
+these scales).</p>
+<p>The <code>clav</code> package includes data for the United States and
+Canada, but we will only use the United States here<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;The R script to prepare this data file is available
+here: &lt;a href="https://github.com/jbryer/clav/blob/master/data-raw/data-prep-pisa-2015.R" class="external-link uri"&gt;https://github.com/jbryer/clav/blob/master/data-raw/data-prep-pisa-2015.R&lt;/a&gt;
+which allows for easy modification to include other countries.&lt;/p&gt;'><sup>1</sup></a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jbryer/clav/" class="external-link">clav</a></span><span class="op">)</span></span></code></pre></div>
-  </main>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jbryer.github.io/clav/" class="external-link">clav</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pisa2015</span>, package <span class="op">=</span> <span class="st">'clav'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cluster_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'interest'</span>, <span class="st">'enjoyment'</span>, <span class="st">'motivation'</span>, <span class="st">'efficacy'</span>, <span class="st">'belonging'</span><span class="op">)</span></span>
+<span><span class="va">outcome_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'science_score'</span>, <span class="st">'principals'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pisa_usa</span> <span class="op">&lt;-</span> <span class="va">pisa2015</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">country</span> <span class="op">==</span> <span class="st">'UNITED STATES'</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">cluster_vars</span><span class="op">)</span>, <span class="fu">clav</span><span class="fu">::</span><span class="va"><a href="../reference/scale_this.html">scale_this</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="variable-centric-analysis">Variable centric analysis<a class="anchor" aria-label="anchor" href="#variable-centric-analysis"></a>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">science_lm_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
+<span>    <span class="va">science_score</span> <span class="op">~</span> <span class="va">interest</span> <span class="op">+</span> <span class="va">enjoyment</span> <span class="op">+</span> <span class="va">motivation</span> <span class="op">+</span> <span class="va">efficacy</span> <span class="op">+</span> <span class="va">belonging</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">pisa_usa</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">science_lm_out</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = science_score ~ interest + enjoyment + motivation + </span></span>
+<span><span class="co">#&gt;     efficacy + belonging, data = pisa_usa)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt;      Min       1Q   Median       3Q      Max </span></span>
+<span><span class="co">#&gt; -274.168  -58.914    1.114   60.446  271.258 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; (Intercept)  506.398      1.226 413.173  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; interest      15.938      1.407  11.325  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; enjoyment     23.511      1.283  18.318  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; motivation    -8.043      1.318  -6.104 1.12e-09 ***</span></span>
+<span><span class="co">#&gt; efficacy      16.767      1.326  12.646  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; belonging     -1.609      1.231  -1.308    0.191    </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 83.46 on 4631 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.1759, Adjusted R-squared:  0.175 </span></span>
+<span><span class="co">#&gt; F-statistic: 197.7 on 5 and 4631 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">principals_lm_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
+<span>    <span class="va">science_score</span> <span class="op">~</span> <span class="va">interest</span> <span class="op">+</span> <span class="va">enjoyment</span> <span class="op">+</span> <span class="va">motivation</span> <span class="op">+</span> <span class="va">efficacy</span> <span class="op">+</span> <span class="va">belonging</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">pisa_usa</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">principals_lm_out</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = science_score ~ interest + enjoyment + motivation + </span></span>
+<span><span class="co">#&gt;     efficacy + belonging, data = pisa_usa)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt;      Min       1Q   Median       3Q      Max </span></span>
+<span><span class="co">#&gt; -274.168  -58.914    1.114   60.446  271.258 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; (Intercept)  506.398      1.226 413.173  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; interest      15.938      1.407  11.325  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; enjoyment     23.511      1.283  18.318  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; motivation    -8.043      1.318  -6.104 1.12e-09 ***</span></span>
+<span><span class="co">#&gt; efficacy      16.767      1.326  12.646  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; belonging     -1.609      1.231  -1.308    0.191    </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 83.46 on 4631 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.1759, Adjusted R-squared:  0.175 </span></span>
+<span><span class="co">#&gt; F-statistic: 197.7 on 5 and 4631 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="finding-the-desired-number-of-clusters">Finding the desired number of clusters<a class="anchor" aria-label="anchor" href="#finding-the-desired-number-of-clusters"></a>
+</h2>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">optimal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitmeasures.html">optimal_clusters</a></span><span class="op">(</span><span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>, max_k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">optimal</span></span>
+<span><span class="co">#&gt;   k      wss silhoutte       gap calinski_harabasz davies_bouldin rand_index</span></span>
+<span><span class="co">#&gt; 1 1 23180.00        NA 0.9077290               NaN            NaN         NA</span></span>
+<span><span class="co">#&gt; 2 2 18221.06 0.2003285 0.8881730         1261.4359       1.916861  0.5015503</span></span>
+<span><span class="co">#&gt; 3 3 16348.24 0.2085359 0.8738598          965.0861       2.152198  0.6832980</span></span>
+<span><span class="co">#&gt; 4 4 14588.79 0.1621539 0.8655373          908.7634       1.819800  0.8098577</span></span>
+<span><span class="co">#&gt; 5 5 13318.75 0.1684867 0.8602912          869.9972       1.809378  0.7366672</span></span>
+<span><span class="co">#&gt; 6 6 12223.82 0.1718593 0.8715511          826.2544       1.634673  0.7914534</span></span></code></pre></div>
+<ul>
+<li><p><a href="https://ieeexplore.ieee.org/document/4766909" class="external-link">Davies-Bouldin
+Index</a> (1979) - DBI is a metric used to evaluate the quality of a
+cluster analysis by measuring the compactness of clusters and their
+separation from each other. A lower DBI indicates better clustering,
+with well-separated and compact clusters.</p></li>
+<li><p><a href="https://www.tandfonline.com/doi/abs/10.1080/03610927408827101" class="external-link">Calinski-Harabasz
+Statistic</a> (Caliński &amp; Harabasz, 1974) - CH statistic measures
+the ratio of between-cluster variance to within-cluster variance,
+indicating how well-separated and compact the clusters are. Higher CH
+values generally indicate better clustering performance.</p></li>
+<li><p><a href="https://www.cambridge.org/core/journals/psychometrika/article/abs/who-belongs-in-the-family/5270D9B37A258A06C7CE7C0A528145F5" class="external-link">Within
+group sum of squares</a> (Thorndike, 1953) - WSS quantifies the
+dispersion of data points within each cluster, with lower WSS values
+indicating more compact and well-defined clusters.</p></li>
+<li><p><a href="https://www.sciencedirect.com/science/article/pii/0377042787901257?via%3Dihub" class="external-link">Silhoutte
+score</a> (Rousseeuw, 1986) - The silhouette value is a measure of how
+similar an object is to its own cluster (cohesion) compared to other
+clusters (separation). The silhouette value ranges from −1 to +1, where
+a high value indicates that the object is well matched to its own
+cluster and poorly matched to neighboring clusters.</p></li>
+<li><p><a href="https://academic.oup.com/jrsssb/article-abstract/63/2/411/7083348?redirectedFrom=fulltext&amp;login=false" class="external-link">Gap
+statistic</a> (Tibshirani, Walther, &amp; Hastie, 2001) - The Gap
+statistic works by comparing the within-cluster variation of the actual
+data to that of a null reference distribution, typically a uniform
+distribution. The <em>gap</em> is the difference between these two, and
+the optimal number of clusters is chosen where the gap statistic is
+maximized.</p></li>
+<li><p><a href="https://www.tandfonline.com/doi/abs/10.1080/01621459.1971.10482356" class="external-link">Rand
+index</a> (2012) - The Rand index measures how often pairs of data
+points are assigned to the same or different clusters in both
+partitions. A higher Rand Index indicates greater similarity between the
+two clusterings.</p></li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">optimal</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="clav_files/figure-html/plot-optimal-clusters-1.png" width="100%"></p>
+</div>
+<div class="section level2">
+<h2 id="validating-cluster-solution">Validating cluster solution<a class="anchor" aria-label="anchor" href="#validating-cluster-solution"></a>
+</h2>
+<p>One of the biggest challenges of estimating unsupervised models is
+determining the accuracy of the model given that in most instances there
+is now know, or observed, outcome. Since we cannot compare model outputs
+with a know value, we instead look for stability of model estimates
+across multiple samples. Ullman et al (2021) proposed splitting data and
+visually comparing the cluster profiles across the two samples. The
+<code>clav</code> package extends this idea by implementing an algorithm
+where many samples are drawn, cluster membership is estimated with a
+training dataset, and cluster membership for the out-of-bag sample is
+predicted. We can then use a number of visualizations to determine the
+stability of the profiles across many random samples.</p>
+<p>The <code>cluster_validation</code> function implements this
+algorithm. The default will estimate 100 cluster models (using the
+K-means cluster, but other methods can be specified using the
+<code>cluster_fun</code> parameter). For each iteration, 50% of the
+observations will be randomly selected (the training size can be
+modified using the <code>sample_size</code> parameter) and the cluster
+model will be estimated. Cluster membership will then be predicted using
+this model for the other 50% of observations. A cluster model will also
+be estimated using the full dataset. The figure below shows the cluster
+profiles for 100 samples for the training data on the left and for the
+out-of-bag sample on the right (the paths are color coded by cluster
+membership). The cluster profile using the full dataset is represented
+by the blue line. For each path the mean of each variable grouped by
+cluster membership is plotted. In this example we can see that there is
+one cluster that is above average across all the variables (green
+lines). The other two clusters are a bit mixed with the orange lines
+indicating that there is a cluster that is generally below average with
+the exception belonging and interest which are near the mean. The purple
+lines represent a cluster that is generally nearly normal across all
+variables. These plots are not intended to assist in interpreting
+clusters (that will be discussed in a later section), but instead
+determine if there is stability in the cluster estimates across many
+samples.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cluster_validation.html">cluster_validation</a></span><span class="op">(</span></span>
+<span>    <span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>,</span>
+<span>    n_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cv</span><span class="op">)</span></span></code></pre></div>
+<p><img src="clav_files/figure-html/cluster-validation-1.png" width="100%"></p>
+<p>The figure below provides an alternative approach for determining
+stability by plotting the distribution of means across clusters and
+variables. Ideally we would want the standard deviation of these
+distributions to be as small as possible.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cluster_validation.html">plot_distributions</a></span><span class="op">(</span><span class="va">cv</span>, plot_in_sample <span class="op">=</span> <span class="cn">TRUE</span>, plot_oob_sample <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="clav_files/figure-html/plot-distributions-1.png" width="100%"></p>
+<div class="section level3">
+<h3 id="bootstrapping">Bootstrapping<a class="anchor" aria-label="anchor" href="#bootstrapping"></a>
+</h3>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cv_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cluster_validation.html">cluster_validation</a></span><span class="op">(</span></span>
+<span>    <span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>,</span>
+<span>    n_clusters <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>    sample_size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">pisa_usa</span><span class="op">)</span>,</span>
+<span>    replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cv_boot</span><span class="op">)</span></span></code></pre></div>
+<p><img src="clav_files/figure-html/bootstrap-validation-1.png" width="100%"></p>
+</div>
+<div class="section level3">
+<h3 id="retraining">Retraining<a class="anchor" aria-label="anchor" href="#retraining"></a>
+</h3>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cv_retrain</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cluster_validation.html">cluster_validation</a></span><span class="op">(</span></span>
+<span>    <span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>,</span>
+<span>    n_clusters <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>    oob_predict_fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">fit</span>, <span class="va">newdata</span><span class="op">)</span> <span class="op">{</span></span>
+<span>        <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">kmeans</a></span><span class="op">(</span><span class="va">newdata</span>, <span class="fl">3</span><span class="op">)</span><span class="op">$</span><span class="va">cluster</span></span>
+<span>    <span class="op">}</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cv_retrain</span><span class="op">)</span></span></code></pre></div>
+<p><img src="clav_files/figure-html/retraining-validation-1.png" width="100%"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="analyzing-dependent-variables">Analyzing dependent variables<a class="anchor" aria-label="anchor" href="#analyzing-dependent-variables"></a>
+</h2>
+<div class="section level3">
+<h3 id="profile-plots">Profile plots<a class="anchor" aria-label="anchor" href="#profile-plots"></a>
+</h3>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">kmeans</a></span><span class="op">(</span><span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>, centers <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/profile_plot.html">profile_plot</a></span><span class="op">(</span><span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>,</span>
+<span>             clusters <span class="op">=</span> <span class="va">fit</span><span class="op">$</span><span class="va">cluster</span>,</span>
+<span>             df_dep <span class="op">=</span> <span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">outcome_vars</span><span class="op">]</span>,</span>
+<span>             cluster_order <span class="op">=</span> <span class="va">cluster_vars</span><span class="op">)</span></span></code></pre></div>
+<p><img src="clav_files/figure-html/profile-plot-1.png" width="100%"></p>
+</div>
+<div class="section level3">
+<h3 id="using-clusters-in-regression-analysis">Using clusters in regression analysis<a class="anchor" aria-label="anchor" href="#using-clusters-in-regression-analysis"></a>
+</h3>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">kmeans_out</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">kmeans</a></span><span class="op">(</span><span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">pisa_usa</span><span class="op">$</span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="va">kmeans_out</span><span class="op">$</span><span class="va">cluster</span></span>
+<span><span class="va">lm_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">science_score</span> <span class="op">~</span> <span class="va">interest</span> <span class="op">+</span> <span class="va">enjoyment</span> <span class="op">+</span> <span class="va">motivation</span> <span class="op">+</span> <span class="va">efficacy</span> <span class="op">+</span> <span class="va">belonging</span> <span class="op">+</span> <span class="va">cluster</span>,</span>
+<span>             data <span class="op">=</span> <span class="va">pisa_usa</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lm_out</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = science_score ~ interest + enjoyment + motivation + </span></span>
+<span><span class="co">#&gt;     efficacy + belonging + cluster, data = pisa_usa)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt;      Min       1Q   Median       3Q      Max </span></span>
+<span><span class="co">#&gt; -275.325  -58.953    2.182   59.072  272.494 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; (Intercept)  527.086      4.173 126.307  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; interest      17.467      1.434  12.180  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; enjoyment     21.286      1.350  15.768  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; motivation    -6.969      1.330  -5.239 1.69e-07 ***</span></span>
+<span><span class="co">#&gt; efficacy      20.392      1.496  13.634  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; belonging     -3.187      1.264  -2.521   0.0117 *  </span></span>
+<span><span class="co">#&gt; cluster       -9.808      1.892  -5.185 2.25e-07 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 83.23 on 4630 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.1806, Adjusted R-squared:  0.1796 </span></span>
+<span><span class="co">#&gt; F-statistic: 170.1 on 6 and 4630 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="discussion">Discussion<a class="anchor" aria-label="anchor" href="#discussion"></a>
+</h2>
+<div class="section level3">
+<h3 id="shiny-application">Shiny application<a class="anchor" aria-label="anchor" href="#shiny-application"></a>
+</h3>
+</div>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<p>Caliński, T., &amp; Harabasz, J. (1974). A dendrite method for
+cluster analysis. Communications in Statistics, 3(1), 1–27. <a href="https://doi.org/10.1080/03610927408827101" class="external-link uri">https://doi.org/10.1080/03610927408827101</a></p>
+<p>Davies, D. L., &amp; Bouldin, D.W. (1979). A cluster separation
+measure. <em>IEEE Transactions on Pattern Analysis and Machine
+Intelligence. PAMI-1</em> (2): 224–227. <a href="https://doi.org/10.1109/TPAMI.1979.4766909" class="external-link uri">https://doi.org/10.1109/TPAMI.1979.4766909</a></p>
+<p>Rand, W. M. (1971). Objective Criteria for the Evaluation of
+Clustering Methods. <em>Journal of the American Statistical Association,
+66</em>(336), 846–850. <a href="https://doi.org/10.1080/01621459.1971.10482356" class="external-link uri">https://doi.org/10.1080/01621459.1971.10482356</a></p>
+<p>Rousseeuw, P.J. (1986). Silhouettes: A graphical aid to the
+interpretation and validation of cluster analysis. <em>Journal of
+Computational and Applied Mathematics</em> (20): 53-65. <a href="https://doi.org/10.1016/0377-0427(87)90125-7" class="external-link uri">https://doi.org/10.1016/0377-0427(87)90125-7</a></p>
+<p>Theodoridis, S., &amp; Koutroumbas, K. (2008). <em>Pattern
+Recognition, Fourth Edition.</em> Academic Press, Inc.</p>
+<p>Thorndike, R. L. (1953). Who Belongs in the Family? Psychometrika,
+18(4), 267–276. <a href="https://doi.org/10.1007/BF02289263" class="external-link uri">https://doi.org/10.1007/BF02289263</a></p>
+<p>Tibshirani, R., Walther, G., &amp; Hastie, T. (2001) Estimating the
+number of clusters in a data set via the gap statistic. <em>Journal of
+the Royal Statistical Society Series B: Statistical Methodology,
+63</em>(2), 411–423, <a href="https://doi.org/10.1111/1467-9868.00293" class="external-link uri">https://doi.org/10.1111/1467-9868.00293</a></p>
+<p>Ullmann, T., Hennig, C., &amp; Boulesteix, A.-L. (2022). Validation
+of cluster analysis results on validation data: A systematic framework.
+WIREs Data Mining and Knowledge Discovery, 12(3), e1444. <a href="https://doi.org/10.1002/widm.1444" class="external-link uri">https://doi.org/10.1002/widm.1444</a></p>
+</div>
+<div class="section level2">
+<h2 id="appendix-a-student-questionaire-items-and-scales">Appendix A: Student Questionaire Items and Scales<a class="anchor" aria-label="anchor" href="#appendix-a-student-questionaire-items-and-scales"></a>
+</h2>
+<p><strong>Belonging</strong>: Thinking about your school: to what
+extent do you agree with the following statements?
+(<code>ST034</code>)</p>
+<ul>
+<li>I feel like an outsider (or left out of things) at school.</li>
+<li>I make friends easily at school.</li>
+<li>I feel like I belong at school.</li>
+<li>I feel awkward and out of place in my school.</li>
+<li>Other students seem to like me.</li>
+<li>I feel lonely at school.</li>
+</ul>
+<p><strong>Interest</strong>: How much do you disagree or agree with the
+statements about yourself below? (<code>ST094</code>)</p>
+<ul>
+<li>I generally have fun when I am learning broad science topics.</li>
+<li>I like reading about broad science.</li>
+<li>I am happy working on broad science topics.</li>
+<li>I enjoy acquiring new knowledge in broad science.</li>
+<li>I am interested in learning about broad science.</li>
+</ul>
+<p><strong>Enjoyment</strong>: How much do you disagree or agree with
+the statements about yourself below? (<code>ST094</code>)</p>
+<ul>
+<li>I generally have fun when I am learning broad science topics.</li>
+<li>I like reading about broad science.</li>
+<li>I am happy working on broad science topics.</li>
+<li>I enjoy acquiring new knowledge in broad science.</li>
+<li>I am interested in learning about broad science.</li>
+</ul>
+<p><strong>Motivation</strong>: How much do you agree with the
+statements below? (<code>ST113</code>)</p>
+<ul>
+<li>Making an effort in my school science subject(s) is worth it because
+this will help me in the work I want to do later on.</li>
+<li>What I learn in my school science subject(s) is important for me
+because I need this for what I want to do later on.</li>
+<li>Studying my school science subject(s) is worthwhile for me because
+what I learn will improve my career prospects.</li>
+<li>Many things I learn in my school science subject(s) will help me to
+get a job.</li>
+</ul>
+<p><strong>Efficacy</strong>: How easy do you think it would be for you
+to perform the following tasks on your own? (<code>ST129</code>)</p>
+<ul>
+<li>Recognize the science question that underlies a newspaper report on
+a health issue.</li>
+<li>Explain why earthquakes occur more frequently in some areas than in
+others.</li>
+<li>Describe the role of antibiotics in the treatment of disease.</li>
+<li>Identify the science question associated with the disposal of
+garbage.</li>
+<li>Predict how changes to an environment will affect the survival of
+certain species.</li>
+<li>Interpret the scientific information provided on the labelling of
+food items.</li>
+<li>Discuss how new evidence can lead you to change your understanding
+about the possibility of life on Mars.</li>
+<li>Identify the better of two explanations for the formation of acid
+rain.</li>
+</ul>
+<p><strong>Principals</strong>: How much do you disagree or agree with
+the statements below? (<code>ST131</code>)</p>
+<ul>
+<li>A good way to know if something is true is to do an experiment.</li>
+<li>Ideas in broad science sometimes change.</li>
+<li>Good answers are based on evidence from many different
+experiments.</li>
+<li>It is good to try experiments more than once to make sure of your
+findings.</li>
+<li>Sometimes broad science scientists change their minds about what is
+true in science.</li>
+<li>The ideas in broad science science books sometimes change.</li>
+</ul>
+</div>
+
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 

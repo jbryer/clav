@@ -3,11 +3,15 @@
 estimate cluster membership, and calculate the mean (the default, a different
 statistic can be specified using the summary_fun parameter, e.g. median
 may be appropriate) for each cluster using both the in sample and out-of-bag
-(i.e. out of sample). For the out-of-bag sample"><meta property="og:description" content="This function takes multiple random samples from the provided data frame,
+(i.e. out of sample). For the out-of-bag sample
+This function will re-assign cluster labels such that the mean absolute difference to the the
+cluster labels from the full dataset is as small as possible."><meta property="og:description" content="This function takes multiple random samples from the provided data frame,
 estimate cluster membership, and calculate the mean (the default, a different
 statistic can be specified using the summary_fun parameter, e.g. median
 may be appropriate) for each cluster using both the in sample and out-of-bag
-(i.e. out of sample). For the out-of-bag sample"></head><body>
+(i.e. out of sample). For the out-of-bag sample
+This function will re-assign cluster labels such that the mean absolute difference to the the
+cluster labels from the full dataset is as small as possible."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -15,7 +19,7 @@ may be appropriate) for each cluster using both the in sample and out-of-bag
 
     <a class="navbar-brand me-2" href="../index.html">clav</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +29,10 @@ may be appropriate) for each cluster using both the in sample and out-of-bag
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/clav.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/daacs.html">College Readiness Profiles</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/jbryer/clav/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -37,7 +45,7 @@ may be appropriate) for each cluster using both the in sample and out-of-bag
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Cluster profile validation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jbryer/clav/blob/HEAD/R/cluster_validation.R" class="external-link"><code>R/cluster_validation.R</code></a>, <a href="https://github.com/jbryer/clav/blob/HEAD/R/cluster_validation_plot.R" class="external-link"><code>R/cluster_validation_plot.R</code></a>, <a href="https://github.com/jbryer/clav/blob/HEAD/R/cluster_validation_print.R" class="external-link"><code>R/cluster_validation_print.R</code></a>, and 1 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/jbryer/clav/blob/HEAD/R/cluster_validation.R" class="external-link"><code>R/cluster_validation.R</code></a>, <a href="https://github.com/jbryer/clav/blob/HEAD/R/cluster_validation_plot.R" class="external-link"><code>R/cluster_validation_plot.R</code></a>, <a href="https://github.com/jbryer/clav/blob/HEAD/R/cluster_validation_print.R" class="external-link"><code>R/cluster_validation_print.R</code></a>, and 3 more</small>
       <div class="d-none name"><code>cluster_validation.Rd</code></div>
     </div>
 
@@ -47,6 +55,8 @@ estimate cluster membership, and calculate the mean (the default, a different
 statistic can be specified using the <code>summary_fun</code> parameter, e.g. <code>median</code>
 may be appropriate) for each cluster using both the in sample and out-of-bag
 (i.e. out of sample). For the out-of-bag sample</p>
+<p>This function will re-assign cluster labels such that the mean absolute difference to the the
+cluster labels from the full dataset is as small as possible.</p>
     </div>
 
     <div class="section level2">
@@ -54,7 +64,7 @@ may be appropriate) for each cluster using both the in sample and out-of-bag
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cluster_validation</span><span class="op">(</span></span>
 <span>  <span class="va">df</span>,</span>
 <span>  n_clusters <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>  cluster_fun <span class="op">=</span> <span class="va">kmeans</span>,</span>
+<span>  cluster_fun <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">kmeans</a></span>,</span>
 <span>  get_cluster_fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">cluster</span></span>
 <span> <span class="op">}</span>,</span>
@@ -74,13 +84,16 @@ may be appropriate) for each cluster using both the in sample and out-of-bag
 <span><span class="co"># S3 method for class 'clustervalidation'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
-<span>  facet <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  plot_complete <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  plot_oob <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  plot_in_sample <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  plot_oob_sample <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  point_alpha <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  point_size <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  line_alpha <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  line_width <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  complete_color <span class="op">=</span> <span class="st">"blue"</span>,</span>
+<span>  complete_size <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  complete_point_size <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"standardize"</span><span class="op">)</span>, <span class="st">"Mean Standard Score"</span>, <span class="st">"Mean Score"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -93,7 +106,23 @@ may be appropriate) for each cluster using both the in sample and out-of-bag
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">object</span>, in_sample <span class="op">=</span> <span class="cn">FALSE</span>, oob_sample <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'cv_summary'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">fix_cluster_labels</span><span class="op">(</span></span>
+<span>  <span class="va">cv</span>,</span>
+<span>  greedy <span class="op">=</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">cv</span><span class="op">$</span><span class="va">oob_sample</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">7</span><span class="op">)</span>,</span>
+<span>  <span class="va">var</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plot_distributions</span><span class="op">(</span></span>
+<span>  <span class="va">cv</span>,</span>
+<span>  plot_in_sample <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  plot_oob_sample <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  nrow <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  palette <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -163,26 +192,48 @@ to <code>seed + i</code> where <code>i</code> is the iteration number.</p></dd>
 <dd><p>result of <code>summary.clustervalidation()</code></p></dd>
 
 
-<dt id="arg-facet">facet<a class="anchor" aria-label="anchor" href="#arg-facet"></a></dt>
-<dd><p>whether the different samples (i.e. in sample, out-of-bag, and
-and complete) should be faceted.</p></dd>
-
-
 <dt id="arg-plot-complete">plot_complete<a class="anchor" aria-label="anchor" href="#arg-plot-complete"></a></dt>
 <dd><p>whether the profile line using the complete data set
 should be plotted.</p></dd>
 
 
-<dt id="arg-plot-oob">plot_oob<a class="anchor" aria-label="anchor" href="#arg-plot-oob"></a></dt>
-<dd><p>whether the out-of-bag sample should be plotted.</p></dd>
+<dt id="arg-plot-in-sample">plot_in_sample<a class="anchor" aria-label="anchor" href="#arg-plot-in-sample"></a></dt>
+<dd><p>whether to plot the in sample (i.e. bootstrap) distributions.</p></dd>
+
+
+<dt id="arg-plot-oob-sample">plot_oob_sample<a class="anchor" aria-label="anchor" href="#arg-plot-oob-sample"></a></dt>
+<dd><p>whether to plot the out-of-bag samples.</p></dd>
 
 
 <dt id="arg-point-alpha">point_alpha<a class="anchor" aria-label="anchor" href="#arg-point-alpha"></a></dt>
 <dd><p>the alpha (transparency) level for points.</p></dd>
 
 
+<dt id="arg-point-size">point_size<a class="anchor" aria-label="anchor" href="#arg-point-size"></a></dt>
+<dd><p>the size of the points.</p></dd>
+
+
 <dt id="arg-line-alpha">line_alpha<a class="anchor" aria-label="anchor" href="#arg-line-alpha"></a></dt>
 <dd><p>the alpha (transparency) level for lines.</p></dd>
+
+
+<dt id="arg-line-width">line_width<a class="anchor" aria-label="anchor" href="#arg-line-width"></a></dt>
+<dd><p>width of the lines.</p></dd>
+
+
+<dt id="arg-complete-color">complete_color<a class="anchor" aria-label="anchor" href="#arg-complete-color"></a></dt>
+<dd><p>the color of the path for the path using the complete dataset
+(i.e. <code>plot_complete = TRUE</code>)</p></dd>
+
+
+<dt id="arg-complete-size">complete_size<a class="anchor" aria-label="anchor" href="#arg-complete-size"></a></dt>
+<dd><p>the size of the path for the path using the complete dataset
+(i.e. <code>plot_complete = TRUE</code>)</p></dd>
+
+
+<dt id="arg-complete-point-size">complete_point_size<a class="anchor" aria-label="anchor" href="#arg-complete-point-size"></a></dt>
+<dd><p>the point size of the path for the path using the complete dataset
+(i.e. <code>plot_complete = TRUE</code>)</p></dd>
 
 
 <dt id="arg-xlab">xlab<a class="anchor" aria-label="anchor" href="#arg-xlab"></a></dt>
@@ -203,6 +254,29 @@ should be plotted.</p></dd>
 
 <dt id="arg-oob-sample">oob_sample<a class="anchor" aria-label="anchor" href="#arg-oob-sample"></a></dt>
 <dd><p>plot the out-of-bag sample results.</p></dd>
+
+
+<dt id="arg-cv">cv<a class="anchor" aria-label="anchor" href="#arg-cv"></a></dt>
+<dd><p>the results from <code>cluster_validation()</code>.</p></dd>
+
+
+<dt id="arg-greedy">greedy<a class="anchor" aria-label="anchor" href="#arg-greedy"></a></dt>
+<dd><p>if <code>FALSE</code> this will find the optimal cluster pattern by calculating difference
+for all combinations. If <code>TRUE</code> this will consider only one variable (the one with the
+largest variance across means).</p></dd>
+
+
+<dt id="arg-var">var<a class="anchor" aria-label="anchor" href="#arg-var"></a></dt>
+<dd><p>the variable to use if <code>greedy = TRUE</code>.</p></dd>
+
+
+<dt id="arg-nrow">nrow<a class="anchor" aria-label="anchor" href="#arg-nrow"></a></dt>
+<dd><p>number of rows. This is ignored if <code>plot_in_sample = TRUE</code> and <code>plot_oob_sample = TRUE</code>.</p></dd>
+
+
+<dt id="arg-palette">palette<a class="anchor" aria-label="anchor" href="#arg-palette"></a></dt>
+<dd><p>If a string, will use that named palette. If a number, will index into the list of
+palettes of appropriate type. See <code><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">ggplot2::scale_color_brewer()</a></code> for more information.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -238,6 +312,9 @@ should be plotted.</p></dd>
 
 </dl><p>a ggplot2 expression.</p>
 <p>a ggplot2 expression.</p>
+<p>the <code>cv</code> object with the cluster labels in the <code>oob_sample</code> data frame reassigned so
+that the labels match across all iterations as best as possible.</p>
+<p>a <code>ggplot2</code> expression.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>

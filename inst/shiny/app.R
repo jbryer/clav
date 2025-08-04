@@ -3,9 +3,6 @@ library(shiny)
 library(ggplot2)
 library(GGally)
 
-# source('../../R/shiny_module.R')
-# source('../../shiny.R')
-
 # If there are no data.frames in the environment we will load some.
 if(!any(sapply(ls(), FUN = function(x) { is.data.frame(get(x)) }))) {
     # Load the PISA data and separate into separate data.frames by country
@@ -36,8 +33,6 @@ assign('data_frames', data_frames, app_env)
 
 environment(server) <- as.environment(app_env)
 environment(ui) <- as.environment(app_env)
-
-##### Shiny UI #################################################################
 
 ##### Run the Shiny application ################################################
 shiny::shinyApp(ui = ui, server = server)

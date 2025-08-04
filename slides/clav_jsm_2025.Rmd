@@ -92,7 +92,7 @@ class: center, middle, inverse, title-slide
 
 
 
-.font70[This research was developed under grants P116F150077 and R305A210269 from the U.S.
+.font70[This research was supported under grants P116F150077 and R305A210269 from the U.S.
 Department of Education. However, the contents do not necessarily represent the policy of the
 U.S. Department of Education, and you should not assume endorsement by the Federal
 Government.]
@@ -269,7 +269,7 @@ The `cluster_validation` implements this approach except that will split the dat
 ---
 # Validating Clusters
 
-```{r cluster-validation, fig.height=4}
+```{r cluster-validation, fig.height=4, cache=TRUE}
 cv <- cluster_validation(df = daacs[,cluster_vars], n_clusters = 5)
 plot(cv)
 ```
@@ -301,7 +301,7 @@ To use bootstrapping:
 * Set `sample_size` to the number of observations.
 * Set `replace = TRUE`
 
-```{r cluster-validation-bootstrap, fig.height=3}
+```{r cluster-validation-bootstrap, fig.height=3, cache=TRUE}
 cv_boot <- cluster_validation(
 	daacs[,cluster_vars],
 	n_clusters = 5,
@@ -331,7 +331,7 @@ However, it is possible to compare the cluster solutions using two separate mode
 .pull-right[
 To use separate models for the two datasets, we need to define the `oob_predict_fun` parameter that implements cluster algorithm. In this example, we are wrapping the `stats::kmeans` function returning the cluster membership as a vector.
 
-```{r retraining-validation, fig.height=3}
+```{r retraining-validation, fig.height=3, cache=TRUE}
 cv_retrain <- cluster_validation(
 	daacs[,cluster_vars],
 	n_clusters = 5,
@@ -372,14 +372,51 @@ knitr::include_graphics('shiny_screenshot.png')
 ```
 
 ---
-class: inverse, right, middle, hide-logo
+# Deploying Application with Your Data (`app.R`)
+
+```{r, eval=FALSE}
+library(clav)                                                     # Load packages
+
+data("daacs", package = "clav")                                   # Load some data frames
+data("pisa2015", package = "clav")
+pisa_usa <- pisa2015 |> dplyr::filter(country == "UNITED STATES")
+pisa_can <- pisa2015 |> dplyr::filter(country == "CANADA")
+
+data_frames <- list(                                              # The data_frames list object
+	"DAACS" = daacs,                                              # contains the data.frames.
+	"PISA USA" = pisa_usa,                                        # The name is required and is
+	"PISA Canada" = pisa_can                                      # what the user sees.
+)
+
+server <- clav::clav_shiny_server                                 # Copy the server and UI Shiny
+ui <- clav::clav_shiny_ui                                         # functions from clav.
+
+app_env <- new.env()                                              # Create a new empty environment.
+assign("data_frames", data_frames, app_env)                       # Assign data_frames to app_env.
+
+environment(server) <- as.environment(app_env)                    # Assigned the data_frames
+environment(ui) <- as.environment(app_env)                        # object to the Shiny functions.
+
+shiny::shinyApp(ui = ui, server = server)                         # Run the app
+```
 
 
-# Thank you!
+---
+class: inverse, right, middle, hide-logo, font130
+
+.pull-left[
+
+```{r qrcode, echo=FALSE, out.width='90%', out.height='90%', fig.width=4, fig.height=4}
+qrcode::qr_code('https://github.com/jbryer/clav', 'M') |> plot(col = c('#005DAC', 'white'))
+```
+
+]
+.pull-right[
+.font180[Thank you!]
 
 [`r icons::fontawesome("paper-plane")` jason.bryer@cuny.edu](mailto:jason.bryer@cuny.edu)  
 [`r icons::fontawesome("github")` @jbryer](https://github.com/jbryer)  
 [`r icons::fontawesome('mastodon')` @jbryer@vis.social](https://vis.social/@jbryer)  
 [`r icons::fontawesome("link")` github.com/jbryer/clav](https://github.com/jbryer/clav)   
 
-
+]

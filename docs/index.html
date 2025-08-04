@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">clav</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +33,12 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="articles/clav.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/daacs.html">College Readiness Profiles</a></li>
+  </ul>
+</li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -48,10 +54,11 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="id_-cluster-analysis-validation-clav">
-<a href="https://github.com/jbryer/clav" class="external-link"><img src="reference/figures/clav1.png" align="right" width="120"></a> Cluster Analysis Validation (<code>clav</code>)<a class="anchor" aria-label="anchor" href="#id_-cluster-analysis-validation-clav"></a>
+<a href="https://github.com/jbryer/clav" class="external-link"><img src="reference/figures/clav1.png" align="right" width="200"></a> Cluster Analysis Validation (<code>clav</code>)<a class="anchor" aria-label="anchor" href="#id_-cluster-analysis-validation-clav"></a>
 </h1></div>
 <!-- badges: start -->
 
+<p><a href="slides/clav_jsm_2025.pdf">Slides from Joint Statistical Meeting (JSM) 2025</a></p>
 <p>The <code>clav</code> package provides utilities for conducting cluster (profile) analysis with an emphasis on the validating the stability of the profiles both within a given data set as well as across data sets. Unlike supervised models where the known class is measured, validation of unsupervised models where there is no known class can be challenging. The approach implemented here attempts to compare the cluster results across many random samples.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -72,7 +79,7 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">document</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># Install the package</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co"># Run CRAN check for any issues</span></span>
+<span><span class="co"># Run CRAN check</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">check</a></span><span class="op">(</span>cran <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co"># Build the pkgdown site</span></span>
 <span><span class="fu">pkgdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">build_site</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -81,7 +88,7 @@
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jbryer/clav/" class="external-link">clav</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jbryer.github.io/clav/" class="external-link">clav</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pisa2015</span>, package <span class="op">=</span> <span class="st">'clav'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cluster_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'interest'</span>, <span class="st">'enjoyment'</span>, <span class="st">'motivation'</span>, <span class="st">'efficacy'</span>, <span class="st">"belonging"</span><span class="op">)</span></span>
@@ -90,14 +97,14 @@
 <span><span class="va">pisa_usa</span> <span class="op">&lt;-</span> <span class="va">pisa2015</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">country</span> <span class="op">==</span> <span class="st">'UNITED STATES'</span><span class="op">)</span></span></code></pre></div>
 <p>Finding the optimal number of clusters.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">optimal</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/optimal_clusters.html">optimal_clusters</a></span><span class="op">(</span><span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>, max_k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">optimal</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fitmeasures.html">optimal_clusters</a></span><span class="op">(</span><span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>, max_k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="va">optimal</span></span>
-<span><span class="co">#&gt;   k      wss silhoutte       gap calinski_harabasz davies_bouldin</span></span>
-<span><span class="co">#&gt; 1 1 22099.00        NA 0.9204865               NaN            NaN</span></span>
-<span><span class="co">#&gt; 2 2 17389.55 0.2004559 0.8978032         1255.2531       1.921547</span></span>
-<span><span class="co">#&gt; 3 3 15576.01 0.2090841 0.8873620          970.3241       2.140642</span></span>
-<span><span class="co">#&gt; 4 4 13853.12 0.1648447 0.8739126          892.9079       1.806862</span></span>
-<span><span class="co">#&gt; 5 5 12598.94 0.1635484 0.8691637          871.9466       1.699252</span></span>
+<span><span class="co">#&gt;   k  wss silhoutte  gap calinski_harabasz davies_bouldin rand_index</span></span>
+<span><span class="co">#&gt; 1 1 9232        NA 0.83               NaN            NaN         NA</span></span>
+<span><span class="co">#&gt; 2 2 6746      0.24 0.87              1708            1.6       0.50</span></span>
+<span><span class="co">#&gt; 3 3 5965      0.20 0.86              1329            1.8       0.64</span></span>
+<span><span class="co">#&gt; 4 4 5198      0.20 0.86              1198            1.7       0.75</span></span>
+<span><span class="co">#&gt; 5 5 4682      0.20 0.86              1124            1.5       0.75</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">optimal</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-optimal-clusters-1.png" width="100%"></p>
 <p>Validating cluster profiles using random samples of 50%. Out-of-bag uses the remaining 50% to predict cluster membership.</p>
@@ -141,39 +148,6 @@
 <span>        n_samples <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>        seed <span class="op">=</span> <span class="fl">42</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">pisa_cv_bootstrap</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    cluster   variable        mean         sd      median        min        max</span></span>
-<span><span class="co">#&gt; 1        A   interest -0.08545563 0.20794006 -0.01933662 -0.7085601  0.1756677</span></span>
-<span><span class="co">#&gt; 4        A  enjoyment -0.82595260 0.93295509 -0.47238507 -3.1832509 -0.1378171</span></span>
-<span><span class="co">#&gt; 7        A motivation  0.03438512 0.13848631  0.04202484 -0.3702120  0.3128139</span></span>
-<span><span class="co">#&gt; 10       A   efficacy  0.22793930 0.17151936  0.25302168 -0.7450277  0.4632471</span></span>
-<span><span class="co">#&gt; 13       A  belonging -0.08787665 0.33172877 -0.15536938 -0.6198269  0.8427933</span></span>
-<span><span class="co">#&gt; 2        B   interest -0.77781817 0.13470049 -0.79356880 -1.1098718 -0.2012293</span></span>
-<span><span class="co">#&gt; 5        B  enjoyment -0.19003611 0.08495774 -0.17601959 -0.3800183  0.2629638</span></span>
-<span><span class="co">#&gt; 8        B motivation -0.72126670 0.12218609 -0.73539262 -1.1790126 -0.4159184</span></span>
-<span><span class="co">#&gt; 11       B   efficacy -0.85402196 0.17709644 -0.92111142 -1.0705855  0.1688400</span></span>
-<span><span class="co">#&gt; 14       B  belonging -0.12698507 0.20377914 -0.06562988 -1.0687382  0.2060398</span></span>
-<span><span class="co">#&gt; 3        C   interest  0.74539433 0.08386459  0.77098351  0.5343869  0.8885871</span></span>
-<span><span class="co">#&gt; 6        C  enjoyment  0.68755697 0.13238031  0.73514008  0.3191332  0.8467393</span></span>
-<span><span class="co">#&gt; 9        C motivation  0.67002226 0.12259974  0.65854879  0.4400497  0.9215403</span></span>
-<span><span class="co">#&gt; 12       C   efficacy  0.55487637 0.07128235  0.53527944  0.4418459  0.7568697</span></span>
-<span><span class="co">#&gt; 15       C  belonging  0.25402569 0.18965134  0.29326390 -0.1399515  0.5487877</span></span>
-<span><span class="co">#&gt;        range          se</span></span>
-<span><span class="co">#&gt; 1  0.8842278 0.020794006</span></span>
-<span><span class="co">#&gt; 4  3.0454338 0.093295509</span></span>
-<span><span class="co">#&gt; 7  0.6830259 0.013848631</span></span>
-<span><span class="co">#&gt; 10 1.2082748 0.017151936</span></span>
-<span><span class="co">#&gt; 13 1.4626202 0.033172877</span></span>
-<span><span class="co">#&gt; 2  0.9086425 0.013470049</span></span>
-<span><span class="co">#&gt; 5  0.6429820 0.008495774</span></span>
-<span><span class="co">#&gt; 8  0.7630942 0.012218609</span></span>
-<span><span class="co">#&gt; 11 1.2394255 0.017709644</span></span>
-<span><span class="co">#&gt; 14 1.2747780 0.020377914</span></span>
-<span><span class="co">#&gt; 3  0.3542002 0.008386459</span></span>
-<span><span class="co">#&gt; 6  0.5276060 0.013238031</span></span>
-<span><span class="co">#&gt; 9  0.4814906 0.012259974</span></span>
-<span><span class="co">#&gt; 12 0.3150238 0.007128235</span></span>
-<span><span class="co">#&gt; 15 0.6887392 0.018965134</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pisa_cv_bootstrap</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-bootstrap-validation-1.png" width="100%"></p>
 <p>Using latent profile analysis for estimating clusters.</p>
@@ -187,8 +161,9 @@
 <span><span class="va">lpa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://data-edu.github.io/tidyLPA/reference/get_data.html" class="external-link">get_data</a></span><span class="op">(</span><span class="va">lpa</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://data-edu.github.io/tidyLPA/reference/plot_profiles.html" class="external-link">plot_profiles</a></span><span class="op">(</span><span class="va">lpa</span><span class="op">)</span></span>
-<span><span class="fu">clav</span><span class="fu">::</span><span class="fu"><a href="reference/profile_plot.html">profile_plot</a></span><span class="op">(</span><span class="va">pisaUSA15</span>,</span>
-<span>             clusters <span class="op">=</span> <span class="va">lpa_data</span><span class="op">$</span><span class="va">Class</span><span class="op">)</span></span>
+<span><span class="fu">clav</span><span class="fu">::</span><span class="fu"><a href="reference/profile_plot.html">profile_plot</a></span><span class="op">(</span><span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>,</span>
+<span>                   clusters <span class="op">=</span> <span class="va">lpa_data</span><span class="op">$</span><span class="va">Class</span>,</span>
+<span>                   df_dep <span class="op">=</span> <span class="va">pisa_usa</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'science_score'</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">lpa_cv_random</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cluster_validation.html">cluster_validation</a></span><span class="op">(</span></span>
 <span>    <span class="va">pisaUSA15</span>,</span>
@@ -254,7 +229,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://cran.r-project.org/package=clav" class="external-link"><img src="https://www.r-pkg.org/badges/version/clav?color=orange"></a></li>
-<li><a href="https://github.com/jbryer/clav" class="external-link"><img src="https://img.shields.io/badge/devel%20version-0.1.0-blue.svg"></a></li>
+<li><a href="https://github.com/jbryer/clav" class="external-link"><img src="https://img.shields.io/badge/devel%20version-1.0.0-blue.svg"></a></li>
 <li><a href="https://github.com/jbryer/clav/actions" class="external-link"><img src="https://github.com/jbryer/clav/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 </ul>
 </div>
