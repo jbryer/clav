@@ -9,8 +9,8 @@ if(!any(sapply(ls(), FUN = function(x) { is.data.frame(get(x)) }))) {
     data("pisa2015", package = "clav")
     pisa_usa <- pisa2015 |> dplyr::filter(country == 'UNITED STATES')
     pisa_canada <- pisa2015 |> dplyr::filter(country == 'CANADA')
-    # data("daacs", package = "clav")
-    # daacs <- daacs
+    data("daacs", package = "clav")
+    daacs <- daacs
 }
 
 # data_frames is a list of available data sets in the Shiny application. By

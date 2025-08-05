@@ -46,7 +46,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   out.width = '100%',
   fig.height = 6,
-  fig.width = 9
+  fig.width = 9,
+  dpi = 240
 )
 
 ggplot2::theme_set(ggplot2::theme_minimal())

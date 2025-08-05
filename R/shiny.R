@@ -40,7 +40,11 @@ clav_shiny_ui <- function() {
 				shiny::uiOutput('data_frame_select'),
 				n_clusters_input('shinyclav'),
 				cluster_variable_input('shinyclav'),
-				dependent_variable_input('shinyclav')
+				dependent_variable_input('shinyclav'),
+				shiny::selectInput('clustering_algo',
+								   label = 'Clustering Algorithm',
+								   choices = c('kmeans'),
+								   selected = 'kmeans')
 			),
 			shiny::mainPanel(
 				width = 9,

@@ -306,7 +306,10 @@ cluster_module <- function(id,
 									 mat = TRUE)
 			p <- ggplot(thedata, aes_string(x = 'cluster', y = input$dependent_variable)) +
 				geom_boxplot() +
-				geom_errorbar(data = tab, aes(x = group1, y = mean, ymin = mean - se_factor * se, ymax = mean + se_factor* se),
+				geom_errorbar(data = tab, aes(x = group1,
+											  y = mean,
+											  ymin = mean - se_factor * se,
+											  ymax = mean + se_factor* se),
 							  color = 'darkgreen', width = 0.5) +
 				geom_point(data = tab, aes(x = group1, y = mean), color = 'blue', size = 2)
 			# ggsave(filename = 'test.png', plot = p)
