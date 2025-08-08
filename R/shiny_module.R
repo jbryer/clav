@@ -24,11 +24,12 @@ n_clusters_input <- function(
 		value = 4
 ) {
 	shiny::tagList(
-		shiny::sliderInput(inputId = shiny::NS(id, id = "k"),
-						   label = label,
-						   min = 2,
-						   max = 10,
-						   value = 4)
+		shiny::sliderInput(
+			inputId = shiny::NS(id, id = "k"),
+			label = label,
+			min = 2,
+			max = 10,
+			value = 4)
 	)
 }
 
