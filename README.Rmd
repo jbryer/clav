@@ -19,15 +19,15 @@ options(digits = 2)
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
-# <a href='https://github.com/jbryer/clav'><img src='man/figures/clav1.png' align="right" width="200" /></a> Cluster Analysis Validation (`clav`)
+# <a href='https://github.com/jbryer/clav'><img src="man/figures/clav1.png" align="right" width="200"/></a> Cluster Analysis Validation (`clav`)
 
 <!-- badges: start -->
-`r badger::badge_cran_release("clav", "orange")`
-`r badger::badge_devel("jbryer/clav", "blue")`
-`r badger::badge_github_actions("jbryer/clav", action = "R-CMD-check")`
+
+`r badger::badge_cran_release("clav", "orange")` `r badger::badge_devel("jbryer/clav", "blue")` `r badger::badge_github_actions("jbryer/clav", action = "R-CMD-check")`
+
 <!-- badges: end -->
 
-[Slides from Joint Statistical Meeting (JSM) 2025](slides/clav_jsm_2025.pdf)
+[Slides from Joint Statistical Meeting (JSM) 2025](https://github.com/jbryer/clav/blob/master/slides/clav_jsm_2025.pdf)
 
 The `clav` package provides utilities for conducting cluster (profile) analysis with an emphasis on the validating the stability of the profiles both within a given data set as well as across data sets. Unlike supervised models where the known class is measured, validation of unsupervised models where there is no known class can be challenging. The approach implemented here attempts to compare the cluster results across many random samples.
 
@@ -38,7 +38,6 @@ You can install the development version of clav like so:
 ```{r install, eval=FALSE}
 remotes::install_github('jbryer/clav')
 ```
-
 
 ## Development
 
@@ -60,7 +59,6 @@ pkgdown::build_site()
 
 ## Example
 
-
 ```{r setup, eval=TRUE, message=FALSE, warning=FALSE}
 library(clav)
 data(pisa2015, package = 'clav')
@@ -72,7 +70,6 @@ pisa_usa <- pisa2015 |> dplyr::filter(country == 'UNITED STATES')
 ```
 
 Finding the optimal number of clusters.
-
 
 ```{r optimal-clusters, cache=TRUE, message=FALSE, warning=FALSE, fig.height=6}
 optimal <- optimal_clusters(pisa_usa[,cluster_vars], max_k = 5)
@@ -172,9 +169,6 @@ clav::profile_plot(pisa_usa[,cluster_vars],
 				   center_band = 0.33,
 				   cluster_order = cluster_vars)
 ```
-
-
-
 
 ```{r palmerpenguins, include=FALSE, eval=FALSE, fig.width=10, fig.height=5}
 library(palmerpenguins)
