@@ -52,7 +52,7 @@ plot.clustervalidation <- function(
 			geom_point(alpha = point_alpha, size = point_size) +
 			theme_minimal() +
 			# scale_x_discrete(breaks = levels(x$in_sample$variable)) +
-			theme(legend.position = 'none') +
+			# theme(legend.position = 'none') +
 			scale_color_brewer(type = 'qual', palette = 2) +
 			xlab(xlab) + ylab(ylab) +
 			ylim(ylim) +
@@ -80,7 +80,7 @@ plot.clustervalidation <- function(
 			geom_path(alpha = line_alpha, linewidth = line_width) +
 			geom_point(alpha = point_alpha, size = point_size) +
 			theme_minimal() +
-			theme(legend.position = 'none') +
+			# theme(legend.position = 'none') +
 			scale_color_brewer(type = 'qual', palette = 2) +
 			xlab(xlab) + ylab(ylab) +
 			ylim(ylim) +
@@ -98,7 +98,7 @@ plot.clustervalidation <- function(
 		}
 	}
 	if(plot_in_sample & plot_oob_sample) {
-		p <- cowplot::plot_grid(p_is, p_oob)
+		p <- cowplot::plot_grid(p_is + theme(legend.position = 'none'), p_oob)
 	} else if(plot_oob_sample) {
 		p <- p_is
 	} else if(plot_in_sample) {

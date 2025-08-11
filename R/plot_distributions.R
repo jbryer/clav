@@ -32,23 +32,25 @@ plot_distributions <- function(
 			facet_wrap(~ variable, nrow = nrow) +
 			scale_fill_brewer(type = 'qual', palette = palette) +
 			scale_color_brewer(type = 'qual', palette = palette) +
-			ylab('Density') +
-			theme(legend.position = 'none')
+			ylab('Density')# + theme(legend.position = 'none')
 	}
 
 	p <- NULL
 	if(plot_in_sample & plot_oob_sample) {
 		p_in <- gg_base(cv$in_sample, nrow = 1) +
-			ggtitle('Distribution of mean values from training samples')
+			ggtitle('Distribution of mean values from training samples',
+					subtitle = paste0('k = ', length(unique(cv$complete_sample$cluster))))
 		p_oob <- gg_base(cv$oob_sample, nrow = 1) +
 			ggtitle('Distribution of mean values from out-of-bag samples')
 		p <- cowplot::plot_grid(p_in, p_oob, ncol = 1)
 	} else if(plot_in_sample) {
 		p <- gg_base(cv$in_sample, nrow = nrow) +
-			ggtitle('Distribution of mean values from training samples')
+			ggtitle('Distribution of mean values from training samples',
+					subtitle = paste0('k = ', length(unique(cv$complete_sample$cluster))))
 	} else if(plot_oob_sample) {
 		p <- gg_base(cv$oob_sample, nrow = nrow) +
-			ggtitle('Distribution of mean values from out-of-bag samples')
+			ggtitle('Distribution of mean values from out-of-bag samples',
+					subtitle = paste0('k = ', length(unique(cv$complete_sample$cluster))))
 	} else {
 		stop('Either plot_in_sample or plot_oob_sample (or both) must be TRUE.')
 	}

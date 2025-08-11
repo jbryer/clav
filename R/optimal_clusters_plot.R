@@ -95,5 +95,5 @@ plot.optimalclusters <- function(x, ...) {
 		plots[[names(params)[i]]] <- params[[i]]
 	}
 
-	do.call(cowplot::plot_grid, plots)
+	suppressWarnings(do.call(cowplot::plot_grid, plots))
 }
