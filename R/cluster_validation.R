@@ -116,6 +116,7 @@ cluster_validation <- function(
 
 		result_oob <- describe_by(df[-rows,],
 								  group = factor(oob_predict_fun(fit, df[-rows,]),
+								  			   levels = 1:n_clusters,
 								  			   labels = LETTERS[1:n_clusters],
 								  			   ordered = TRUE),
 								  group_name = 'cluster') |>
