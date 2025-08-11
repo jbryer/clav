@@ -84,6 +84,7 @@ cluster_validation <- function(
 	full_fit <- cluster_fun(df, n_clusters)
 	full_fit_result <- describe_by(df,
 								   group = factor(get_cluster_fun(full_fit),
+								   			   levels = 1:n_clusters,
 								   			   labels = LETTERS[1:n_clusters],
 								   			   ordered = TRUE),
 								   group_name = 'cluster') |>
@@ -103,6 +104,7 @@ cluster_validation <- function(
 
 		result <- describe_by(df[rows,],
 					group = factor(get_cluster_fun(fit),
+								   levels = 1:n_clusters,
 								   labels = LETTERS[1:n_clusters],
 								   ordered = TRUE),
 					group_name = 'cluster') |>
