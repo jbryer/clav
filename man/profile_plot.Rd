@@ -63,7 +63,7 @@ if \code{standardize = TRUE}.}
 \item{se_factor}{critical value used ot determine the width of standard error bars.}
 
 \item{color_palette}{the color palette to use. See \code{ggplot2:scale_color_brewer()}
-for more details.}
+for more details. If \code{color_palette = 0} then \code{ggplot2::scale_color_grey()} will be used.}
 
 \item{cluster_labels}{labels for the clusters.}
 
@@ -81,4 +81,24 @@ for more details.}
 }
 \description{
 Profile plot for cluster analysis.
+}
+\examples{
+data(daacs, package = 'clav')
+cluster_vars <- c('Motivation', 'Metacognition', 'Strategies', 'Mathematics', 'Reading', 'Writing')
+daacs <- daacs |> dplyr::mutate(across(cluster_vars, clav::scale_this))
+kmeans_out <- stats::kmeans(daacs[,cluster_vars], 5)
+profile_plot(
+    df = daacs[,cluster_vars],
+    clusters = kmeans_out$cluster,
+    df_dep = daacs[,c('FeedbackViews', 'TermSuccess')]
+)
+
+# Grey scale plot
+profile_plot(
+    df = daacs[,cluster_vars],
+    clusters = kmeans_out$cluster,
+    df_dep = daacs[,c('FeedbackViews', 'TermSuccess')],
+    center_fill = 'grey90',
+    color_palette = 0
+)
 }

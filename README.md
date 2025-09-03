@@ -46,6 +46,7 @@ devtools::document()
 devtools::install()
 # Run CRAN check
 devtools::check(cran = TRUE)
+
 # Build the pkgdown site
 pkgdown::build_site()
 ```

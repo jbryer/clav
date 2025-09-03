@@ -58,7 +58,7 @@ cluster_validation(
 
 fix_cluster_labels(
   cv,
-  greedy = (length(unique(cv$oob_sample$cluster)) > 7),
+  greedy = (length(unique(cv$oob_sample$cluster)) > 6),
   var,
   ...
 )

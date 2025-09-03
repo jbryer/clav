@@ -1,5 +1,7 @@
 ---
-output: github_document
+output:
+  github_document:
+    html_preview: false
 editor_options: 
   chunk_output_type: console
 ---
@@ -54,6 +56,7 @@ devtools::document()
 devtools::install()
 # Run CRAN check
 devtools::check(cran = TRUE)
+
 # Build the pkgdown site
 pkgdown::build_site()
 ```
