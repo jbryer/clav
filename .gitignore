@@ -14,6 +14,8 @@ articles/
 sticker.R
 vignettes/clav_cache/
 vignettes/daacs_cache/
+vignettes/clustering_overlap_metric_cache/
 slides/clav_jsm_2025_cache/
 
 /.quarto/
+inst/doc

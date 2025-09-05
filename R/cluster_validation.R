@@ -131,14 +131,46 @@ cluster_validation <- function(
 		results_oob <- rbind(results_oob, result_oob)
 	}
 	if(verbose) { close(pb) }
+
+	# Create the return object
 	cv <- list(
 		variables = names(df),
+		k = n_clusters,
+		standardize = standardize,
 		complete_sample = full_fit_result,
 		in_sample = results,
 		oob_sample = results_oob,
 		complete_model_fit = full_fit,
 		in_sample_model_fits = model_results)
 	cv <- fix_cluster_labels(cv, ...)
+
+	# Calculate the overlap between cluster distributions by variable.
+	vars <- unique(cv$in_sample$variable) |> as.character()
+	clusts <- unique(cv$in_sample$cluster) |> as.character() |> sort()
+	cluster_comb <- combn(clusts, 2) |> t() |> as.data.frame()
+	names(cluster_comb) <- c('C1', 'C2')
+	overlap_fit <- data.frame()
+	for(i in vars) {
+		tmp <- cbind(variable = i, cluster_comb)
+		overlap_fit <- rbind(overlap_fit, tmp)
+	}
+	overlap_fit$overlap <- NA
+	overlap_fit$k <- n_clusters
+	for(i in seq_len(nrow(overlap_fit))) {
+		d1 <- with(cv$in_sample[cv$in_sample$variable == overlap_fit[i,]$variable,],
+				   density(mean[cluster == overlap_fit[i,]$C1],
+				   		from = min(mean),
+				   		to = max(mean)))
+		d2 <- with(cv$in_sample[cv$in_sample$variable == overlap_fit[i,]$variable,],
+				   density(mean[cluster == overlap_fit[i,]$C2],
+				   		from = min(mean),
+				   		to = max(mean)))
+		joint <- pmin(d1$y, d2$y)
+		overlap_fit[i,]$overlap <- sum(joint) / sum(d1$y, d2$y)
+
+	}
+	cv$overlap <- overlap_fit
+
 	class(cv) <- c('clustervalidation')
 	attr(cv, 'standardize') <- standardize
 	return(cv)

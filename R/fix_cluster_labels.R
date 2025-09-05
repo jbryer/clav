@@ -17,7 +17,7 @@
 #' @importFrom utils menu
 fix_cluster_labels <- function(
 		cv,
-		greedy = (length(unique(cv$oob_sample$cluster)) > 7),
+		greedy = (length(unique(cv$oob_sample$cluster)) > 6),
 		var,
 		...
 ) {
@@ -26,7 +26,8 @@ fix_cluster_labels <- function(
 	base <- cv$complete_sample
 	base_means <- reshape2::dcast(base, cluster ~ variable, value.var = 'mean')
 	row.names(base_means) <- base_means$cluster
-	clusters <- unique(oob$cluster) |> as.character()
+	# clusters <- unique(oob$cluster) |> as.character()
+	clusters <- LETTERS[1:cv$k]
 	n_inters <- max(oob$iter)
 
 	if(greedy) {
@@ -98,7 +99,9 @@ fix_cluster_labels <- function(
 			dists <- sapply(perms, FUN = function(x) {
 				mean(as.matrix(abs(base_means[,-1] - comp_means[x,-1])))
 			})
-			comp_order <- perms[[which(dists == min(dists))]]
+			smallest <- which(dists == min(dists))
+			if(length(smallest) > 1) { smallest <- smallest[1] }
+			comp_order <- perms[[smallest]]
 
 			rows <- list()
 			for(j in 1:length(clusters)) {
@@ -115,16 +118,20 @@ fix_cluster_labels <- function(
 			comp_means <- reshape2::dcast(comp, cluster ~ variable, value.var = 'mean')
 			row.names(comp_means) <- comp_means$cluster
 			dists <- sapply(perms, FUN = function(x) {
-				mean(as.matrix(abs(base_means[,-1] - comp_means[x,-1])))
+				mean(as.matrix(abs(base_means[,-1] - comp_means[x,-1])), na.rm = TRUE)
 			})
-			comp_order <- perms[[which(dists == min(dists))]]
+			smallest <- which(dists == min(dists))
+			if(length(smallest) > 1) { smallest <- smallest[1] }
+			comp_order <- perms[[smallest]]
 
 			rows <- list()
 			for(j in 1:length(clusters)) {
 				rows[[j]] <- which(oob$iter == i & oob$cluster == comp_order[j])
 			}
 			for(j in 1:length(clusters)) {
-				oob[rows[[j]],]$cluster <- clusters[j]
+				if(length(rows[[j]] > 0)) {
+					oob[rows[[j]],]$cluster <- clusters[j]
+				}
 			}
 		}
 	}
