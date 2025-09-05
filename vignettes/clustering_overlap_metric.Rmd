@@ -24,6 +24,7 @@ knitr::opts_chunk$set(
 library(clav)
 library(palmerpenguins)
 library(ggplot2)
+ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
 Data preparation...
