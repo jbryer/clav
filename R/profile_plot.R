@@ -17,7 +17,7 @@
 #' @param point_size size of points passed to [ggplot2::geom_point()].
 #' @param se_factor critical value used ot determine the width of standard error bars.
 #' @param color_palette the color palette to use. See `ggplot2:scale_color_brewer()`
-#'        for more details.
+#'        for more details. If `color_palette = 0` then `ggplot2::scale_color_grey()` will be used.
 #' @param cluster_labels labels for the clusters.
 #' @param cluster_order order of clusters on the x-axis.
 #' @param label_clusters whether to label clusters on the main panel.
@@ -32,6 +32,25 @@
 #' @importFrom latex2exp TeX
 #' @importFrom stats aov chisq.test dist pnorm predict qnorm sd var
 #' @export
+#' @examples
+#' data(daacs, package = 'clav')
+#' cluster_vars <- c('Motivation', 'Metacognition', 'Strategies', 'Mathematics', 'Reading', 'Writing')
+#' daacs <- daacs |> dplyr::mutate(across(cluster_vars, clav::scale_this))
+#' kmeans_out <- stats::kmeans(daacs[,cluster_vars], 5)
+#' profile_plot(
+#'     df = daacs[,cluster_vars],
+#'     clusters = kmeans_out$cluster,
+#'     df_dep = daacs[,c('FeedbackViews', 'TermSuccess')]
+#' )
+#'
+#' # Grey scale plot
+#' profile_plot(
+#'     df = daacs[,cluster_vars],
+#'     clusters = kmeans_out$cluster,
+#'     df_dep = daacs[,c('FeedbackViews', 'TermSuccess')],
+#'     center_fill = 'grey90',
+#'     color_palette = 0
+#' )
 profile_plot = function(
 		df,
 		clusters,
@@ -95,7 +114,6 @@ profile_plot = function(
 
 	plots <- list()
 
-	nClusters <- clusters |> unique() |> length()
 	df.melted <- reshape2::melt(cbind(df, cluster = as.character(clusters)), id.vars = 'cluster')
 	tab <- psych::describeBy(df.melted$value,
 							 group = list(df.melted$cluster, df.melted$variable),
@@ -107,6 +125,8 @@ profile_plot = function(
 		tab$Factor <- factor(tab$Factor,
 							 levels = cluster_order,
 							 ordered = TRUE)
+	} else {
+		tab$Factor <- as.factor(tab$Factor)
 	}
 
 	if(is.null(color_palette)) {
@@ -131,18 +151,34 @@ profile_plot = function(
 
 	plots[[length(plots)]] <- plots[[length(plots)]] +
 		geom_hline(yintercept = 0, color = 'grey70') +
-		geom_path() +
+		geom_path(aes(linetype = .data$Cluster)) +
 		geom_point(size = point_size) +
 		geom_errorbar(aes(ymin = .data$mean - se_factor * .data$se,
 						  ymax = .data$mean + se_factor * .data$se),
 					  width = 0.25, alpha = 0.5) +
 		xlab('') + ylab(ylab) +
-		scale_color_brewer(type = 'qual', palette = color_palette, labels = cluster_labels) +
 		theme_minimal() +
 		theme(legend.position = 'bottom',
 			  legend.key.size = unit(0, 'lines'),
 			  legend.text = element_text(size = 10)) +
-		ggtitle(title, subtitle = paste0('k = ', nClusters))
+		ggtitle(title, subtitle = paste0('k = ', n_clusters))
+
+	if(label_clusters) {
+		plots[[length(plots)]] <- plots[[length(plots)]] +
+			geom_text(data = tab[tab$Factor == levels(tab$Factor)[1],],
+					  mapping = aes(x = .data$Factor, y = .data$mean, label = .data$Cluster),
+					  hjust = cluster_label_hjust)
+	}
+
+	if(!is.null(color_palette)) {
+		if(color_palette == 0) {
+			plots[[length(plots)]] <- plots[[length(plots)]] +
+				scale_color_grey(labels = cluster_labels)
+		} else {
+			plots[[length(plots)]] <- plots[[length(plots)]] +
+				scale_color_brewer(type = 'qual', palette = color_palette, labels = cluster_labels)
+		}
+	}
 
 	if(label_clusters) {
 		if(missing(cluster_label_x)) {
@@ -191,9 +227,18 @@ profile_plot = function(
 				geom_point(size = point_size) +
 				xlab('Cluster') + ylab('') +
 				theme_minimal() +
-				scale_color_brewer(type = 'qual', palette = color_palette) +
 				scale_x_discrete('', labels = levels(clusters)) +
 				theme(legend.position = 'none')
+
+			if(!is.null(color_palette)) {
+				if(color_palette == 0) {
+					plots[[length(plots)]] <- plots[[length(plots)]] +
+						scale_color_grey()
+				} else {
+					plots[[length(plots)]] <- plots[[length(plots)]] +
+						scale_color_brewer(type = 'qual', palette = color_palette)
+				}
+			}
 
 			if(bonferroni) {
 				n_pairs <- choose(length(unique(clusters)), 2)

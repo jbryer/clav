@@ -46,6 +46,7 @@
 #' }
 #' @name cluster_validation
 #' @export
+#' @importFrom utils combn
 cluster_validation <- function(
 		df,
 		n_clusters = 2,
@@ -147,7 +148,11 @@ cluster_validation <- function(
 	# Calculate the overlap between cluster distributions by variable.
 	vars <- unique(cv$in_sample$variable) |> as.character()
 	clusts <- unique(cv$in_sample$cluster) |> as.character() |> sort()
+<<<<<<< HEAD
 	cluster_comb <- combn(clusts, 2) |> t() |> as.data.frame()
+=======
+	cluster_comb <- utils::combn(clusts, 2) |> t() |> as.data.frame()
+>>>>>>> c72c49a290aaf4f4f915ec8cbdb4430eb46af5df
 	names(cluster_comb) <- c('C1', 'C2')
 	overlap_fit <- data.frame()
 	for(i in vars) {
