@@ -10,7 +10,7 @@ README_cache/
 .quarto
 inst/daacs/
 private/
-articles/
+/articles/
 sticker.R
 vignettes/clav_cache/
 vignettes/daacs_cache/

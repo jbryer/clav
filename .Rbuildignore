@@ -10,6 +10,6 @@ private/
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-articles/
 sticker.R
 slides/
+articles/
