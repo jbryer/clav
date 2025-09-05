@@ -1,5 +1,7 @@
 #' Profile plot for cluster analysis.
 #'
+#'
+#'
 #' @param df data.frame with the columns used for the cluster analysis.
 #' @param clusters vector indicating what cluster each row of `df` belongs to.
 #' @param df_dep a data.frame with any dependent variables to include in the plot (optional).
@@ -35,7 +37,7 @@
 #' @examples
 #' data(daacs, package = 'clav')
 #' cluster_vars <- c('Motivation', 'Metacognition', 'Strategies', 'Mathematics', 'Reading', 'Writing')
-#' daacs <- daacs |> dplyr::mutate(across(cluster_vars, clav::scale_this))
+#' daacs <- daacs |> dplyr::mutate(across(dplyr::all_of(cluster_vars), clav::scale_this))
 #' kmeans_out <- stats::kmeans(daacs[,cluster_vars], 5)
 #' profile_plot(
 #'     df = daacs[,cluster_vars],
