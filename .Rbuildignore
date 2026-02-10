@@ -13,11 +13,8 @@ private/
 sticker.R
 slides/
 articles/
-<<<<<<< HEAD
 vignettes/daacs_cache/
-vignettes/clustering_overlap_metric_cache/
+vignettes/bootstrap_overlap_fit_cache/
 vignettes/cluster_agreement_fit_cache/
 vignettes/clav_cache/
 manuscript/
-=======
->>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8

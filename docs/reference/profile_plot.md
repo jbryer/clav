@@ -137,19 +137,7 @@ profile_plot(
 ``` r
 data(daacs, package = 'clav')
 cluster_vars <- c('Motivation', 'Metacognition', 'Strategies', 'Mathematics', 'Reading', 'Writing')
-daacs <- daacs |> dplyr::mutate(across(cluster_vars, clav::scale_this))
-#> Warning: There was 1 warning in `dplyr::mutate()`.
-#> ℹ In argument: `across(cluster_vars, clav::scale_this)`.
-#> Caused by warning:
-#> ! Using an external vector in selections was deprecated in tidyselect 1.1.0.
-#> ℹ Please use `all_of()` or `any_of()` instead.
-#>   # Was:
-#>   data %>% select(cluster_vars)
-#> 
-#>   # Now:
-#>   data %>% select(all_of(cluster_vars))
-#> 
-#> See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+daacs <- daacs |> dplyr::mutate(across(dplyr::all_of(cluster_vars), clav::scale_this))
 kmeans_out <- stats::kmeans(daacs[,cluster_vars], 5)
 profile_plot(
     df = daacs[,cluster_vars],

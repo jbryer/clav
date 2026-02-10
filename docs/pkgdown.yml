@@ -2,8 +2,8 @@ pandoc: 3.6.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
+  bootstrap_overlap_fit: bootstrap_overlap_fit.html
   clav: clav.html
   cluster_agreement_fit: cluster_agreement_fit.html
-  clustering_overlap_metric: clustering_overlap_metric.html
   daacs: daacs.html
-last_built: 2026-02-10T14:09Z
+last_built: 2026-02-10T17:53Z

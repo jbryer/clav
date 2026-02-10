@@ -2,7 +2,7 @@
 title: "Cluster Agreement Fit Statistic"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{clustering_agreement_fit}
+  %\VignetteIndexEntry{Cluster Agreement Fit Statistic}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
