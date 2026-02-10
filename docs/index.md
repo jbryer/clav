@@ -32,6 +32,7 @@ usethis::use_tidy_description()
 devtools::document()
 # Install the package
 devtools::install()
+devtools::install(build_vignettes = TRUE)
 # Run CRAN check
 devtools::check(cran = TRUE)
 
