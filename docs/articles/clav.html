@@ -34,7 +34,9 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/daacs.html">College Readiness Profiles</a></li>
+<li><a class="dropdown-item" href="../articles/cluster_agreement_fit.html">Cluster Agreement Fit Statistic</a></li>
+    <li><a class="dropdown-item" href="../articles/clustering_overlap_metric.html">Clustering Overlap Metric for Determining the Optimal Number of Clusters</a></li>
+    <li><a class="dropdown-item" href="../articles/daacs.html">College Readiness Profiles</a></li>
   </ul>
 </li>
       </ul>
@@ -232,7 +234,7 @@ two clusterings.</p></li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">optimal</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="clav_files/figure-html/plot-optimal-clusters-1.png" width="100%"></p>
+<p><img src="clav_files/figure-html/plot-optimal-clusters-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="validating-cluster-solution">Validating cluster solution<a class="anchor" aria-label="anchor" href="#validating-cluster-solution"></a>
@@ -276,14 +278,14 @@ samples.</p>
 <span>    <span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>,</span>
 <span>    n_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cv</span><span class="op">)</span></span></code></pre></div>
-<p><img src="clav_files/figure-html/cluster-validation-1.png" width="100%"></p>
+<p><img src="clav_files/figure-html/cluster-validation-1.png" class="r-plt" alt="" width="100%"></p>
 <p>The figure below provides an alternative approach for determining
 stability by plotting the distribution of means across clusters and
 variables. Ideally we would want the standard deviation of these
 distributions to be as small as possible.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cluster_validation.html">plot_distributions</a></span><span class="op">(</span><span class="va">cv</span>, plot_in_sample <span class="op">=</span> <span class="cn">TRUE</span>, plot_oob_sample <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="clav_files/figure-html/plot-distributions-1.png" width="100%"></p>
+<p><img src="clav_files/figure-html/plot-distributions-1.png" class="r-plt" alt="" width="100%"></p>
 <div class="section level3">
 <h3 id="bootstrapping">Bootstrapping<a class="anchor" aria-label="anchor" href="#bootstrapping"></a>
 </h3>
@@ -294,7 +296,7 @@ distributions to be as small as possible.</p>
 <span>    sample_size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">pisa_usa</span><span class="op">)</span>,</span>
 <span>    replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cv_boot</span><span class="op">)</span></span></code></pre></div>
-<p><img src="clav_files/figure-html/bootstrap-validation-1.png" width="100%"></p>
+<p><img src="clav_files/figure-html/bootstrap-validation-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="retraining">Retraining<a class="anchor" aria-label="anchor" href="#retraining"></a>
@@ -308,7 +310,7 @@ distributions to be as small as possible.</p>
 <span>    <span class="op">}</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cv_retrain</span><span class="op">)</span></span></code></pre></div>
-<p><img src="clav_files/figure-html/retraining-validation-1.png" width="100%"></p>
+<p><img src="clav_files/figure-html/retraining-validation-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -323,7 +325,7 @@ distributions to be as small as possible.</p>
 <span>             clusters <span class="op">=</span> <span class="va">fit</span><span class="op">$</span><span class="va">cluster</span>,</span>
 <span>             df_dep <span class="op">=</span> <span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">outcome_vars</span><span class="op">]</span>,</span>
 <span>             cluster_order <span class="op">=</span> <span class="va">cluster_vars</span><span class="op">)</span></span></code></pre></div>
-<p><img src="clav_files/figure-html/profile-plot-1.png" width="100%"></p>
+<p><img src="clav_files/figure-html/profile-plot-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="using-clusters-in-regression-analysis">Using clusters in regression analysis<a class="anchor" aria-label="anchor" href="#using-clusters-in-regression-analysis"></a>
@@ -483,7 +485,7 @@ true in science.</li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

@@ -2,12 +2,15 @@
 <url><loc>/404.html</loc></url>
 <url><loc>/LICENSE.html</loc></url>
 <url><loc>/articles/clav.html</loc></url>
+<url><loc>/articles/cluster_agreement_fit.html</loc></url>
+<url><loc>/articles/clustering_overlap_metric.html</loc></url>
 <url><loc>/articles/daacs.html</loc></url>
 <url><loc>/articles/index.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
 <url><loc>/reference/bivariate_cluster_plot_output.html</loc></url>
 <url><loc>/reference/clav_shiny.html</loc></url>
+<url><loc>/reference/cluster_agreement_fit.html</loc></url>
 <url><loc>/reference/cluster_module.html</loc></url>
 <url><loc>/reference/cluster_pairs_plot_output.html</loc></url>
 <url><loc>/reference/cluster_shiny.html</loc></url>
@@ -27,6 +30,7 @@
 <url><loc>/reference/n_cluster_plot_output.html</loc></url>
 <url><loc>/reference/n_clusters_input.html</loc></url>
 <url><loc>/reference/optimal_clusters.html</loc></url>
+<url><loc>/reference/overlap_fit.html</loc></url>
 <url><loc>/reference/pisa2015.html</loc></url>
 <url><loc>/reference/predict.kmeans.html</loc></url>
 <url><loc>/reference/print_p_value.html</loc></url>

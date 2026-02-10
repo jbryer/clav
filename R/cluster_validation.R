@@ -31,6 +31,7 @@
 #' @param ... other parameters passed to `cluster_fun`.
 #' @return a list with the following elements:
 #' \describe{
+#'   \item{data}{the original data frame.}
 #'   \item{complete_sample}{data frame of results using the entire data set.}
 #'   \item{in_sample}{data frame of in sample results.}
 #'   \item{oob_sample}{data frame of out-of-bag results.}
@@ -135,6 +136,7 @@ cluster_validation <- function(
 
 	# Create the return object
 	cv <- list(
+		data = df,
 		variables = names(df),
 		k = n_clusters,
 		standardize = standardize,

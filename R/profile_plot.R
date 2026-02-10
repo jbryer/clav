@@ -163,13 +163,6 @@ profile_plot = function(
 			  legend.text = element_text(size = 10)) +
 		ggtitle(title, subtitle = paste0('k = ', n_clusters))
 
-	if(label_clusters) {
-		plots[[length(plots)]] <- plots[[length(plots)]] +
-			geom_text(data = tab[tab$Factor == levels(tab$Factor)[1],],
-					  mapping = aes(x = .data$Factor, y = .data$mean, label = .data$Cluster),
-					  hjust = cluster_label_hjust)
-	}
-
 	if(!is.null(color_palette)) {
 		if(color_palette == 0) {
 			plots[[length(plots)]] <- plots[[length(plots)]] +
@@ -187,7 +180,7 @@ profile_plot = function(
 
 		plots[[length(plots)]] <- plots[[length(plots)]] +
 			geom_text(data = tab[tab$Factor == cluster_label_x,],
-					  aes(label = .data$Cluster),
+					  aes(x = .data$Factor, y = .data$mean, label = .data$Cluster),
 					  hjust = cluster_label_hjust)
 	}
 

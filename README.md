@@ -95,7 +95,7 @@ pisa_cv_random <- pisa_usa |>
 plot(pisa_cv_random)
 ```
 
-<img src="man/figures/README-random-validation-1.png" width="100%" />
+<img src="man/figures/README-random-validation-1.png" alt="" width="100%" />
 
 Re-estimate the clusters using the OOB sample instead of predicting
 using the in sample model.
@@ -117,7 +117,7 @@ pisa_cv_random2 <- pisa_usa |>
 plot(pisa_cv_random2)
 ```
 
-<img src="man/figures/README-oob-reestimate-validation-1.png" width="100%" />
+<img src="man/figures/README-oob-reestimate-validation-1.png" alt="" width="100%" />
 
 Bootstrap approach to validation.
 
@@ -134,7 +134,7 @@ pisa_cv_bootstrap <- pisa_usa |>
 plot(pisa_cv_bootstrap)
 ```
 
-<img src="man/figures/README-bootstrap-validation-1.png" width="100%" />
+<img src="man/figures/README-bootstrap-validation-1.png" alt="" width="100%" />
 
 Using latent profile analysis for estimating clusters.
 
@@ -180,4 +180,4 @@ clav::profile_plot(pisa_usa[,cluster_vars],
                    cluster_order = cluster_vars)
 ```
 
-<img src="man/figures/README-profile-plot-1.png" width="100%" />
+<img src="man/figures/README-profile-plot-1.png" alt="" width="100%" />

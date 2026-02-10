@@ -1,0 +1,69 @@
+---
+title: "Cluster Agreement Fit Statistic"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{clustering_agreement_fit}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  error = FALSE,
+  comment = "#>",
+  out.width = '100%',
+  fig.height = 6,
+  fig.width = 9
+)
+
+library(clav)
+library(ggplot2)
+ggplot2::theme_set(ggplot2::theme_minimal())
+```
+
+Data preparation...
+
+```{r}
+data(penguins, package = 'datasets')
+cluster_vars <- c('bill_len', 'flipper_len')
+penguins <- penguins[complete.cases(penguins[,cluster_vars]),] # Two observations with missing values
+```
+
+Standardize our two clustering variables...
+
+```{r}
+penguins <- penguins |>
+	dplyr::mutate(dplyr::across(all_of(cluster_vars), clav::scale_this))
+```
+
+Clearly there are three clusters...
+
+```{r}
+ggplot(penguins, aes(x = bill_len, flipper_len, color = species)) +
+	geom_point()
+```
+
+The `cluster_agreement_fit()` function will call the `cluster_validation()` function for varying number of clusters (i.e. k, default will be 2 to 6). Additionally, it will calculate the overlap in cluster membership for each pair of observations. 
+
+```{r, cache=TRUE, message=FALSE, warning=FALSE, results='hide'}
+penguins_caf <- cluster_agreement_fit(penguins[,cluster_vars] )
+```
+
+
+
+```{r}
+summary(penguins_caf)
+```
+
+```{r}
+plot(penguins_caf)
+```
+
+```{r}
+hist(penguins_caf)
+```

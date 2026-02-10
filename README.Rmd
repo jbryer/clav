@@ -175,12 +175,11 @@ clav::profile_plot(pisa_usa[,cluster_vars],
 ```
 
 ```{r palmerpenguins, include=FALSE, eval=FALSE, fig.width=10, fig.height=5}
-library(palmerpenguins)
 library(ggplot2)
 
-data(penguins)
+data(penguins, package = 'datasets')
 n_clusters <- 3
-cluster_cols <- c('bill_depth_mm', 'bill_length_mm', 'body_mass_g', 'flipper_length_mm')
+cluster_cols <- c('bill_dep', 'bill_len', 'body_mass', 'flipper_length')
 penguins <- penguins |>
 	tidyr::drop_na(dplyr::all_of(cluster_cols))
 kmeans_fit <- kmeans(penguins[,cluster_cols], n_clusters)

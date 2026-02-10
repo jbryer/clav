@@ -1,0 +1,25 @@
+# Plot output for the profiles.
+
+Plot output for the profiles.
+
+## Usage
+
+``` r
+profile_plot_output(id, ...)
+```
+
+## Arguments
+
+- id:
+
+  An ID string that corresponds with the ID used to call the module's UI
+  function.
+
+- ...:
+
+  other parameters passed to
+  [`shiny::plotOutput()`](https://rdrr.io/pkg/shiny/man/plotOutput.html)
+
+## See also
+
+[`profile_plot()`](profile_plot.md)

@@ -10,6 +10,11 @@ private/
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-articles/
 sticker.R
 slides/
+articles/
+vignettes/daacs_cache/
+vignettes/clustering_overlap_metric_cache/
+vignettes/cluster_agreement_fit_cache/
+vignettes/clav_cache/
+manuscript/

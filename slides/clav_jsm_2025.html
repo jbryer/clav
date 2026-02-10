@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Jason Bryer, Ph.D." />
     <meta name="date" content="2025-08-05" />
-    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.30/header-attrs.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/mtheme_max.css" type="text/css" />
     <link rel="stylesheet" href="assets/fonts_mtheme_max.css" type="text/css" />
@@ -20,7 +20,7 @@
 
 class: center, middle, inverse, title-slide
 
-&lt;img src='clav1.png' alt='clav hex logo' align='right' width='300' /&gt;
+&lt;img src='clav.png' alt='clav hex logo' align='right' width='300' /&gt;
 
 # clav: Cluster Analysis Validation
 ## Joint Statistical Meeting
@@ -266,7 +266,7 @@ optimal
 plot(optimal)
 ```
 
-&lt;img src="clav_jsm_2025_files/figure-html/optimal-clusters-plot-1.png" width="100%" /&gt;
+&lt;img src="clav_jsm_2025_files/figure-html/optimal-clusters-plot-1.png" alt="" width="100%" /&gt;
 
 ---
 # Validating Clusters
@@ -302,7 +302,7 @@ plot(cv)
 plot_distributions(cv, plot_in_sample = TRUE, plot_oob_sample = TRUE)
 ```
 
-&lt;img src="clav_jsm_2025_files/figure-html/plot-distributions-1.png" width="100%" /&gt;
+&lt;img src="clav_jsm_2025_files/figure-html/plot-distributions-1.png" alt="" width="100%" /&gt;
 
 ---
 # Bootstrapping
@@ -342,7 +342,7 @@ cv_boot &lt;- cluster_validation(
 plot(cv_boot)
 ```
 
-&lt;img src="clav_jsm_2025_files/figure-html/cluster-validation-bootstrap-plot-1.png" width="100%" /&gt;
+&lt;img src="clav_jsm_2025_files/figure-html/cluster-validation-bootstrap-plot-1.png" alt="" width="100%" /&gt;
 
 
 ---
@@ -378,7 +378,7 @@ cv_retrain &lt;- cluster_validation(
 plot(cv_retrain)
 ```
 
-&lt;img src="clav_jsm_2025_files/figure-html/retraining-validation-plot-1.png" width="100%" /&gt;
+&lt;img src="clav_jsm_2025_files/figure-html/retraining-validation-plot-1.png" alt="" width="100%" /&gt;
 
 
 ---
@@ -391,7 +391,7 @@ profile_plot(daacs[,cluster_vars], clusters = fit$cluster,
 			 df_dep = daacs[,outcome_vars], cluster_order = cluster_vars)
 ```
 
-&lt;img src="clav_jsm_2025_files/figure-html/profile-plot-1.png" width="100%" /&gt;
+&lt;img src="clav_jsm_2025_files/figure-html/profile-plot-1.png" alt="" width="100%" /&gt;
 
 ---
 # Shiny Application
@@ -401,7 +401,7 @@ profile_plot(daacs[,cluster_vars], clusters = fit$cluster,
 clav::cluster_shiny(daacs = daacs) # NOTE: Can pass an arbitrary named parameters of data.frames
 ```
 
-&lt;img src="shiny_screenshot.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="shiny_screenshot.png" alt="" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Deploying Application with Your Data (`app.R`)
@@ -439,7 +439,7 @@ class: inverse, right, middle, hide-logo, font130
 
 .left-column[
 
-&lt;img src="clav_jsm_2025_files/figure-html/qrcode-1.png" width="100%" height="100%" /&gt;
+&lt;img src="clav_jsm_2025_files/figure-html/qrcode-1.png" alt="" width="100%" height="100%" /&gt;
 
 ]
 

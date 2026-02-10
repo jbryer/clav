@@ -62,7 +62,7 @@ plot.clustervalidation <- function(
 				geom_path(data = complete_sample,
 						  aes(group = cluster),
 						  color = complete_color,
-						  size = complete_size) +
+						  linewidth = complete_size) +
 				geom_point(data = complete_sample,
 						   aes(group = cluster),
 						   color = complete_color,
@@ -90,7 +90,7 @@ plot.clustervalidation <- function(
 				geom_path(data = complete_sample,
 						  aes(group = cluster),
 						  color = complete_color,
-						  size = complete_size) +
+						  linewidth = complete_size) +
 				geom_point(data = complete_sample,
 						   aes(group = cluster),
 						   color = complete_color,

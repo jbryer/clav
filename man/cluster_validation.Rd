@@ -158,6 +158,7 @@ palettes of appropriate type. See \code{\link[ggplot2:scale_brewer]{ggplot2::sca
 \value{
 a list with the following elements:
 \describe{
+\item{data}{the original data frame.}
 \item{complete_sample}{data frame of results using the entire data set.}
 \item{in_sample}{data frame of in sample results.}
 \item{oob_sample}{data frame of out-of-bag results.}
