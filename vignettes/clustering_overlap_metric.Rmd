@@ -22,6 +22,10 @@ knitr::opts_chunk$set(
 )
 
 library(clav)
+<<<<<<< HEAD
+=======
+library(palmerpenguins)
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
 library(ggplot2)
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
@@ -29,8 +33,13 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 Data preparation...
 
 ```{r}
+<<<<<<< HEAD
 data(penguins, package = 'datasets')
 cluster_vars <- c('bill_len', 'flipper_len')
+=======
+data(penguins, package = 'palmerpenguins')
+cluster_vars <- c('bill_length_mm', 'flipper_length_mm')
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
 penguins <- penguins[complete.cases(penguins[,cluster_vars]),] # Two observations with missing values
 ```
 
@@ -44,7 +53,11 @@ penguins <- penguins |>
 Clearly there are three clusters...
 
 ```{r}
+<<<<<<< HEAD
 ggplot(penguins, aes(x = bill_len, flipper_len, color = species)) +
+=======
+ggplot(penguins, aes(x = bill_length_mm, flipper_length_mm, color = species)) +
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
 	geom_point()
 ```
 

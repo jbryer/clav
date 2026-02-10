@@ -85,7 +85,7 @@ Profile plot for cluster analysis.
 \examples{
 data(daacs, package = 'clav')
 cluster_vars <- c('Motivation', 'Metacognition', 'Strategies', 'Mathematics', 'Reading', 'Writing')
-daacs <- daacs |> dplyr::mutate(across(cluster_vars, clav::scale_this))
+daacs <- daacs |> dplyr::mutate(across(dplyr::all_of(cluster_vars), clav::scale_this))
 kmeans_out <- stats::kmeans(daacs[,cluster_vars], 5)
 profile_plot(
     df = daacs[,cluster_vars],

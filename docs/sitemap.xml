@@ -2,7 +2,10 @@
 <url><loc>/404.html</loc></url>
 <url><loc>/LICENSE.html</loc></url>
 <url><loc>/articles/clav.html</loc></url>
+<<<<<<< HEAD
 <url><loc>/articles/cluster_agreement_fit.html</loc></url>
+=======
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
 <url><loc>/articles/clustering_overlap_metric.html</loc></url>
 <url><loc>/articles/daacs.html</loc></url>
 <url><loc>/articles/index.html</loc></url>

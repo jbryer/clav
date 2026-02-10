@@ -19,8 +19,12 @@
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+<<<<<<< HEAD
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/cluster_agreement_fit.html">Cluster Agreement Fit Statistic</a></li>
     <li><a class="dropdown-item" href="../articles/clustering_overlap_metric.html">Clustering Overlap Metric for Determining the Optimal Number of Clusters</a></li>
+=======
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/clustering_overlap_metric.html">Clustering Overlap Metric for Determining the Optimal Number of Clusters</a></li>
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
     <li><a class="dropdown-item" href="../articles/daacs.html">College Readiness Profiles</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -175,6 +179,7 @@ for more details. If <code>color_palette = 0</code> then <code><a href="https://
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">daacs</span>, package <span class="op">=</span> <span class="st">'clav'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cluster_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Motivation'</span>, <span class="st">'Metacognition'</span>, <span class="st">'Strategies'</span>, <span class="st">'Mathematics'</span>, <span class="st">'Reading'</span>, <span class="st">'Writing'</span><span class="op">)</span></span></span>
+<<<<<<< HEAD
 <span class="r-in"><span><span class="va">daacs</span> <span class="op">&lt;-</span> <span class="va">daacs</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="va">cluster_vars</span>, <span class="fu">clav</span><span class="fu">::</span><span class="va"><a href="scale_this.html">scale_this</a></span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `dplyr::mutate()`.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `across(cluster_vars, clav::scale_this)`.</span>
@@ -188,6 +193,9 @@ for more details. If <code>color_palette = 0</code> then <code><a href="https://
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>   data %&gt;% select(all_of(cluster_vars))</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</span>
+=======
+<span class="r-in"><span><span class="va">daacs</span> <span class="op">&lt;-</span> <span class="va">daacs</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">cluster_vars</span><span class="op">)</span>, <span class="fu">clav</span><span class="fu">::</span><span class="va"><a href="scale_this.html">scale_this</a></span><span class="op">)</span><span class="op">)</span></span></span>
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
 <span class="r-in"><span><span class="va">kmeans_out</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">kmeans</a></span><span class="op">(</span><span class="va">daacs</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">profile_plot</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    df <span class="op">=</span> <span class="va">daacs</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>,</span></span>

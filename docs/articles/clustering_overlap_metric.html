@@ -34,8 +34,12 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<<<<<<< HEAD
 <li><a class="dropdown-item" href="../articles/cluster_agreement_fit.html">Cluster Agreement Fit Statistic</a></li>
     <li><a class="dropdown-item" href="../articles/clustering_overlap_metric.html">Clustering Overlap Metric for Determining the Optimal Number of Clusters</a></li>
+=======
+<li><a class="dropdown-item" href="../articles/clustering_overlap_metric.html">Clustering Overlap Metric for Determining the Optimal Number of Clusters</a></li>
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
     <li><a class="dropdown-item" href="../articles/daacs.html">College Readiness Profiles</a></li>
   </ul>
 </li>
@@ -69,8 +73,13 @@
     
 <p>Data preparation…</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<<<<<<< HEAD
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">penguins</span>, package <span class="op">=</span> <span class="st">'datasets'</span><span class="op">)</span></span>
 <span><span class="va">cluster_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'bill_len'</span>, <span class="st">'flipper_len'</span><span class="op">)</span></span>
+=======
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">penguins</span>, package <span class="op">=</span> <span class="st">'palmerpenguins'</span><span class="op">)</span></span>
+<span><span class="va">cluster_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'bill_length_mm'</span>, <span class="st">'flipper_length_mm'</span><span class="op">)</span></span>
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
 <span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html" class="external-link">complete.cases</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span><span class="op">)</span>,<span class="op">]</span> <span class="co"># Two observations with missing values</span></span></code></pre></div>
 <p>Standardize our two clustering variables…</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -78,14 +87,24 @@
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="va">cluster_vars</span><span class="op">)</span>, <span class="fu">clav</span><span class="fu">::</span><span class="va"><a href="../reference/scale_this.html">scale_this</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Clearly there are three clusters…</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<<<<<<< HEAD
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">penguins</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">bill_len</span>, <span class="va">flipper_len</span>, color <span class="op">=</span> <span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clustering_overlap_metric_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="100%"></p>
+=======
+<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">penguins</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">bill_length_mm</span>, <span class="va">flipper_length_mm</span>, color <span class="op">=</span> <span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="clustering_overlap_metric_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
 <p>What do some common metrics suggest?</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oc</span> <span class="op">&lt;-</span> <span class="fu">clav</span><span class="fu">::</span><span class="fu"><a href="../reference/fitmeasures.html">optimal_clusters</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>, max_k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">oc</span><span class="op">)</span></span></code></pre></div>
+<<<<<<< HEAD
 <p><img src="clustering_overlap_metric_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="100%"></p>
+=======
+<p><img src="clustering_overlap_metric_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
 <ul>
 <li>Davies-Bouldin’s Index: 2</li>
 <li>Calinski-Harabasz Statistic: 2</li>
@@ -114,19 +133,28 @@ samples.</p>
 <span>                               replace <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                               verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cv</span><span class="op">)</span></span></code></pre></div>
+<<<<<<< HEAD
 <p><img src="clustering_overlap_metric_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="100%"></p>
+=======
+<p><img src="clustering_overlap_metric_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
 <p>The profile plot above shows that there is pretty good separation,
 but the separation between <code>bill_length_mm</code> between clusters
 B and C is the smallest. We can see better when we plot the
 distributions.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cluster_validation.html">plot_distributions</a></span><span class="op">(</span><span class="va">cv</span><span class="op">)</span></span></code></pre></div>
+<<<<<<< HEAD
 <p><img src="clustering_overlap_metric_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="100%"></p>
+=======
+<p><img src="clustering_overlap_metric_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
 <p>The following table calculates the percent overlap of the
 distribution of the cluster centers between each cluster for each
 variable (TODO: that is a wordy sentence).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cv</span><span class="op">$</span><span class="va">overlap</span></span>
+<<<<<<< HEAD
 <span><span class="co">#&gt;      variable C1 C2      overlap k</span></span>
 <span><span class="co">#&gt; 1    bill_len  A  B 7.024145e-17 3</span></span>
 <span><span class="co">#&gt; 2    bill_len  A  C 5.808049e-17 3</span></span>
@@ -134,6 +162,15 @@ variable (TODO: that is a wordy sentence).</p>
 <span><span class="co">#&gt; 4 flipper_len  A  B 1.202858e-11 3</span></span>
 <span><span class="co">#&gt; 5 flipper_len  A  C 5.576264e-17 3</span></span>
 <span><span class="co">#&gt; 6 flipper_len  B  C 9.607188e-04 3</span></span></code></pre></div>
+=======
+<span><span class="co">#&gt;            variable C1 C2      overlap k</span></span>
+<span><span class="co">#&gt; 1    bill_length_mm  A  B 7.127233e-17 3</span></span>
+<span><span class="co">#&gt; 2    bill_length_mm  A  C 5.327061e-17 3</span></span>
+<span><span class="co">#&gt; 3    bill_length_mm  B  C 1.058899e-01 3</span></span>
+<span><span class="co">#&gt; 4 flipper_length_mm  A  B 1.202857e-11 3</span></span>
+<span><span class="co">#&gt; 5 flipper_length_mm  A  C 5.878019e-17 3</span></span>
+<span><span class="co">#&gt; 6 flipper_length_mm  B  C 9.607188e-04 3</span></span></code></pre></div>
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
 <p>The following function will call <code>cluster_validation</code> and
 save the cluster overlap.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -187,7 +224,11 @@ same).</li>
 <span>    <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">geom_point</span><span class="op">(</span>data <span class="op">=</span> <span class="va">overlap</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">k</span>, y <span class="op">=</span> <span class="va">overlap</span>, color <span class="op">=</span> <span class="va">variable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">ylab</span><span class="op">(</span><span class="st">'Overlap'</span><span class="op">)</span></span></code></pre></div>
+<<<<<<< HEAD
 <p><img src="clustering_overlap_metric_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="100%"></p>
+=======
+<p><img src="clustering_overlap_metric_files/figure-html/unnamed-chunk-9-1.png" width="100%"></p>
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
   </main>
 </div>
 
@@ -198,7 +239,11 @@ same).</li>
 </div>
 
 <div class="pkgdown-footer-right">
+<<<<<<< HEAD
   <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+=======
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+>>>>>>> ef5508e8c91389537f38a80a4378d7c8ac2e1fc8
 </div>
 
     </footer>
