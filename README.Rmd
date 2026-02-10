@@ -79,7 +79,10 @@ Finding the optimal number of clusters.
 ```{r optimal-clusters, cache=TRUE, message=FALSE, warning=FALSE, fig.height=6}
 optimal <- optimal_clusters(pisa_usa[,cluster_vars], max_k = 5)
 optimal
-plot(optimal, ncol = 2)
+optimmal_plots <- plot(optimal, ncol = 2)
+names(optimmal_plots)
+# optimmal_plots[['wss']]
+optimmal_plots
 ```
 
 Validating cluster profiles using random samples of 50%. Out-of-bag uses the remaining 50% to predict cluster membership.

@@ -1,7 +1,7 @@
 #' @rdname fitmeasures
 #' @param x the result of [clav::optimal_clusters()]
-#' @param ... other parameters passed to [cowplot::plot_grid()]
-#' @return a ggplot2 expression
+#' @param ... currently not used.
+#' @return a list of ggplot2 figures for each fit statistic.
 #' @export
 #' @method plot optimalclusters
 #' @import ggplot2
@@ -90,10 +90,24 @@ plot.optimalclusters <- function(x, ...) {
 			ggtitle('Rand Index', subtitle = 'Similarity with k - 1 model')
 	}
 
+	class(plots) <- c('optimalclustersplot', 'list')
+	invisible(plots)
+}
+
+#' Print method for `plot.optimalclusters`
+#' @rdname fitmeasures
+#' @param x results from `plot.optimalclusters`
+#' @param ... other parameters passed to [cowplot::plot_grid()]
+#' @return displays a grid of plots.
+#' @method print optimalclustersplot
+#' @export
+print.optimalclustersplot <- function(x, ...) {
 	params <- list(...)
+	plots <- x
+	class(plots) <- 'list'
 	for(i in seq_len(length(params))) {
 		plots[[names(params)[i]]] <- params[[i]]
 	}
-
-	suppressWarnings(do.call(cowplot::plot_grid, plots))
+	suppressWarnings(print(do.call(cowplot::plot_grid, plots)))
+	# print(do.call(cowplot::plot_grid, plots))
 }

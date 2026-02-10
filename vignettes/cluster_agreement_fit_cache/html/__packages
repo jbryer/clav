@@ -1,2 +1,9 @@
+base
+methods
+datasets
+utils
+grDevices
+graphics
+stats
 clav
 ggplot2

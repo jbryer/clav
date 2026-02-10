@@ -72,13 +72,18 @@ optimal
 #>   k  wss silhoutte  gap calinski_harabasz davies_bouldin rand_index
 #> 1 1 9232        NA 0.83               NaN            NaN         NA
 #> 2 2 6746      0.24 0.87              1708            1.6       0.50
-#> 3 3 5965      0.20 0.86              1329            1.8       0.64
-#> 4 4 5198      0.20 0.86              1198            1.7       0.75
-#> 5 5 4682      0.20 0.86              1124            1.5       0.75
-plot(optimal, ncol = 2)
+#> 3 3 5869      0.20 0.86              1332            1.8       0.63
+#> 4 4 5259      0.20 0.86              1160            1.7       0.74
+#> 5 5 4658      0.20 0.86              1125            1.6       0.68
+optimmal_plots <- plot(optimal, ncol = 2)
+names(optimmal_plots)
+#> [1] "davies_bouldin" "calinski"       "wss"            "silhouette"    
+#> [5] "gap"            "rand"
+# optimmal_plots[['wss']]
+optimmal_plots
 ```
 
-<img src="man/figures/README-optimal-clusters-1.png" width="100%" />
+<img src="man/figures/README-optimal-clusters-1.png" alt="" width="100%" />
 
 Validating cluster profiles using random samples of 50%. Out-of-bag uses
 the remaining 50% to predict cluster membership.

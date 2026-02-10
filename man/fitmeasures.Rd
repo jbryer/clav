@@ -4,6 +4,7 @@
 \name{optimal_clusters}
 \alias{optimal_clusters}
 \alias{plot.optimalclusters}
+\alias{print.optimalclustersplot}
 \alias{wss}
 \alias{silhouette_score}
 \alias{calinski_harabasz}
@@ -24,6 +25,8 @@ optimal_clusters(
 )
 
 \method{plot}{optimalclusters}(x, ...)
+
+\method{print}{optimalclustersplot}(x, ...)
 
 wss(df, k = 9, cluster_fun = stats::kmeans)
 
@@ -54,7 +57,7 @@ rand_index(df, k = 9, cluster_fun = stats::kmeans, ...)
 
 \item{rand_index}{whether to calculate the Rand index.}
 
-\item{x}{the result of \code{\link[=optimal_clusters]{optimal_clusters()}}}
+\item{x}{results from \code{plot.optimalclusters}}
 
 \item{...}{other parameters passed to \code{\link[fossil:rand.index]{fossil::rand.index()}}.}
 
@@ -85,7 +88,9 @@ both the pairs of elements that are correctly assigned to the same or different
 clusters. Higher values indicate greater similarity and better clustering quality.}
 }
 
-a ggplot2 expression
+a list of ggplot2 figures for each fit statistic.
+
+displays a grid of plots.
 }
 \description{
 This function will calculate a number of metrics used to determine the optimal number of clusters.
