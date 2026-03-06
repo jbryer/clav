@@ -83,7 +83,6 @@ optimal
 
 * [Davies-Bouldin Index](https://ieeexplore.ieee.org/document/4766909) (1979) - DBI is a metric used to evaluate the quality of a cluster analysis by measuring the compactness of clusters and their separation from each other. A lower DBI indicates better clustering, with well-separated and compact clusters. 
 
-
 * [Calinski-Harabasz Statistic](https://www.tandfonline.com/doi/abs/10.1080/03610927408827101) (Caliński & Harabasz, 1974) - CH statistic measures the ratio of between-cluster variance to within-cluster variance, indicating how well-separated and compact the clusters are. Higher CH values generally indicate better clustering performance. 
 
 * [Within group sum of squares](https://www.cambridge.org/core/journals/psychometrika/article/abs/who-belongs-in-the-family/5270D9B37A258A06C7CE7C0A528145F5) (Thorndike, 1953) - WSS quantifies the dispersion of data points within each cluster, with lower WSS values indicating more compact and well-defined clusters. 

@@ -5,6 +5,8 @@
 \alias{optimal_clusters}
 \alias{plot.optimalclusters}
 \alias{print.optimalclustersplot}
+\alias{euclidean_distance}
+\alias{get_centers}
 \alias{wss}
 \alias{silhouette_score}
 \alias{calinski_harabasz}
@@ -28,7 +30,11 @@ optimal_clusters(
 
 \method{print}{optimalclustersplot}(x, ...)
 
-wss(df, k = 9, cluster_fun = stats::kmeans)
+euclidean_distance(df, centers)
+
+get_centers(df, clusters)
+
+wss(df, centers = get_centers(df, clusters), clusters)
 
 silhouette_score(df, k = 9, cluster_fun = stats::kmeans, ...)
 
@@ -61,6 +67,10 @@ rand_index(df, k = 9, cluster_fun = stats::kmeans, ...)
 
 \item{...}{other parameters passed to \code{\link[fossil:rand.index]{fossil::rand.index()}}.}
 
+\item{centers}{the centers for each cluster.}
+
+\item{clusters}{vector with the cluster membership. This is only used if \code{centers} is not specified.}
+
 \item{k}{number of clusters.}
 }
 \value{
@@ -91,6 +101,8 @@ clusters. Higher values indicate greater similarity and better clustering qualit
 a list of ggplot2 figures for each fit statistic.
 
 displays a grid of plots.
+
+data frame with the distance to each center.
 }
 \description{
 This function will calculate a number of metrics used to determine the optimal number of clusters.

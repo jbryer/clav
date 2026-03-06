@@ -51,17 +51,22 @@ optimal_clusters <- function(
 		davies_bouldin = TRUE,
 		rand_index = TRUE
 ) {
+	df <- as.data.frame(df) # In case of Tibbles
 	cluster_metrics <- suppressWarnings({ data.frame(
 		k = 1:max_k,
 		stringsAsFactors = FALSE
 	) })
 
 	if(wss) {
-		cluster_metrics$wss <- wss(df, k = max_k, cluster_fun = cluster_fun)
+		cluster_metrics$wss <- sapply(1:max_k, FUN = function(x) {
+			wss(df, clusters = cluster_fun(df, x)$cluster)
+		})
 	}
 
 	if(silhoutte) {
-		cluster_metrics$silhoutte <- silhouette_score(df, k = max_k, cluster_fun = cluster_fun)
+		cluster_metrics$silhoutte <- suppressWarnings({
+			silhouette_score(df, k = max_k, cluster_fun = cluster_fun)
+		})
 	}
 
 	if(gap) {
@@ -70,7 +75,7 @@ optimal_clusters <- function(
 			FUNcluster = cluster_fun,
 			K.max = max_k,
 			B = 60,
-			verbose = interactive()) # NOTE: This takes a while to run
+			verbose = FALSE)
 		cluster_metrics$gap <- wgu_gap$Tab[1:max_k,'gap']
 
 	}
@@ -80,7 +85,9 @@ optimal_clusters <- function(
 	}
 
 	if(davies_bouldin) {
-		cluster_metrics$davies_bouldin <- davies_bouldin(df, k = max_k, cluster_fun = cluster_fun)
+		cluster_metrics$davies_bouldin <- suppressWarnings({
+			davies_bouldin(df, k = max_k, cluster_fun = cluster_fun)
+		})
 	}
 
 	if(rand_index) {

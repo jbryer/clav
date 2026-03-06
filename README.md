@@ -42,6 +42,7 @@ source('data-raw/data-prep-pisa-2015.R')
 # Generate the package documentation
 usethis::use_tidy_description()
 devtools::document()
+devtools::check_man()
 # Install the package
 devtools::install()
 devtools::install(build_vignettes = TRUE)
@@ -51,6 +52,45 @@ devtools::check(cran = TRUE)
 # Build the pkgdown site
 pkgdown::build_site()
 ```
+
+## Clustering Functions
+
+This package is designed to work with nearly any clustering methods.
+However, there is no consistency in how clustering functions are
+implemented with regard to parameters and returned values. The functions
+`clav` package expect a format similar to the `kmeans` function.
+Specifically, there are two parameters passed:
+
+1.  A data frame with the variables used to do the clustering.
+2.  The number of clusters, k.
+
+The parameters are passed unnamed so the order of the parameters
+matters. Additionally, the returned object should have an element
+`cluster` that provides the cluster membership. The length of this
+vector should be equal to the number of rows in the data frame.
+
+For example, to use hierarchical clustering with the `clav` package, we
+need to implement a wrapper (note that the `hclust2` function below is
+included in the package).
+
+``` r
+hclust2 <- function(x, k, ...) {
+    result <- stats::hclust(dist(x), ...)
+    result$k <- k
+    result$cluster <- stats::cutree(result, k = k)
+    class(result) <- c('hclust2', class(result))
+    return(result)
+}
+```
+
+Note that the first parameter, `x` is the data frame of variables used
+for the clustering. The `stats::hclust()` function expect a
+dissimilarity structure as it’s first parameter (the result of
+`stats::dist()`). Since `hclust` determines cluster membership for all
+*n* - 1 possibilities, we use the `stats::cutree()` function for the
+desired k. Other parameters for `hclust` are passed using the `...`
+(dots) operator. Lastly, we add the `cluster` vector and modify the
+class so that we could implement S3 methods if necessary.
 
 ## Example
 
