@@ -23,7 +23,14 @@ optimal_clusters(
 # S3 method for class 'optimalclusters'
 plot(x, ...)
 
-wss(df, k = 9, cluster_fun = stats::kmeans)
+# S3 method for class 'optimalclustersplot'
+print(x, ...)
+
+euclidean_distance(df, centers)
+
+get_centers(df, clusters)
+
+wss(df, centers = get_centers(df, clusters), clusters)
 
 silhouette_score(df, k = 9, cluster_fun = stats::kmeans, ...)
 
@@ -74,12 +81,21 @@ rand_index(df, k = 9, cluster_fun = stats::kmeans, ...)
 
 - x:
 
-  the result of `optimal_clusters()`
+  results from `plot.optimalclusters`
 
 - ...:
 
   other parameters passed to
   [`fossil::rand.index()`](https://rdrr.io/pkg/fossil/man/rand.index.html).
+
+- centers:
+
+  the centers for each cluster.
+
+- clusters:
+
+  vector with the cluster membership. This is only used if `centers` is
+  not specified.
 
 - k:
 
@@ -133,4 +149,8 @@ the following columns (if the corresponding metric was requested):
   the same or different clusters. Higher values indicate greater
   similarity and better clustering quality.
 
-a ggplot2 expression
+a list of ggplot2 figures for each fit statistic.
+
+displays a grid of plots.
+
+data frame with the distance to each center.

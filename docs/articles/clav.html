@@ -192,12 +192,12 @@ which allows for easy modification to include other countries.&lt;/p&gt;'><sup>1
 <code class="sourceCode R"><span><span class="va">optimal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitmeasures.html">optimal_clusters</a></span><span class="op">(</span><span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>, max_k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">optimal</span></span>
 <span><span class="co">#&gt;   k      wss silhoutte       gap calinski_harabasz davies_bouldin rand_index</span></span>
-<span><span class="co">#&gt; 1 1 23180.00        NA 0.9077290               NaN            NaN         NA</span></span>
-<span><span class="co">#&gt; 2 2 18221.06 0.2003285 0.8881730         1261.4359       1.916861  0.5015503</span></span>
-<span><span class="co">#&gt; 3 3 16348.24 0.2085359 0.8738598          965.0861       2.152198  0.6832980</span></span>
-<span><span class="co">#&gt; 4 4 14588.79 0.1621539 0.8655373          908.7634       1.819800  0.8098577</span></span>
-<span><span class="co">#&gt; 5 5 13318.75 0.1684867 0.8602912          869.9972       1.809378  0.7366672</span></span>
-<span><span class="co">#&gt; 6 6 12223.82 0.1718593 0.8715511          826.2544       1.634673  0.7914534</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 1 23180.00        NA 0.9077136               NaN            NaN         NA</span></span>
+<span><span class="co">#&gt; 2 2 18221.06 0.2004625 0.8867832         1261.4477       1.916819  0.5015503</span></span>
+<span><span class="co">#&gt; 3 3 16348.24 0.1482196 0.8745410          968.2465       2.156525  0.6832602</span></span>
+<span><span class="co">#&gt; 4 4 14588.79 0.1500223 0.8651014          909.5586       1.820295  0.7641582</span></span>
+<span><span class="co">#&gt; 5 5 13318.75 0.1683908 0.8477438          866.9828       1.692036  0.8207438</span></span>
+<span><span class="co">#&gt; 6 6 12223.82 0.1720427 0.8732517          818.8149       1.602311  0.8092522</span></span></code></pre></div>
 <ul>
 <li><p><a href="https://ieeexplore.ieee.org/document/4766909" class="external-link">Davies-Bouldin
 Index</a> (1979) - DBI is a metric used to evaluate the quality of a
@@ -234,7 +234,6 @@ two clusterings.</p></li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">optimal</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="clav_files/figure-html/plot-optimal-clusters-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="validating-cluster-solution">Validating cluster solution<a class="anchor" aria-label="anchor" href="#validating-cluster-solution"></a>
@@ -343,23 +342,23 @@ distributions to be as small as possible.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Residuals:</span></span>
 <span><span class="co">#&gt;      Min       1Q   Median       3Q      Max </span></span>
-<span><span class="co">#&gt; -275.325  -58.953    2.182   59.072  272.494 </span></span>
+<span><span class="co">#&gt; -275.211  -58.925    2.157   59.110  272.618 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Coefficients:</span></span>
 <span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span><span class="co">#&gt; (Intercept)  527.086      4.173 126.307  &lt; 2e-16 ***</span></span>
-<span><span class="co">#&gt; interest      17.467      1.434  12.180  &lt; 2e-16 ***</span></span>
-<span><span class="co">#&gt; enjoyment     21.286      1.350  15.768  &lt; 2e-16 ***</span></span>
-<span><span class="co">#&gt; motivation    -6.969      1.330  -5.239 1.69e-07 ***</span></span>
-<span><span class="co">#&gt; efficacy      20.392      1.496  13.634  &lt; 2e-16 ***</span></span>
-<span><span class="co">#&gt; belonging     -3.187      1.264  -2.521   0.0117 *  </span></span>
-<span><span class="co">#&gt; cluster       -9.808      1.892  -5.185 2.25e-07 ***</span></span>
+<span><span class="co">#&gt; (Intercept)  526.929      4.179 126.082  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; interest      17.385      1.431  12.145  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; enjoyment     21.323      1.349  15.807  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; motivation    -6.990      1.330  -5.256 1.54e-07 ***</span></span>
+<span><span class="co">#&gt; efficacy      20.443      1.503  13.597  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; belonging     -3.196      1.265  -2.526   0.0116 *  </span></span>
+<span><span class="co">#&gt; cluster       -9.756      1.899  -5.137 2.90e-07 ***</span></span>
 <span><span class="co">#&gt; ---</span></span>
 <span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Residual standard error: 83.23 on 4630 degrees of freedom</span></span>
-<span><span class="co">#&gt; Multiple R-squared:  0.1806, Adjusted R-squared:  0.1796 </span></span>
-<span><span class="co">#&gt; F-statistic: 170.1 on 6 and 4630 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
+<span><span class="co">#&gt; Multiple R-squared:  0.1806, Adjusted R-squared:  0.1795 </span></span>
+<span><span class="co">#&gt; F-statistic:   170 on 6 and 4630 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

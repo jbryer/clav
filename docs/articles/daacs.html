@@ -87,15 +87,14 @@ Timothy J. Cleary, Jason Bryer, Elie ChingYen Yu presented at AERA
 <code class="sourceCode R"><span><span class="va">optimal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitmeasures.html">optimal_clusters</a></span><span class="op">(</span><span class="va">daacs</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>, max_k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">optimal</span></span>
 <span><span class="co">#&gt;   k      wss silhoutte       gap calinski_harabasz davies_bouldin rand_index</span></span>
-<span><span class="co">#&gt; 1 1 38250.00        NA 0.9134492               NaN            NaN         NA</span></span>
-<span><span class="co">#&gt; 2 2 29868.66 0.2001269 0.8822160          1788.585       1.886276  0.5002855</span></span>
-<span><span class="co">#&gt; 3 3 25052.91 0.2025981 0.8978628          1678.549       1.634979  0.7516727</span></span>
-<span><span class="co">#&gt; 4 4 22790.00 0.1524237 0.8817384          1441.386       1.766747  0.8183650</span></span>
-<span><span class="co">#&gt; 5 5 20747.34 0.1634359 0.9043772          1343.563       1.630104  0.7633536</span></span>
-<span><span class="co">#&gt; 6 6 19198.02 0.1651130 0.9157450          1264.325       1.578091  0.9032546</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 1 38250.00        NA 0.9135164               NaN            NaN         NA</span></span>
+<span><span class="co">#&gt; 2 2 29868.66 0.2000828 0.8821611          1788.684       1.885763  0.5002855</span></span>
+<span><span class="co">#&gt; 3 3 25052.91 0.2024985 0.8980284          1678.540       1.634979  0.7523985</span></span>
+<span><span class="co">#&gt; 4 4 22790.00 0.1806161 0.8936067          1441.385       1.780377  0.7415528</span></span>
+<span><span class="co">#&gt; 5 5 20747.34 0.1634359 0.9039425          1343.682       1.631170  0.8858106</span></span>
+<span><span class="co">#&gt; 6 6 19198.02 0.1651062 0.9157272          1264.308       1.574902  0.9058986</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">optimal</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="daacs_files/figure-html/plot-optimal-clusters-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="validating-cluster-solution">Validating cluster solution<a class="anchor" aria-label="anchor" href="#validating-cluster-solution"></a>

@@ -122,12 +122,12 @@ summary(principals_lm_out)
 optimal <- optimal_clusters(pisa_usa[,cluster_vars], max_k = 6)
 optimal
 #>   k      wss silhoutte       gap calinski_harabasz davies_bouldin rand_index
-#> 1 1 23180.00        NA 0.9077290               NaN            NaN         NA
-#> 2 2 18221.06 0.2003285 0.8881730         1261.4359       1.916861  0.5015503
-#> 3 3 16348.24 0.2085359 0.8738598          965.0861       2.152198  0.6832980
-#> 4 4 14588.79 0.1621539 0.8655373          908.7634       1.819800  0.8098577
-#> 5 5 13318.75 0.1684867 0.8602912          869.9972       1.809378  0.7366672
-#> 6 6 12223.82 0.1718593 0.8715511          826.2544       1.634673  0.7914534
+#> 1 1 23180.00        NA 0.9077136               NaN            NaN         NA
+#> 2 2 18221.06 0.2004625 0.8867832         1261.4477       1.916819  0.5015503
+#> 3 3 16348.24 0.1482196 0.8745410          968.2465       2.156525  0.6832602
+#> 4 4 14588.79 0.1500223 0.8651014          909.5586       1.820295  0.7641582
+#> 5 5 13318.75 0.1683908 0.8477438          866.9828       1.692036  0.8207438
+#> 6 6 12223.82 0.1720427 0.8732517          818.8149       1.602311  0.8092522
 ```
 
 - [Davies-Bouldin
@@ -175,8 +175,6 @@ optimal
 ``` r
 plot(optimal, ncol = 2)
 ```
-
-![](clav_files/figure-html/plot-optimal-clusters-1.png)
 
 ## Validating cluster solution
 
@@ -292,23 +290,23 @@ summary(lm_out)
 #> 
 #> Residuals:
 #>      Min       1Q   Median       3Q      Max 
-#> -275.325  -58.953    2.182   59.072  272.494 
+#> -275.211  -58.925    2.157   59.110  272.618 
 #> 
 #> Coefficients:
 #>             Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)  527.086      4.173 126.307  < 2e-16 ***
-#> interest      17.467      1.434  12.180  < 2e-16 ***
-#> enjoyment     21.286      1.350  15.768  < 2e-16 ***
-#> motivation    -6.969      1.330  -5.239 1.69e-07 ***
-#> efficacy      20.392      1.496  13.634  < 2e-16 ***
-#> belonging     -3.187      1.264  -2.521   0.0117 *  
-#> cluster       -9.808      1.892  -5.185 2.25e-07 ***
+#> (Intercept)  526.929      4.179 126.082  < 2e-16 ***
+#> interest      17.385      1.431  12.145  < 2e-16 ***
+#> enjoyment     21.323      1.349  15.807  < 2e-16 ***
+#> motivation    -6.990      1.330  -5.256 1.54e-07 ***
+#> efficacy      20.443      1.503  13.597  < 2e-16 ***
+#> belonging     -3.196      1.265  -2.526   0.0116 *  
+#> cluster       -9.756      1.899  -5.137 2.90e-07 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
 #> Residual standard error: 83.23 on 4630 degrees of freedom
-#> Multiple R-squared:  0.1806, Adjusted R-squared:  0.1796 
-#> F-statistic: 170.1 on 6 and 4630 DF,  p-value: < 2.2e-16
+#> Multiple R-squared:  0.1806, Adjusted R-squared:  0.1795 
+#> F-statistic:   170 on 6 and 4630 DF,  p-value: < 2.2e-16
 ```
 
 ## Discussion

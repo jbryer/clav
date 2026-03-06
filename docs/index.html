@@ -80,6 +80,7 @@
 <span><span class="co"># Generate the package documentation</span></span>
 <span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/tidyverse.html" class="external-link">use_tidy_description</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">document</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/check_man.html" class="external-link">check_man</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># Install the package</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install.html" class="external-link">install</a></span><span class="op">(</span>build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -90,9 +91,29 @@
 <span><span class="fu">pkgdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">build_site</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="clustering-functions">Clustering Functions<a class="anchor" aria-label="anchor" href="#clustering-functions"></a>
+</h2>
+<p>This package is designed to work with nearly any clustering methods. However, there is no consistency in how clustering functions are implemented with regard to parameters and returned values. The functions <code>clav</code> package expect a format similar to the <code>kmeans</code> function. Specifically, there are two parameters passed:</p>
+<ol style="list-style-type: decimal">
+<li>A data frame with the variables used to do the clustering.</li>
+<li>The number of clusters, k.</li>
+</ol>
+<p>The parameters are passed unnamed so the order of the parameters matters. Additionally, the returned object should have an element <code>cluster</code> that provides the cluster membership. The length of this vector should be equal to the number of rows in the data frame.</p>
+<p>For example, to use hierarchical clustering with the <code>clav</code> package, we need to implement a wrapper (note that the <code>hclust2</code> function below is included in the package).</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">hclust2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">k</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span>    <span class="va">result</span><span class="op">$</span><span class="va">k</span> <span class="op">&lt;-</span> <span class="va">k</span></span>
+<span>    <span class="va">result</span><span class="op">$</span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/cutree.html" class="external-link">cutree</a></span><span class="op">(</span><span class="va">result</span>, k <span class="op">=</span> <span class="va">k</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'hclust2'</span>, <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>Note that the first parameter, <code>x</code> is the data frame of variables used for the clustering. The <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">stats::hclust()</a></code> function expect a dissimilarity structure as it’s first parameter (the result of <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">stats::dist()</a></code>). Since <code>hclust</code> determines cluster membership for all <em>n</em> - 1 possibilities, we use the <code><a href="https://rdrr.io/r/stats/cutree.html" class="external-link">stats::cutree()</a></code> function for the desired k. Other parameters for <code>hclust</code> are passed using the <code>...</code> (dots) operator. Lastly, we add the <code>cluster</code> vector and modify the class so that we could implement S3 methods if necessary.</p>
+</div>
+<div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jbryer.github.io/clav/" class="external-link">clav</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pisa2015</span>, package <span class="op">=</span> <span class="st">'clav'</span><span class="op">)</span></span>
 <span></span>
@@ -101,19 +122,24 @@
 <span></span>
 <span><span class="va">pisa_usa</span> <span class="op">&lt;-</span> <span class="va">pisa2015</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">country</span> <span class="op">==</span> <span class="st">'UNITED STATES'</span><span class="op">)</span></span></code></pre></div>
 <p>Finding the optimal number of clusters.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">optimal</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fitmeasures.html">optimal_clusters</a></span><span class="op">(</span><span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>, max_k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="va">optimal</span></span>
 <span><span class="co">#&gt;   k  wss silhoutte  gap calinski_harabasz davies_bouldin rand_index</span></span>
 <span><span class="co">#&gt; 1 1 9232        NA 0.83               NaN            NaN         NA</span></span>
 <span><span class="co">#&gt; 2 2 6746      0.24 0.87              1708            1.6       0.50</span></span>
-<span><span class="co">#&gt; 3 3 5965      0.20 0.86              1329            1.8       0.64</span></span>
-<span><span class="co">#&gt; 4 4 5198      0.20 0.86              1198            1.7       0.75</span></span>
-<span><span class="co">#&gt; 5 5 4682      0.20 0.86              1124            1.5       0.75</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">optimal</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-optimal-clusters-1.png" width="100%"></p>
+<span><span class="co">#&gt; 3 3 5869      0.20 0.86              1332            1.8       0.63</span></span>
+<span><span class="co">#&gt; 4 4 5259      0.20 0.86              1160            1.7       0.74</span></span>
+<span><span class="co">#&gt; 5 5 4658      0.20 0.86              1125            1.6       0.68</span></span>
+<span><span class="va">optimmal_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">optimal</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">optimmal_plots</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "davies_bouldin" "calinski"       "wss"            "silhouette"    </span></span>
+<span><span class="co">#&gt; [5] "gap"            "rand"</span></span>
+<span><span class="co"># optimmal_plots[['wss']]</span></span>
+<span><span class="va">optimmal_plots</span></span></code></pre></div>
+<p><img src="reference/figures/README-optimal-clusters-1.png" alt="" width="100%"></p>
 <p>Validating cluster profiles using random samples of 50%. Out-of-bag uses the remaining 50% to predict cluster membership.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pisa_cv_random</span> <span class="op">&lt;-</span> <span class="va">pisa_usa</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">cluster_vars</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">clav</span><span class="fu">::</span><span class="fu"><a href="reference/cluster_validation.html">cluster_validation</a></span><span class="op">(</span></span>
@@ -126,7 +152,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pisa_cv_random</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-random-validation-1.png" alt="" width="100%"></p>
 <p>Re-estimate the clusters using the OOB sample instead of predicting using the in sample model.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pisa_cv_random2</span> <span class="op">&lt;-</span> <span class="va">pisa_usa</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">cluster_vars</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">clav</span><span class="fu">::</span><span class="fu"><a href="reference/cluster_validation.html">cluster_validation</a></span><span class="op">(</span></span>
@@ -143,7 +169,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pisa_cv_random2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-oob-reestimate-validation-1.png" alt="" width="100%"></p>
 <p>Bootstrap approach to validation.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pisa_cv_bootstrap</span> <span class="op">&lt;-</span> <span class="va">pisa_usa</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">cluster_vars</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">clav</span><span class="fu">::</span><span class="fu"><a href="reference/cluster_validation.html">cluster_validation</a></span><span class="op">(</span></span>
@@ -156,16 +182,16 @@
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pisa_cv_bootstrap</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-bootstrap-validation-1.png" alt="" width="100%"></p>
 <p>Using latent profile analysis for estimating clusters.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://data-edu.github.io/tidyLPA/" class="external-link">tidyLPA</a></span><span class="op">)</span></span>
 <span><span class="va">lpa</span> <span class="op">&lt;-</span> <span class="va">pisa_usa</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">cluster_vars</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">tidyLPA</span><span class="fu">::</span><span class="fu">estimate_profiles</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
+<span>    <span class="fu">tidyLPA</span><span class="fu">::</span><span class="fu"><a href="https://data-edu.github.io/tidyLPA/reference/estimate_profiles.html" class="external-link">estimate_profiles</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co"># lpa_predict &lt;- predict(lpa, pisaUSA15[sample(nrow(pisaUSA15), 100),])</span></span>
 <span><span class="co"># lpa_estimates &lt;- get_estimates(lpa)</span></span>
-<span><span class="va">lpa_data</span> <span class="op">&lt;-</span> <span class="fu">get_data</span><span class="op">(</span><span class="va">lpa</span><span class="op">)</span></span>
+<span><span class="va">lpa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://data-edu.github.io/tidyLPA/reference/get_data.html" class="external-link">get_data</a></span><span class="op">(</span><span class="va">lpa</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">plot_profiles</span><span class="op">(</span><span class="va">lpa</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://cjvanlissa.github.io/tidySEM/reference/plot_profiles.html" class="external-link">plot_profiles</a></span><span class="op">(</span><span class="va">lpa</span><span class="op">)</span></span>
 <span><span class="fu">clav</span><span class="fu">::</span><span class="fu"><a href="reference/profile_plot.html">profile_plot</a></span><span class="op">(</span><span class="va">pisa_usa</span><span class="op">[</span>,<span class="va">cluster_vars</span><span class="op">]</span>,</span>
 <span>                   clusters <span class="op">=</span> <span class="va">lpa_data</span><span class="op">$</span><span class="va">Class</span>,</span>
 <span>                   df_dep <span class="op">=</span> <span class="va">pisa_usa</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'science_score'</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
@@ -175,7 +201,7 @@
 <span>    n_clusters <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>    cluster_fun <span class="op">=</span> <span class="va">estimate_profiles</span>,</span>
 <span>    oob_predict_fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">fit</span>, <span class="va">newdata</span><span class="op">)</span> <span class="op">{</span></span>
-<span>        <span class="fu">estimate_profiles</span><span class="op">(</span><span class="va">newdata</span>, <span class="va">n_clusters</span><span class="op">)</span></span>
+<span>        <span class="fu"><a href="https://data-edu.github.io/tidyLPA/reference/estimate_profiles.html" class="external-link">estimate_profiles</a></span><span class="op">(</span><span class="va">newdata</span>, <span class="va">n_clusters</span><span class="op">)</span></span>
 <span>    <span class="op">}</span>,</span>
 <span>    sample_size <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">pisaUSA15</span><span class="op">)</span>,</span>
 <span>    replace <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -187,7 +213,7 @@
 <div class="section level2">
 <h2 id="profile-plot">Profile Plot<a class="anchor" aria-label="anchor" href="#profile-plot"></a>
 </h2>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">pisa_usa</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">cluster_vars</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">kmeans</a></span><span class="op">(</span>centers <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>

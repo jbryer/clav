@@ -44,10 +44,16 @@
   : Plot output for the discriminant project figure.
 - [`optimal_clusters()`](fitmeasures.md)
   [`plot(`*`<optimalclusters>`*`)`](fitmeasures.md)
-  [`wss()`](fitmeasures.md) [`silhouette_score()`](fitmeasures.md)
+  [`print(`*`<optimalclustersplot>`*`)`](fitmeasures.md)
+  [`euclidean_distance()`](fitmeasures.md)
+  [`get_centers()`](fitmeasures.md) [`wss()`](fitmeasures.md)
+  [`silhouette_score()`](fitmeasures.md)
   [`calinski_harabasz()`](fitmeasures.md)
   [`davies_bouldin()`](fitmeasures.md) [`rand_index()`](fitmeasures.md)
   : Utility function used to determine the optimal number of clusters.
+- [`hclust2()`](hclust2.md) : Hierarchical Clustering
+- [`kmeans_iterative()`](kmeans_iterative.md) : Function to perform
+  K-means step by step and save iterations
 - [`n_cluster_message()`](n_cluster_message.md) : Output for printing
   status messages from the Shiny module.
 - [`n_cluster_plot_output()`](n_cluster_plot_output.md) : Plot output

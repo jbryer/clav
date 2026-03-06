@@ -31,8 +31,6 @@ oc <- clav::optimal_clusters(penguins[,cluster_vars], max_k = 6)
 plot(oc)
 ```
 
-![](bootstrap_overlap_fit_files/figure-html/unnamed-chunk-4-1.png)
-
 - Davies-Bouldin’s Index: 2
 - Calinski-Harabasz Statistic: 2
 - Within sum of squares: 3
@@ -82,12 +80,12 @@ that is a wordy sentence).
 ``` r
 cv$overlap
 #>      variable C1 C2      overlap k
-#> 1    bill_len  A  B 7.024145e-17 3
-#> 2    bill_len  A  C 5.808049e-17 3
-#> 3    bill_len  B  C 1.058899e-01 3
-#> 4 flipper_len  A  B 1.202858e-11 3
-#> 5 flipper_len  A  C 5.576264e-17 3
-#> 6 flipper_len  B  C 9.607188e-04 3
+#> 1    bill_len  A  B 1.806971e-01 3
+#> 2    bill_len  A  C 4.490494e-17 3
+#> 3    bill_len  B  C 8.082883e-09 3
+#> 4 flipper_len  A  B 1.562570e-16 3
+#> 5 flipper_len  A  C 5.568121e-17 3
+#> 6 flipper_len  B  C 5.265852e-05 3
 ```
 
 The following function will call `cluster_validation` and save the

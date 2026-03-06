@@ -30,6 +30,7 @@ source('data-raw/data-prep-pisa-2015.R')
 # Generate the package documentation
 usethis::use_tidy_description()
 devtools::document()
+devtools::check_man()
 # Install the package
 devtools::install()
 devtools::install(build_vignettes = TRUE)
@@ -39,6 +40,47 @@ devtools::check(cran = TRUE)
 # Build the pkgdown site
 pkgdown::build_site()
 ```
+
+## Clustering Functions
+
+This package is designed to work with nearly any clustering methods.
+However, there is no consistency in how clustering functions are
+implemented with regard to parameters and returned values. The functions
+`clav` package expect a format similar to the `kmeans` function.
+Specifically, there are two parameters passed:
+
+1.  A data frame with the variables used to do the clustering.
+2.  The number of clusters, k.
+
+The parameters are passed unnamed so the order of the parameters
+matters. Additionally, the returned object should have an element
+`cluster` that provides the cluster membership. The length of this
+vector should be equal to the number of rows in the data frame.
+
+For example, to use hierarchical clustering with the `clav` package, we
+need to implement a wrapper (note that the `hclust2` function below is
+included in the package).
+
+``` r
+hclust2 <- function(x, k, ...) {
+    result <- stats::hclust(dist(x), ...)
+    result$k <- k
+    result$cluster <- stats::cutree(result, k = k)
+    class(result) <- c('hclust2', class(result))
+    return(result)
+}
+```
+
+Note that the first parameter, `x` is the data frame of variables used
+for the clustering. The
+[`stats::hclust()`](https://rdrr.io/r/stats/hclust.html) function expect
+a dissimilarity structure as it’s first parameter (the result of
+[`stats::dist()`](https://rdrr.io/r/stats/dist.html)). Since `hclust`
+determines cluster membership for all *n* - 1 possibilities, we use the
+[`stats::cutree()`](https://rdrr.io/r/stats/cutree.html) function for
+the desired k. Other parameters for `hclust` are passed using the `...`
+(dots) operator. Lastly, we add the `cluster` vector and modify the
+class so that we could implement S3 methods if necessary.
 
 ## Example
 
@@ -60,10 +102,15 @@ optimal
 #>   k  wss silhoutte  gap calinski_harabasz davies_bouldin rand_index
 #> 1 1 9232        NA 0.83               NaN            NaN         NA
 #> 2 2 6746      0.24 0.87              1708            1.6       0.50
-#> 3 3 5965      0.20 0.86              1329            1.8       0.64
-#> 4 4 5198      0.20 0.86              1198            1.7       0.75
-#> 5 5 4682      0.20 0.86              1124            1.5       0.75
-plot(optimal, ncol = 2)
+#> 3 3 5869      0.20 0.86              1332            1.8       0.63
+#> 4 4 5259      0.20 0.86              1160            1.7       0.74
+#> 5 5 4658      0.20 0.86              1125            1.6       0.68
+optimmal_plots <- plot(optimal, ncol = 2)
+names(optimmal_plots)
+#> [1] "davies_bouldin" "calinski"       "wss"            "silhouette"    
+#> [5] "gap"            "rand"
+# optimmal_plots[['wss']]
+optimmal_plots
 ```
 
 ![](reference/figures/README-optimal-clusters-1.png)
@@ -217,10 +264,16 @@ clav::profile_plot(pisa_usa[,cluster_vars],
   : Plot output for the discriminant project figure.
 - [`optimal_clusters()`](fitmeasures.md)
   [`plot(`*`<optimalclusters>`*`)`](fitmeasures.md)
-  [`wss()`](fitmeasures.md) [`silhouette_score()`](fitmeasures.md)
+  [`print(`*`<optimalclustersplot>`*`)`](fitmeasures.md)
+  [`euclidean_distance()`](fitmeasures.md)
+  [`get_centers()`](fitmeasures.md) [`wss()`](fitmeasures.md)
+  [`silhouette_score()`](fitmeasures.md)
   [`calinski_harabasz()`](fitmeasures.md)
   [`davies_bouldin()`](fitmeasures.md) [`rand_index()`](fitmeasures.md)
   : Utility function used to determine the optimal number of clusters.
+- [`hclust2()`](hclust2.md) : Hierarchical Clustering
+- [`kmeans_iterative()`](kmeans_iterative.md) : Function to perform
+  K-means step by step and save iterations
 - [`n_cluster_message()`](n_cluster_message.md) : Output for printing
   status messages from the Shiny module.
 - [`n_cluster_plot_output()`](n_cluster_plot_output.md) : Plot output
