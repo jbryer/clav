@@ -4,7 +4,11 @@
 #' estimate cluster membership, and calculate the mean (the default, a different
 #' statistic can be specified using the `summary_fun` parameter, e.g. `median`
 #' may be appropriate) for each cluster using both the in sample and out-of-bag
-#' (i.e. out of sample). For the out-of-bag sample
+#' (i.e. out of sample).
+#'
+#' **Note that this function uses bootstrap samples by default.** This can be adjusted
+#' using the `sample_size` and `replace` parameters (e.g. `sample_size = nrow(df)/2` and
+#' `replace = FALSE` to use 50/50 samples).
 #'
 #' The number of rows in the resulting data frames will be equal to:
 #' `ncol(df) * n_samples * n_clusters`.
@@ -56,8 +60,8 @@ cluster_validation <- function(
 		oob_predict_fun = function(fit, newdata) { predict(fit, newdata = newdata) },
 		summary_fun = mean,
 		n_samples = 100,
-		sample_size = 0.5 * nrow(df),
-		replace = FALSE,
+		sample_size = nrow(df),
+		replace = TRUE,
 		standardize = TRUE,
 		seed,
 		verbose = interactive(),

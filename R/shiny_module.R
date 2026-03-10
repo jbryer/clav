@@ -8,6 +8,8 @@ n_cluster_message <- function(id) {
 	shiny::textOutput(shiny::NS(id, id = 'n_message'))
 }
 
+
+
 #' Slider input for the desired number of clusters.
 #'
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.

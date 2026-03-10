@@ -1,5 +1,14 @@
 utils::globalVariables(c("data_frames"))
 
+#' Run the Cluster Explainer Shiny Application
+#' @param ... parameters passed to [shiny::runApp()].
+#' @export
+#' @rdname clav_shiny
+cluster_explainer_shiny <- function(...) {
+	app_dir <- paste0(find.package('clav'), '/cluster_explainer')
+	shiny::runApp(appDir = app_dir, ...)
+}
+
 #' Run the Shiny application.
 #'
 #' @param ... named list of data frames to make available in the Shiny application.
@@ -43,7 +52,7 @@ clav_shiny_ui <- function() {
 				dependent_variable_input('shinyclav'),
 				shiny::selectInput('clustering_algo',
 								   label = 'Clustering Algorithm',
-								   choices = c('kmeans'),
+								   choices = c('kmeans', 'hclust2'),
 								   selected = 'kmeans')
 			),
 			shiny::mainPanel(

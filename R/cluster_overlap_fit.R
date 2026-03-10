@@ -3,7 +3,7 @@
 #'
 #' Note: This will always use bootstrapping.
 #'
-#' @rdname overlap_fit
+#' @rdname cluster_overlap_fit
 #' @param df data frame containing the variables to use for cluster.
 #' @param k an integer vector for the cluster sizes to estimate the overlap for.
 #' @param verbose whether to print status as the boostrap samples are estimated.
@@ -23,10 +23,10 @@
 #' \dontrun{
 #' data(daacs, package='clav')
 #' cluster_vars <- c("Motivation", "Metacognition", "Strategies", "Mathematics", "Reading", "Writing")
-#' overlap_fit <- overlap_fit(daacs[,cluster_vars])
-#' plot(overlap_fit)
+#' cof <- cluster_overlap_fit(daacs[,cluster_vars])
+#' plot(cof)
 #' }
-overlap_fit <- function(
+cluster_overlap_fit <- function(
 		df,
 		k = 2:6,
 		verbose = interactive(),
@@ -43,22 +43,22 @@ overlap_fit <- function(
 									   ...)
 		overlap <- rbind(overlap, cv$overlap)
 	}
-	class(overlap) <- c('overlap', 'data.frame')
+	class(overlap) <- c('cluster.overlap', 'data.frame')
 	return(overlap)
 }
 
 utils::globalVariables(c("agree", "fit", "k", "mean_overlap", "median_overlap", "se_overlap"))
 
 #' Plotting function for overlap fit metrics.
-#' @rdname overlap_fit
-#' @param x results from [clav::overlap_fit()].
+#' @rdname cluster_overlap_fit
+#' @param x results from [clav::cluster_overlap_fit()].
 #' @param se_factor factor to multiple the standard error. For example, for a 95% confidence interval
 #'        set `se_factor = 1.96`.
 #' @param ... currently not used.
 #' @return a `ggplot2` expression.
-#' @method plot overlap
+#' @method plot cluster.overlap
 #' @export
-plot.overlap <- function(x, se_factor = 1, ...) {
+plot.cluster.overlap <- function(x, se_factor = 1, ...) {
 	overlap <- x
 	overlap_sum <- overlap |>
 		dplyr::group_by(k) |>

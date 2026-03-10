@@ -25,8 +25,8 @@ cluster_validation(
  },
   summary_fun = mean,
   n_samples = 100,
-  sample_size = 0.5 * nrow(df),
-  replace = FALSE,
+  sample_size = nrow(df),
+  replace = TRUE,
   standardize = TRUE,
   seed,
   verbose = interactive(),
@@ -187,12 +187,16 @@ This function takes multiple random samples from the provided data frame,
 estimate cluster membership, and calculate the mean (the default, a different
 statistic can be specified using the \code{summary_fun} parameter, e.g. \code{median}
 may be appropriate) for each cluster using both the in sample and out-of-bag
-(i.e. out of sample). For the out-of-bag sample
+(i.e. out of sample).
 
 This function will re-assign cluster labels such that the mean absolute difference to the the
 cluster labels from the full dataset is as small as possible.
 }
 \details{
+\strong{Note that this function uses bootstrap samples by default.} This can be adjusted
+using the \code{sample_size} and \code{replace} parameters (e.g. \code{sample_size = nrow(df)/2} and
+\code{replace = FALSE} to use 50/50 samples).
+
 The number of rows in the resulting data frames will be equal to:
 \code{ncol(df) * n_samples * n_clusters}.
 }

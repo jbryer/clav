@@ -2,16 +2,26 @@
 % Please edit documentation in R/hclust2.R
 \name{hclust2}
 \alias{hclust2}
+\alias{predict.hclust2}
 \title{Hierarchical Clustering}
 \usage{
 hclust2(x, k, ...)
+
+\method{predict}{hclust2}(object, newdata, method = c("classes", "centers"), ...)
 }
 \arguments{
 \item{x}{data frame of variables to find clusters for.}
 
 \item{k}{the desired number of clusters.}
 
-\item{...}{other parameters passed to \code{\link[stats:hclust]{stats::hclust()}}.}
+\item{...}{currently not used.}
+
+\item{object}{results from \code{\link[=hclust2]{hclust2()}}.}
+
+\item{newdata}{data frame to get predicted clusters. If omitted then clusters for data used
+to train model will be returned.}
+
+\item{method}{whether to return the class identifier or the center.}
 }
 \value{
 the results of \code{\link[stats:hclust]{stats::hclust()}} along with additional values, namely:
@@ -19,6 +29,9 @@ the results of \code{\link[stats:hclust]{stats::hclust()}} along with additional
 \item{k}{the desired number of clusters.}
 \item{cluster}{a vector with the cluster membership.}
 }
+
+vector of predicted clusters (if \code{method = 'classes'}) or data frame with cluster centers
+(if \code{method = 'centers'}).
 }
 \description{
 This is a wrapper function to \code{\link[stats:hclust]{stats::hclust()}} to coerce the call and results to conform

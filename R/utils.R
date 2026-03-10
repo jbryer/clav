@@ -14,7 +14,9 @@ predict.kmeans <- function(
 		...
 ) {
 	method <- match.arg(method)
-
+	if(missing(newdata)) {
+		newdata <- object$cluster
+	}
 	centers <- object$centers
 	ss_by_center <- apply(centers, 1, function(x) {
 		colSums((t(newdata) - x) ^ 2)
