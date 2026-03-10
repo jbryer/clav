@@ -50,10 +50,7 @@ clav_shiny_ui <- function() {
 				n_clusters_input('shinyclav'),
 				cluster_variable_input('shinyclav'),
 				dependent_variable_input('shinyclav'),
-				shiny::selectInput('clustering_algo',
-								   label = 'Clustering Algorithm',
-								   choices = c('kmeans', 'hclust2'),
-								   selected = 'kmeans')
+				cluster_method_input('shinyclav')
 			),
 			shiny::mainPanel(
 				width = 9,
@@ -64,6 +61,15 @@ clav_shiny_ui <- function() {
 						n_cluster_plot_output('shinyclav'),
 						shiny::hr(),
 						cluster_size_bar_plot_output('shinyclav', height = '300px')
+					),
+					shiny::tabPanel(
+						title = 'Optimal k',
+						optimal_clusters_plot_output('shinyclav')
+					),
+					shiny::tabPanel(
+						title = 'Validation',
+						cluster_valdiation_plot_output('shinyclav'),
+						cluster_validation_distribution_plot_output('shinyclav')
 					),
 					shiny::tabPanel(
 						title = 'Variable Plots',

@@ -3,6 +3,16 @@ library(shiny)
 library(ggplot2)
 library(GGally)
 
+ggplot2::theme_set(ggplot2::theme_minimal())
+
+# For local testing source files locally
+shiny_files <- paste0('../../R/', c('shiny.R', 'shiny_module.R'))
+if(all(file.exists(shiny_files))) {
+	for(i in shiny_files) {
+		source(i)
+	}
+}
+
 # If there are no data.frames in the environment we will load some.
 if(!any(sapply(ls(), FUN = function(x) { is.data.frame(get(x)) }))) {
     # Load the PISA data and separate into separate data.frames by country

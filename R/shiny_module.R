@@ -4,20 +4,30 @@ utils::globalVariables(c("cluster", "count", "group1", "se", "n", "variable", "i
 #'
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
+#' @rdname clav-shiny
 n_cluster_message <- function(id) {
 	shiny::textOutput(shiny::NS(id, id = 'n_message'))
 }
 
-
+#' Output to select which clustering method to use.
+#'
+#' @export
+#' @rdname clav-shiny
+cluster_method_input <- function(id) {
+	shiny::selectInput(shiny::NS(id, id = 'clustering_algo'),
+					   label = 'Clustering Algorithm',
+					   choices = c('kmeans', 'hclust2'),
+					   selected = 'kmeans')
+}
 
 #' Slider input for the desired number of clusters.
 #'
-#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param label label for the slider input.
 #' @param min The minimum value (inclusive) that can be selected.
 #' @param max The maximum value (inclusive) that can be selected.
 #' @param value The initial value of the slider.
 #' @export
+#' @rdname clav-shiny
 n_clusters_input <- function(
 		id,
 		label = "Number of clusters:",
@@ -37,8 +47,8 @@ n_clusters_input <- function(
 
 #' Input to select the variables to perform the cluster analysis with.
 #'
-#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
+#' @rdname clav-shiny
 cluster_variable_input <- function(id) {
 	shiny::uiOutput(shiny::NS(id, id = 'variable_selection'))
 }
@@ -47,15 +57,16 @@ cluster_variable_input <- function(id) {
 #'
 #' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
+#' @rdname clav-shiny
 n_cluster_plot_output <- function(id) {
 	shiny::plotOutput(shiny::NS(id, id = 'n_clusters_plot'))
 }
 
 #' Plot output for the bar plot of cluster sizes.
 #'
-#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
+#' @rdname clav-shiny
 cluster_size_bar_plot_output <- function(id, ...) {
 	shiny::plotOutput(shiny::NS(id, id = 'cluster_size_bar'), ...)
 }
@@ -63,9 +74,9 @@ cluster_size_bar_plot_output <- function(id, ...) {
 #' Plot output for the profiles.
 #'
 #' @seealso [profile_plot()]
-#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
+#' @rdname clav-shiny
 profile_plot_output <- function(id, ...) {
 	shiny::plotOutput(shiny::NS(id, id ='profile_plot'), height = '600px')
 }
@@ -73,44 +84,44 @@ profile_plot_output <- function(id, ...) {
 #' Plot output for the pairs plot.
 #'
 #' @seealso [GGally::ggpairs()]
-#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
+#' @rdname clav-shiny
 cluster_pairs_plot_output <- function(id, ...) {
 	shiny::plotOutput(shiny::NS(id, id = 'cluster_pairs_plot'), height = '600px')
 }
 
 #' Plot output for the bivariate cluster figure.
 #'
-#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
+#' @rdname clav-shiny
 bivariate_cluster_plot_output <- function(id, ...) {
 	shiny::plotOutput(shiny::NS(id, id = 'bivariate_cluster_plot'), ...)
 }
 
 #' Plot output for the discriminant project figure.
 #'
-#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param ... other parameters passed to [shiny::plotOutput()]
 #' @export
+#' @rdname clav-shiny
 discriminant_projection_plot_output <- function(id, ...) {
 	shiny::plotOutput(shiny::NS(id, id ='discriminant_projection_plot'), ...)
 }
 
 #' Shiny input to select the dependent (outcome) variable.
 #'
-#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
+#' @rdname clav-shiny
 dependent_variable_input <- function(id) {
 	shiny::uiOutput(shiny::NS(id, id = 'dependent_variable_ui'))
 }
 
 #' Shiny output for the dependnet sample plot.
 #'
-#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @param ... other parmaeters passed to [shiny::plotOutput()].
 #' @export
+#' @rdname clav-shiny
 dependent_variable_plot_output <- function(id, ...) {
 	shiny::plotOutput(shiny::NS(id, id = 'dependent_plot'), ...)
 }
@@ -121,18 +132,39 @@ dependent_variable_plot_output <- function(id, ...) {
 #' either be an ANOVA for a quantitative dependent variable or a chi-squared test
 #' for qualitative dependent variable.
 #'
-#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
+#' @rdname clav-shiny
 dependent_variable_table_output <- function(id) {
 	shiny::tableOutput(shiny::NS(id, id = 'dependent_table'))
 }
 
 #' Output from the dependent varaible analysis.
 #'
-#' @param id An ID string that corresponds with the ID used to call the module's UI function.
 #' @export
+#' @rdname clav-shiny
 dependent_null_hypothesis_output <- function(id) {
 	shiny::verbatimTextOutput(shiny::NS(id, id = 'dependent_null_hypothesis'))
+}
+
+#' Optimal clusters plot output.
+#' @export
+#' @rdname clav-shiny
+optimal_clusters_plot_output <- function(id) {
+	shiny::plotOutput(shiny::NS(id, id = 'optimal_clusters_plot'))
+}
+
+#' Cluster validation plot output.
+#' @export
+#' @rdname clav-shiny
+cluster_valdiation_plot_output <- function(id) {
+	shiny::plotOutput(shiny::NS(id, id = 'cluster_validation_plot'))
+}
+
+#' Cluster validation distributions plot.
+#' @export
+#' @rdname clav-shiny
+cluster_validation_distribution_plot_output <- function(id) {
+	shiny::plotOutput(shiny::NS(id, id = 'cluster_validation_distribution_plot'))
 }
 
 #' Shiny module for cluster analysis.
@@ -147,6 +179,7 @@ dependent_null_hypothesis_output <- function(id) {
 #' @importFrom GGally ggpairs
 #' @import shiny
 #' @export
+#' @rdname clav-shiny
 cluster_module <- function(id,
 						   data,
 						   default_vars = names(data())[sapply(data(), function(x) { is.numeric(x) })],
@@ -170,6 +203,16 @@ cluster_module <- function(id,
 				dplyr::mutate_if(is.numeric, scale_this)
 		})
 
+		get_cluster_fun <- shiny::reactive({
+			if(input$clustering_algo == 'kmeans') {
+				return(kmeans)
+			} else if(input$clustering_alog == 'hclust2') {
+				return(hclust2)
+			} else {
+				stop('Undefined clutering method.')
+			}
+		})
+
 		get_cluster_fit <- shiny::reactive({
 			req(input$k)
 			req(input$variable_selection)
@@ -179,7 +222,7 @@ cluster_module <- function(id,
 			fit <- NULL
 			if(ncol(thedata) > 0 & nrow(thedata) > 20) {
 				# TODO: Need to standardize
-				fit <- kmeans(thedata[,input$variable_selection], input$k)
+				fit <- get_cluster_fun()(thedata[,input$variable_selection], input$k)
 			}
 			return(fit)
 		})
@@ -341,6 +384,29 @@ cluster_module <- function(id,
 			} else { # Chi-Squared
 				chisq.test(thedata$cluster, dep)
 			}
+		})
+
+		# TODO: may async
+		optimal_clusters <- reactive({
+			thedata <- get_data()
+			clav::optimal_clusters(thedata, max_k = 6, cluster_fun = get_cluster_fun())
+		})
+
+		output$optimal_clusters_plot <- renderPlot({
+			optimal_clusters() |> plot() |> print()
+		})
+
+		cluster_validation <- reactive({
+			thedata <- get_data()
+			clav::cluster_validation(thedata, n_clusters = input$k, cluster_fun = get_cluster_fun())
+		})
+
+		output$cluster_validation_plot <- renderPlot({
+			cluster_validation() |> plot()
+		})
+
+		output$cluster_validation_distribution_plot <- renderPlot({
+			cluster_validation() |> plot_distributions()
 		})
 	})
 }

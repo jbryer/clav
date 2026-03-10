@@ -233,8 +233,25 @@ clav::profile_plot(pisa_usa[,cluster_vars],
 
 ## All functions
 
-- [`bivariate_cluster_plot_output()`](bivariate_cluster_plot_output.md)
-  : Plot output for the bivariate cluster figure.
+- [`n_cluster_message()`](clav-shiny.md)
+  [`cluster_method_input()`](clav-shiny.md)
+  [`n_clusters_input()`](clav-shiny.md)
+  [`cluster_variable_input()`](clav-shiny.md)
+  [`n_cluster_plot_output()`](clav-shiny.md)
+  [`cluster_size_bar_plot_output()`](clav-shiny.md)
+  [`profile_plot_output()`](clav-shiny.md)
+  [`cluster_pairs_plot_output()`](clav-shiny.md)
+  [`bivariate_cluster_plot_output()`](clav-shiny.md)
+  [`discriminant_projection_plot_output()`](clav-shiny.md)
+  [`dependent_variable_input()`](clav-shiny.md)
+  [`dependent_variable_plot_output()`](clav-shiny.md)
+  [`dependent_variable_table_output()`](clav-shiny.md)
+  [`dependent_null_hypothesis_output()`](clav-shiny.md)
+  [`optimal_clusters_plot_output()`](clav-shiny.md)
+  [`cluster_valdiation_plot_output()`](clav-shiny.md)
+  [`cluster_validation_distribution_plot_output()`](clav-shiny.md)
+  [`cluster_module()`](clav-shiny.md) : Output for printing status
+  messages from the Shiny module.
 - [`cluster_explainer_shiny()`](clav_shiny.md)
   [`cluster_shiny()`](clav_shiny.md) [`clav_shiny_ui()`](clav_shiny.md)
   [`clav_shiny_server()`](clav_shiny.md) : Run the Cluster Explainer
@@ -246,15 +263,9 @@ clav::profile_plot(pisa_usa[,cluster_vars],
   [`summary(`*`<cluster_agreement_fit>`*`)`](cluster_agreement_fit.md)
   [`cluster_agreement()`](cluster_agreement_fit.md) : Cluster Agreement
   Fit
-- [`cluster_module()`](cluster_module.md) : Shiny module for cluster
-  analysis.
 - [`cluster_overlap_fit()`](cluster_overlap_fit.md)
   [`plot(`*`<cluster.overlap>`*`)`](cluster_overlap_fit.md) : Cluster
   analysis fit statistic using bootstrap distributions
-- [`cluster_pairs_plot_output()`](cluster_pairs_plot_output.md) : Plot
-  output for the pairs plot.
-- [`cluster_size_bar_plot_output()`](cluster_size_bar_plot_output.md) :
-  Plot output for the bar plot of cluster sizes.
 - [`cluster_validation()`](cluster_validation.md)
   [`plot(`*`<clustervalidation>`*`)`](cluster_validation.md)
   [`print(`*`<clustervalidation>`*`)`](cluster_validation.md)
@@ -263,21 +274,9 @@ clav::profile_plot(pisa_usa[,cluster_vars],
   [`fix_cluster_labels()`](cluster_validation.md)
   [`plot_distributions()`](cluster_validation.md) : Cluster profile
   validation
-- [`cluster_variable_input()`](cluster_variable_input.md) : Input to
-  select the variables to perform the cluster analysis with.
 - [`daacs`](daacs.md) : Diagnostic Assessment and Achievement of College
   Skills
-- [`dependent_null_hypothesis_output()`](dependent_null_hypothesis_output.md)
-  : Output from the dependent varaible analysis.
-- [`dependent_variable_input()`](dependent_variable_input.md) : Shiny
-  input to select the dependent (outcome) variable.
-- [`dependent_variable_plot_output()`](dependent_variable_plot_output.md)
-  : Shiny output for the dependnet sample plot.
-- [`dependent_variable_table_output()`](dependent_variable_table_output.md)
-  : Output of the dependent variable analysis.
 - [`describe_by()`](describe_by.md) : Basic summary statistics by group
-- [`discriminant_projection_plot_output()`](discriminant_projection_plot_output.md)
-  : Plot output for the discriminant project figure.
 - [`optimal_clusters()`](fitmeasures.md)
   [`plot(`*`<optimalclusters>`*`)`](fitmeasures.md)
   [`print(`*`<optimalclustersplot>`*`)`](fitmeasures.md)
@@ -291,12 +290,6 @@ clav::profile_plot(pisa_usa[,cluster_vars],
   Hierarchical Clustering
 - [`kmeans_iterative()`](kmeans_iterative.md) : Function to perform
   K-means step by step and save iterations
-- [`n_cluster_message()`](n_cluster_message.md) : Output for printing
-  status messages from the Shiny module.
-- [`n_cluster_plot_output()`](n_cluster_plot_output.md) : Plot output
-  for the figure to determine the optimal number of clusters.
-- [`n_clusters_input()`](n_clusters_input.md) : Slider input for the
-  desired number of clusters.
 - [`pisa2015`](pisa2015.md) : Student questionnaire and science
   performance data from the 2015 PISA
 - [`predict(`*`<kmeans>`*`)`](predict.kmeans.md) : Predict cluster class
@@ -305,8 +298,6 @@ clav::profile_plot(pisa_usa[,cluster_vars],
   p-values
 - [`profile_plot()`](profile_plot.md) : Profile plot for cluster
   analysis.
-- [`profile_plot_output()`](profile_plot_output.md) : Plot output for
-  the profiles.
 - [`scale_this()`](scale_this.md) : Convert vector to z-scores
 
 # Articles
