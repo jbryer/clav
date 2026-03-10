@@ -30,6 +30,8 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 
 <!-- badges: end -->
 
+[Slides from New York Open Statistical Programming Meetup talk given on March 10, 2026](https://github.com/jbryer/clav/blob/master/slides/clav_nyhackr_2026.pdf)
+
 [Slides from Joint Statistical Meeting (JSM) 2025](https://github.com/jbryer/clav/blob/master/slides/clav_jsm_2025.pdf)
 
 The `clav` package provides utilities for conducting cluster (profile) analysis with an emphasis on the validating the stability of the profiles both within a given data set as well as across data sets. Unlike supervised models where the known class is measured, validation of unsupervised models where there is no known class can be challenging. The approach implemented here attempts to compare the cluster results across many random samples.
@@ -79,6 +81,7 @@ For example, to use hierarchical clustering with the `clav` package, we need to 
 hclust2 <- function(x, k, ...) {
 	result <- stats::hclust(dist(x), ...)
 	result$k <- k
+	result$data <- x
 	result$cluster <- stats::cutree(result, k = k)
 	class(result) <- c('hclust2', class(result))
 	return(result)
@@ -86,6 +89,33 @@ hclust2 <- function(x, k, ...) {
 ```
 
 Note that the first parameter, `x` is the data frame of variables used for the clustering. The `stats::hclust()` function expect a dissimilarity structure as it's first parameter (the result of `stats::dist()`). Since `hclust` determines cluster membership for all *n* - 1 possibilities, we use the `stats::cutree()` function for the desired k. Other parameters for `hclust` are passed using the `...` (dots) operator. Lastly, we add the `cluster` vector and modify the class so that we could implement S3 methods if necessary.
+
+Additionally, an [S3 method](http://adv-r.had.co.nz/OO-essentials.html#s3) for `predict` needs to be implemented. The following example implements `predict()` for `hclust2()`.
+
+```{r echo=FALSE}
+predict.hclust2 <- function(
+		object,
+		newdata,
+		method = c("classes", "centers"),
+		...
+) {
+	method <- match.arg(method)
+	if(missing(newdata)) {
+		newdata <- object$data
+	}
+	clusters <- stats::cutree(object, k = object$k)
+	centers <- get_centers(object$data, clusters)
+	ss_by_center <- apply(centers, 1, function(x) {
+		colSums((t(newdata) - x) ^ 2)
+	})
+	best_clusters <- apply(ss_by_center, 1, which.min)
+	if (method == "centers") {
+		centers[best_clusters, ]
+	} else {
+		best_clusters
+	}
+}
+```
 
 ## Example
 

@@ -65,7 +65,7 @@ plot.cluster_agreement_fit <- function(
 	p <- ggplot(df, aes(x = k, y = fit)) +
 		geom_path(aes(group = 'overall')) +
 		geom_point() +
-		ylim(c(0.5, 1)) +
+		# ylim(c(0, 1)) +
 		ylab('Cluster Agreement')
 	if(ncol(df) > 2) {
 		df_main <- df[,1:2]
