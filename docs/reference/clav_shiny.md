@@ -1,4 +1,6 @@
-# Run the Shiny application.
+# Run the Cluster Explainer Shiny Application
+
+Run the Cluster Explainer Shiny Application
 
 Run the Shiny application.
 
@@ -9,6 +11,8 @@ Server function for cluster analysis application
 ## Usage
 
 ``` r
+cluster_explainer_shiny(...)
+
 cluster_shiny(...)
 
 clav_shiny_ui()

@@ -4,8 +4,7 @@ This function takes multiple random samples from the provided data
 frame, estimate cluster membership, and calculate the mean (the default,
 a different statistic can be specified using the `summary_fun`
 parameter, e.g. `median` may be appropriate) for each cluster using both
-the in sample and out-of-bag (i.e. out of sample). For the out-of-bag
-sample
+the in sample and out-of-bag (i.e. out of sample).
 
 This function will re-assign cluster labels such that the mean absolute
 difference to the the cluster labels from the full dataset is as small
@@ -26,8 +25,8 @@ x$cluster
  },
   summary_fun = mean,
   n_samples = 100,
-  sample_size = 0.5 * nrow(df),
-  replace = FALSE,
+  sample_size = nrow(df),
+  replace = TRUE,
   standardize = TRUE,
   seed,
   verbose = interactive(),
@@ -290,6 +289,10 @@ possible.
 a `ggplot2` expression.
 
 ## Details
+
+**Note that this function uses bootstrap samples by default.** This can
+be adjusted using the `sample_size` and `replace` parameters (e.g.
+`sample_size = nrow(df)/2` and `replace = FALSE` to use 50/50 samples).
 
 The number of rows in the resulting data frames will be equal to:
 `ncol(df) * n_samples * n_clusters`.

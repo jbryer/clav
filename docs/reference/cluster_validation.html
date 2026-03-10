@@ -3,13 +3,13 @@
 estimate cluster membership, and calculate the mean (the default, a different
 statistic can be specified using the summary_fun parameter, e.g. median
 may be appropriate) for each cluster using both the in sample and out-of-bag
-(i.e. out of sample). For the out-of-bag sample
+(i.e. out of sample).
 This function will re-assign cluster labels such that the mean absolute difference to the the
 cluster labels from the full dataset is as small as possible."><meta property="og:description" content="This function takes multiple random samples from the provided data frame,
 estimate cluster membership, and calculate the mean (the default, a different
 statistic can be specified using the summary_fun parameter, e.g. median
 may be appropriate) for each cluster using both the in sample and out-of-bag
-(i.e. out of sample). For the out-of-bag sample
+(i.e. out of sample).
 This function will re-assign cluster labels such that the mean absolute difference to the the
 cluster labels from the full dataset is as small as possible."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -56,7 +56,7 @@ cluster labels from the full dataset is as small as possible."></head><body>
 estimate cluster membership, and calculate the mean (the default, a different
 statistic can be specified using the <code>summary_fun</code> parameter, e.g. <code>median</code>
 may be appropriate) for each cluster using both the in sample and out-of-bag
-(i.e. out of sample). For the out-of-bag sample</p>
+(i.e. out of sample).</p>
 <p>This function will re-assign cluster labels such that the mean absolute difference to the the
 cluster labels from the full dataset is as small as possible.</p>
     </div>
@@ -75,8 +75,8 @@ cluster labels from the full dataset is as small as possible.</p>
 <span> <span class="op">}</span>,</span>
 <span>  summary_fun <span class="op">=</span> <span class="va">mean</span>,</span>
 <span>  n_samples <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>  sample_size <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>,</span>
-<span>  replace <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  sample_size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>,</span>
+<span>  replace <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  standardize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">seed</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -323,7 +323,10 @@ that the labels match across all iterations as best as possible.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The number of rows in the resulting data frames will be equal to:
+    <p><strong>Note that this function uses bootstrap samples by default.</strong> This can be adjusted
+using the <code>sample_size</code> and <code>replace</code> parameters (e.g. <code>sample_size = nrow(df)/2</code> and
+<code>replace = FALSE</code> to use 50/50 samples).</p>
+<p>The number of rows in the resulting data frames will be equal to:
 <code>ncol(df) * n_samples * n_clusters</code>.</p>
     </div>
 

@@ -1,5 +1,9 @@
 # [![](reference/figures/clav1.png)](https://github.com/jbryer/clav) Cluster Analysis Validation (`clav`)
 
+[Slides from New York Open Statistical Programming Meetup talk given on
+March 10,
+2026](https://github.com/jbryer/clav/blob/master/slides/clav_nyhackr_2026.pdf)
+
 [Slides from Joint Statistical Meeting (JSM)
 2025](https://github.com/jbryer/clav/blob/master/slides/clav_jsm_2025.pdf)
 
@@ -65,6 +69,7 @@ included in the package).
 hclust2 <- function(x, k, ...) {
     result <- stats::hclust(dist(x), ...)
     result$k <- k
+    result$data <- x
     result$cluster <- stats::cutree(result, k = k)
     class(result) <- c('hclust2', class(result))
     return(result)
@@ -81,6 +86,12 @@ determines cluster membership for all *n* - 1 possibilities, we use the
 the desired k. Other parameters for `hclust` are passed using the `...`
 (dots) operator. Lastly, we add the `cluster` vector and modify the
 class so that we could implement S3 methods if necessary.
+
+Additionally, an [S3
+method](http://adv-r.had.co.nz/OO-essentials.html#s3) for `predict`
+needs to be implemented. The following example implements
+[`predict()`](https://rdrr.io/r/stats/predict.html) for
+[`hclust2()`](reference/hclust2.md).
 
 ## Example
 

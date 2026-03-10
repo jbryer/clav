@@ -38,11 +38,11 @@ penguins_caf <- cluster_agreement_fit(penguins[,cluster_vars] )
 ``` r
 summary(penguins_caf)
 #>    k       fit
-#> k2 2 0.9085593
-#> k3 3 0.6594468
-#> k4 4 0.5308775
-#> k5 5 0.5177239
-#> k6 6 0.6003841
+#> k2 2 0.8974122
+#> k3 3 0.7173604
+#> k4 4 0.5164034
+#> k5 5 0.5709900
+#> k6 6 0.5951021
 ```
 
 ``` r

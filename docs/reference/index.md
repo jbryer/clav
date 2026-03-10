@@ -4,8 +4,10 @@
 
 - [`bivariate_cluster_plot_output()`](bivariate_cluster_plot_output.md)
   : Plot output for the bivariate cluster figure.
-- [`cluster_shiny()`](clav_shiny.md) [`clav_shiny_ui()`](clav_shiny.md)
-  [`clav_shiny_server()`](clav_shiny.md) : Run the Shiny application.
+- [`cluster_explainer_shiny()`](clav_shiny.md)
+  [`cluster_shiny()`](clav_shiny.md) [`clav_shiny_ui()`](clav_shiny.md)
+  [`clav_shiny_server()`](clav_shiny.md) : Run the Cluster Explainer
+  Shiny Application
 - [`cluster_agreement_fit()`](cluster_agreement_fit.md)
   [`plot(`*`<cluster_agreement_fit>`*`)`](cluster_agreement_fit.md)
   [`hist(`*`<cluster_agreement_fit>`*`)`](cluster_agreement_fit.md)
@@ -15,6 +17,9 @@
   Fit
 - [`cluster_module()`](cluster_module.md) : Shiny module for cluster
   analysis.
+- [`cluster_overlap_fit()`](cluster_overlap_fit.md)
+  [`plot(`*`<cluster.overlap>`*`)`](cluster_overlap_fit.md) : Cluster
+  analysis fit statistic using bootstrap distributions
 - [`cluster_pairs_plot_output()`](cluster_pairs_plot_output.md) : Plot
   output for the pairs plot.
 - [`cluster_size_bar_plot_output()`](cluster_size_bar_plot_output.md) :
@@ -51,7 +56,8 @@
   [`calinski_harabasz()`](fitmeasures.md)
   [`davies_bouldin()`](fitmeasures.md) [`rand_index()`](fitmeasures.md)
   : Utility function used to determine the optimal number of clusters.
-- [`hclust2()`](hclust2.md) : Hierarchical Clustering
+- [`hclust2()`](hclust2.md) [`predict(`*`<hclust2>`*`)`](hclust2.md) :
+  Hierarchical Clustering
 - [`kmeans_iterative()`](kmeans_iterative.md) : Function to perform
   K-means step by step and save iterations
 - [`n_cluster_message()`](n_cluster_message.md) : Output for printing
@@ -60,9 +66,6 @@
   for the figure to determine the optimal number of clusters.
 - [`n_clusters_input()`](n_clusters_input.md) : Slider input for the
   desired number of clusters.
-- [`overlap_fit()`](overlap_fit.md)
-  [`plot(`*`<overlap>`*`)`](overlap_fit.md) : Cluster analysis fit
-  statistic using bootstrap distributions
 - [`pisa2015`](pisa2015.md) : Student questionnaire and science
   performance data from the 2015 PISA
 - [`predict(`*`<kmeans>`*`)`](predict.kmeans.md) : Predict cluster class
