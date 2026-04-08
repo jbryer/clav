@@ -29,6 +29,13 @@ class: center, middle, inverse, title-slide
 
 
 ---
+class: inverse, center, middle
+
+"There are only two hard things in Computer Science: cache invalidation and naming things."
+
+.pull-right[Phil Karlton]
+
+---
 # Overview
 
 1. Motivation for this package.
@@ -305,7 +312,10 @@ The `cluster_fun` parameter defaults to `stats::kmeans`, but can other clusterin
 
 
 ``` r
-optimal &lt;- clav::optimal_clusters(daacs[,daacs_cluster_vars], max_k = 6)
+optimal &lt;- clav::optimal_clusters(
+	df = daacs[,daacs_cluster_vars], 
+	max_k = 6,
+	cluster_fun = stats::kmeans)
 optimal
 #&gt;   k      wss silhoutte       gap calinski_harabasz davies_bouldin rand_index
 #&gt; 1 1 38250.00        NA 0.9139717               NaN            NaN         NA
@@ -328,7 +338,11 @@ plot(optimal) |&gt; print()
 
 ---
 class: inverse, middle, center
-# This is where I went down a rabit hole
+.font150[There appears to be no agreement on what k should be!]
+
+--
+
+.font150[And this is when I fell down a rabit hole.]
 
 ---
 # Let's explore where k is known
