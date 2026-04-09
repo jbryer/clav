@@ -76,7 +76,7 @@ plot(cv_boot, facet = FALSE)
 ```{r profile-plot}
 fit <- stats::kmeans(daacs[,cluster_vars], centers = 5)
 profile_plot(daacs[,cluster_vars],
-			 clusters = fit$cluster,
+			 clusters = LETTERS[fit$cluster],
 			 df_dep = daacs[,c('LogFeedbackViews', 'TermSuccess')],
 			 cluster_order = cluster_vars)
 ```

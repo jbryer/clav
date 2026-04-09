@@ -117,10 +117,11 @@ profile_plot = function(
 	plots <- list()
 
 	df.melted <- reshape2::melt(cbind(df, cluster = as.character(clusters)), id.vars = 'cluster')
-	tab <- psych::describeBy(df.melted$value,
-							 group = list(df.melted$cluster, df.melted$variable),
-							 mat = TRUE)
-	tab <- tab[,c('group1', 'group2', 'n', 'mean', 'se', 'sd', 'median')]
+	# tab <- psych::describeBy(df.melted$value,
+	# 						 group = list(df.melted$cluster, df.melted$variable),
+	# 						 mat = TRUE)
+	tab <- describe_by(df.melted, group = c('cluster', 'variable'))
+	# tab <- tab[,c('group1', 'group2', 'n', 'mean', 'se', 'sd', 'median')]
 	names(tab)[1:2] <- c('Cluster', 'Factor')
 
 	if(!missing(cluster_order)) {
