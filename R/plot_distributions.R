@@ -21,18 +21,20 @@ plot_distributions <- function(
 		...
 ) {
 	gg_base <- function(df, nrow = nrow) {
-		tab_out <- psych::describeBy(df$mean,
-									 group = list(df$variable, df$cluster),
-									 mat = TRUE, skew = FALSE)
-		names(tab_out)[2:3] <- c('variable', 'cluster')
-		tab_out$variable <- factor(tab_out$variable, levels = cv$variables, ordered = TRUE)
+		renaming <- 'variable'
+		names(renaming) <- 'cluster_variable'
+		df <- df |> dplyr::rename(renaming)
+		tab_out <- describe_by(df[,c('mean', 'cluster_variable', 'cluster'), drop=FALSE],
+							   group = c('cluster_variable', 'cluster'))
+		names(tab_out)[1:2] <- c('cluster_variable', 'cluster')
+		tab_out$cluster_variable <- factor(tab_out$cluster_variable, levels = cv$variables, ordered = TRUE)
 		ggplot(df, aes(x = mean, color = cluster, fill = cluster)) +
 			geom_density(alpha = 0.5) +
 			geom_point(data = tab_out, aes(x = mean, y = 0), size = 3) +
-			facet_wrap(~ variable, nrow = nrow) +
+			facet_wrap(~ cluster_variable, nrow = nrow) +
 			scale_fill_brewer(type = 'qual', palette = palette) +
 			scale_color_brewer(type = 'qual', palette = palette) +
-			ylab('Density')# + theme(legend.position = 'none')
+			ylab('Density')
 	}
 
 	p <- NULL

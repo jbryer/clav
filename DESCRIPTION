@@ -2,7 +2,7 @@ Type: Package
 Package: clav
 Title: Cluster Analysis Validation
 Version: 1.0.0
-Date: 2026-03-01
+Date: 2026-04-09
 Authors@R: 
     person("Jason", "Bryer", , "jason@bryer.org", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2454-0402"))

@@ -8,6 +8,7 @@ describe_by(
   df,
   group,
   group_name = "group",
+  var_sep = "__",
   funs = list(n = length, mean = mean, sd = sd, se = function(x, ...) {
      sd(x,
     ...)/sqrt(length(x))
@@ -20,9 +21,14 @@ describe_by(
 \arguments{
 \item{df}{a data frame to summarize.}
 
-\item{group}{a grouping vector.}
+\item{group}{either a character vector of column names in \code{df} to group by or vector where the
+the length is equal to the number of rows in \code{df}.}
 
-\item{group_name}{name of the grouping variable in the returned data frame.}
+\item{group_name}{if \code{group} is a grouping vector then \code{group_name} will the name used in the
+returned data frame. Otherwise, \code{group_name} will be prepended to the returned variables
+representing the grouping variables (i.e. from \code{group}).}
+
+\item{var_sep}{variable separator.}
 
 \item{funs}{a named list of functions. The names of the list will be used as the column names
 in the returned data frame.}
@@ -40,5 +46,5 @@ statistics are calculated.
 }
 \examples{
 data(pisa2015, package = 'clav')
-describe_by(df = pisa2015[,c('science_score', 'efficacy', 'motivation')], group = pisa2015$country)
+describe_by(df = pisa2015[,c('science_score', 'efficacy', 'motivation', 'country')], group = 'country')
 }
