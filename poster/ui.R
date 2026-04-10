@@ -4,18 +4,26 @@ shinyUI(navbarPage(
 	position = 'static-top',
 	windowTitle = poster_title,
 	title = navbar_title,
-	if(file.exists('www/qrcode.png')) {
-		tags$div(
-			style = "position: fixed; bottom: 10px; right: 10px; z-index: 9999;",
-			tags$img(src = "qrcode.png", width = "100px") # Place image in www/
-		)
-	},
 	tabPanel(
         'Overview',
+        # if(file.exists('www/qrcode.png')) {
+        # 	tags$div(
+        # 		style = "position: fixed; top: 60px; right: 10px; z-index: 9999;",
+        # 		tags$img(src = "qrcode.png", width = "100px") # Place image in www/
+        # 	)
+        # },
+        # tags$div(
+        # 	style = "position: fixed; top: 60px; left: 20px; z-index: 9999;",
+        # 	tags$img(src = "clav1.png", height = "100px") # Place image in www/
+        # ),
         fluidRow( # Title and Authors
         	style = 'position: relative; top: -15px;',
         	column(
-        		width = 12,
+        		width = 1,
+        		tags$img(src = "clav1.png", height = "100px")
+        	),
+        	column(
+        		width = 10,
         		div(style = 'font-size: 26px; padding-bottom: 10px;',
         			align = 'center',
         			poster_title
@@ -28,6 +36,10 @@ shinyUI(navbarPage(
         			style = 'padding-bottom: 5px',
         			poster_authors
         		)
+        	),
+        	column(
+        		width = 1,
+        		tags$img(src = "qrcode.png", width = "100px")
         	)
         ),
         fluidRow( # Row 1 (three column layout)
@@ -52,12 +64,14 @@ shinyUI(navbarPage(
         				tabPanel(
         					'Plot',
         					plotOutput('optimal_clusters_plot', height = '300px')
+        				),
+        				tabPanel(
+        					'Scatterplot',
+        					plotOutput('scatter_plot', height = '200px')
         				)
-        			)
-        		),
-        		box(title = 'Known Clusters',
-        			width = 12,
-        			plotOutput('scatter_plot', height = '200px')
+        			),
+        			br(),
+        			p('Using six of the more common metrics for determining the optimal number of clusters fails to identify three clusters in nearly all cases.')
         		)
         	),
         	column( # Column 2
