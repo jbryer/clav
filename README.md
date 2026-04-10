@@ -16,17 +16,18 @@ status](https://github.com/jbryer/clav/workflows/R-CMD-check/badge.svg)](https:/
 March 10,
 2026](https://github.com/jbryer/clav/blob/master/slides/clav_nyhackr_2026.pdf)
 
-[Slides from Joint Statistical Meeting (JSM)
+[Slides from Joint Statistical Meeting (JSM), August,
 2025](https://github.com/jbryer/clav/blob/master/slides/clav_jsm_2025.pdf)
 
-[Poster from the National Council on Measurement in
-Education](poster/ncme_poster_screenshot.png). This poster uses the
+[Poster from the National Council on Measurement in Education, April,
+2026](poster/ncme_poster_screenshot.png).  
+This poster uses the
 [ShinyPoster](https://github.com/jbryer/ShinyPoster) framework and is
 interactive. The poster can be viewed using R with the following
 command:
 
 ``` r
-shiny::runGitHub('clav', username = 'jbryer', subdir = 'poster')
+shiny::runGitHub(repo = 'clav', username = 'jbryer', subdir = 'poster', destdir = getwd())
 ```
 
 The `clav` package provides utilities for conducting cluster (profile)

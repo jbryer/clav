@@ -21,7 +21,7 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 # Set the accuracy for ggplot2 labels
 pct_format = scales::percent_format(accuracy = .1)
 
-poster_link <- 'https://github.com/jbryer/clav'
+poster_link <- 'https://clav.bryer.org'
 
 # Generate QR code
 png('www/qrcode.png')
