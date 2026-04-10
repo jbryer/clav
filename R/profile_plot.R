@@ -30,7 +30,6 @@
 #' @import ggplot2
 #' @importFrom dplyr mutate_if all_of
 #' @importFrom reshape2 melt
-#' @importFrom psych describeBy
 #' @importFrom latex2exp TeX
 #' @importFrom stats aov chisq.test dist pnorm predict qnorm sd var
 #' @export
@@ -117,11 +116,7 @@ profile_plot = function(
 	plots <- list()
 
 	df.melted <- reshape2::melt(cbind(df, cluster = as.character(clusters)), id.vars = 'cluster')
-	# tab <- psych::describeBy(df.melted$value,
-	# 						 group = list(df.melted$cluster, df.melted$variable),
-	# 						 mat = TRUE)
 	tab <- describe_by(df.melted, group = c('cluster', 'variable'))
-	# tab <- tab[,c('group1', 'group2', 'n', 'mean', 'se', 'sd', 'median')]
 	names(tab)[1:2] <- c('Cluster', 'Factor')
 
 	if(!missing(cluster_order)) {
@@ -201,25 +196,25 @@ profile_plot = function(
 		}
 
 		for(i in 1:ncol(df_dep)) {
-			dep_tab <- psych::describeBy(df_dep[,i,drop=TRUE],
-										 group = list(clusters), mat = TRUE)
-			dep_tab$group1 <- factor(dep_tab$group1,
-									 levels = levels(clusters),
-									 labels = cluster_labels)
+			dep_tab <- describe_by(df_dep[,i,drop=FALSE],
+								   group = clusters)
+			dep_tab$group <- factor(dep_tab$group,
+									levels = levels(clusters),
+									labels = cluster_labels)
 
 			if(is.null(color_palette)) {
 				plots[[length(plots)+1]] <- ggplot(
 					dep_tab,
-					aes(x = .data$group1, y = .data$mean))
+					aes(x = .data$group, y = .data$mean))
 			} else {
 				plots[[length(plots)+1]] <- ggplot(
 					dep_tab,
-					aes(x = .data$group1, y = .data$mean, color = .data$group1))
+					aes(x = .data$group, y = .data$mean, color = .data$group))
 			}
 			plots[[length(plots)]] <- plots[[length(plots)]] +
 				geom_errorbar(aes(ymin = .data$mean - se_factor * .data$se,
 								  ymax = .data$mean + se_factor * .data$se,
-								  color = .data$group1), width = 0.5) +
+								  color = .data$group), width = 0.5) +
 				geom_point(size = point_size) +
 				xlab('Cluster') + ylab('') +
 				theme_minimal() +
@@ -243,7 +238,7 @@ profile_plot = function(
 				plots[[length(plots)]] <- plots[[length(plots)]] +
 					geom_errorbar(aes(ymin = .data$mean - bonferroni_factor * .data$se,
 									  ymax = .data$mean + bonferroni_factor * .data$se,
-									  color = .data$group1),
+									  color = .data$group),
 								  width = 0.5, linetype = 2)
 			}
 

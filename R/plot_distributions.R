@@ -11,7 +11,6 @@
 #' @return a `ggplot2` expression.
 #' @export
 #' @import ggplot2
-#' @importFrom psych describeBy
 plot_distributions <- function(
 		cv,
 		plot_in_sample = TRUE,

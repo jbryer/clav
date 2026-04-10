@@ -347,9 +347,8 @@ cluster_module <- function(id,
 			thedata <- get_data()
 			fit <- get_cluster_fit()
 			thedata$cluster <- factor(fit$cluster, labels = letters[1:input$k])
-			tab <- psych::describeBy(thedata[,input$dependent_variable,drop=TRUE],
-									 group = thedata$cluster,
-									 mat = TRUE)
+			tab <- describe_by(thedata[,c(input$dependent_variable, 'cluster'),drop=TRUE],
+							   group = 'cluster')
 			p <- ggplot(thedata, aes_string(x = 'cluster', y = input$dependent_variable)) +
 				geom_boxplot() +
 				geom_errorbar(data = tab, aes(x = group1,
@@ -366,9 +365,8 @@ cluster_module <- function(id,
 			thedata <- get_data()
 			fit <- get_cluster_fit()
 			thedata$cluster <- factor(fit$cluster, labels = letters[1:input$k])
-			psych::describeBy(thedata[,input$dependent_variable,drop=TRUE],
-							  group = thedata$cluster,
-							  mat = TRUE) |>
+			describe_by(thedata[,c(input$dependent_variable, 'cluster'),drop=TRUE],
+						group = 'cluster')
 				dplyr::select(group1, n, mean, sd, se, median, min, max) |>
 				dplyr::rename(Cluster = group1)
 		})

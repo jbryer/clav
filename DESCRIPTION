@@ -30,7 +30,6 @@ Imports:
     GGally,
     ggplot2,
     latex2exp,
-    psych,
     reshape2,
     scales,
     shiny,

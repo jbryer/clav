@@ -46,5 +46,6 @@ statistics are calculated.
 }
 \examples{
 data(pisa2015, package = 'clav')
-describe_by(df = pisa2015[,c('science_score', 'efficacy', 'motivation', 'country')], group = 'country')
+describe_by(df = pisa2015[,c('science_score', 'efficacy', 'motivation', 'country')],
+            group = 'country')
 }

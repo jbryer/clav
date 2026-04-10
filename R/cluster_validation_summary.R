@@ -50,10 +50,8 @@ summary.clustervalidation <- function(
 		merge(mapping[,c('iter', 'cluster', 'full_cluster')],
 			  by = c('iter', 'cluster'), all.x = TRUE)
 
-	sum_tab <- psych::describeBy(
-		samp$value,
-		group = list(samp$full_cluster, samp$variable),
-		mat = TRUE, skew = FALSE)
+	sum_tab <- describe_by(samp[,c('value', 'full_cluster', 'variable')],
+						   group = c('full_cluster', 'variable'))
 	names(sum_tab)[2:3] <- c('cluster', 'variable')
 	sum_tab$vars <- NULL
 	sum_tab$item <- NULL
