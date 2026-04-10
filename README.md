@@ -19,6 +19,16 @@ March 10,
 [Slides from Joint Statistical Meeting (JSM)
 2025](https://github.com/jbryer/clav/blob/master/slides/clav_jsm_2025.pdf)
 
+[Poster from the National Council on Measurement in
+Education](poster/ncme_poster_screenshot.png). This poster uses the
+[ShinyPoster](https://github.com/jbryer/ShinyPoster) framework and is
+interactive. The poster can be viewed using R with the following
+command:
+
+``` r
+shiny::runGitHub('clav', username = 'jbryer', subdir = 'poster')
+```
+
 The `clav` package provides utilities for conducting cluster (profile)
 analysis with an emphasis on the validating the stability of the
 profiles both within a given data set as well as across data sets.
