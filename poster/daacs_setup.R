@@ -2,7 +2,8 @@ library(clav)
 library(dplyr)
 library(ggplot2)
 
-daacs_cache_file <- 'cache/daacs.Rda'
+daacs_cache_file <- 'data/daacs.Rda'
+daacs_cv_cache_file <- 'data/daacs_cv.Rda'
 
 if(!file.exists(daacs_cache_file)) {
 	data("daacs", package = 'clav')
@@ -23,18 +24,19 @@ if(!file.exists(daacs_cache_file)) {
 	daacs_af <- clav::cluster_agreement_fit(daacs[,daacs_cluster_vars])
 	plot(daacs_af)
 
+	save(daacs, daacs_oc, daacs_af, file = daacs_cache_file)
+} else {
+	load(daacs_cache_file)
+}
+
+if(!file.exists(daacs_cv_cache_file)) {
 	daacs_cv <- list()
 	for(i in 2:6) {
 		daacs_cv[[paste0('k', i)]] <- clav::cluster_validation(daacs[,daacs_cluster_vars], n_clusters = i)
 	}
 
-	save(daacs, daacs_oc, daacs_af, daacs_cv, file = daacs_cache_file)
+	save(daacs_cv, file = daacs_cv_cache_file)
 } else {
-	load(daacs_cache_file)
+	load(daacs_cv_cache_file)
 }
-
-# daacs_fit <- stats::kmeans(daacs[,cluster_vars], 5)
-# clav::profile_plot(df = daacs[,daacs_cluster_vars],
-# 				   clusters = LETTERS[daacs_fit$cluster],
-# 				   df_dep = daacs[,daacs_outcome_vars,drop=FALSE])
 

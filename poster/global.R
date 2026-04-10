@@ -59,7 +59,7 @@ if(interactive()) {
 }
 
 ##### Load data  ###############################################################
-cache_dir <- 'cache'
+cache_dir <- 'data'
 if(!dir.exists(cache_dir)) {
 	dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
 }
