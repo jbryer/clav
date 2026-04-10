@@ -178,3 +178,40 @@ example the overlap fit metric would result in a three-cluster solution
 consistent with the number of species in the original dataset. Future
 research will explore this method with other datasets where there is a
 known cluster solution.
+
+# References
+
+Calinski, T., & Harabasz, J. (1974). A dendrite method for cluster
+analysis. *Communications in Statistics, 3*(1), 1–27.
+<https://doi.org/10.1080/03610927408827101>
+
+Carpineto, C., & Romano, G. (2012). Consensus clustering based on a new
+probabilistic rand index with application to subtopic retrieval. *IEEE
+Transactions on Pattern Analysis and Machine Intelligence, 34*(12),
+2315–2326. <https://doi.org/10.1109/TPAMI.2012.80>
+
+Davies, D. L., & Bouldin, D. W. (1979). A cluster separation measure.
+*IEEE Trans. Pattern Anal. Mach. Intell., PAMI-1*(2), 224–227.
+
+Horst, A. M., Hill, A. P., & Gorman, K. B. (2020). *Palmerpenguins:
+Palmer archipelago (Antarctica) penguin data.*
+<https://doi.org/10.5281/zenodo.3960218>
+
+Rousseeuw, P. J. (1987). Silhouettes: A graphical aid to the
+interpretation and validation of cluster analysis. *J. Comput. Appl.
+Math., 20*, 53–65.
+
+Theodoridis, S., & Koutroumbas, K. (2008). *Pattern recognition* (4th
+ed.). USA: Academic Press, Inc.
+
+Thorndike, R. L. (1953). Who belongs in the family? *Psychometrika,
+18*(4), 267–276.
+
+Tibshirani, R., Walther, G., & Hastie, T. (2001). Estimating the number
+of clusters in a data set via the gap statistic. *J. R. Stat. Soc.
+Series B Stat. Methodol., 63*(2), 411–423.
+
+Ullmann, T., Hennig, C., & Boulesteix, A.-L. (2022). Validation of
+cluster analysis results on validation data: A systematic framework.
+*WIREs Data Mining and Knowledge Discovery, 12*(3), e1444.
+<https://doi.org/https://doi.org/10.1002/widm.1444>

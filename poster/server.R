@@ -18,6 +18,34 @@ shinyServer(function(input, output, session) {
 		data_vars[[input$dataset]]$cluster_var
 	})
 
+	##### DAACS ################################################################
+	output$daacs_cluster_fit_plot <- renderPlot({
+		plot(daacs_oc) |> print()
+	})
+
+	output$daacs_cluster_agreement_plot <- renderPlot({
+		plot(daacs_af)
+	})
+
+	output$daacs_cluster_overlap_plot <- renderPlot({
+		plot(daacs_of)
+	})
+
+	output$daacs_cluster_validation_plot <- renderPlot({
+		plot(daacs_cv[[paste0('k', input$daacs_k)]])
+	})
+
+	output$daacs_distributions_plot <- renderPlot({
+		plot_distributions(daacs_cv[[paste0('k', input$daacs_k)]])
+	})
+
+	output$daacs_profile_plot <- renderPlot({
+		daacs_fit <- stats::kmeans(daacs[,cluster_vars], input$daacs_k)
+		clav::profile_plot(df = daacs[,daacs_cluster_vars],
+						   clusters = LETTERS[daacs_fit$cluster],
+						   df_dep = daacs[,daacs_outcome_vars,drop=FALSE])
+	})
+
 	##### Figures ##############################################################
 	output$figure1 <- renderPlot({
 		# ggpairs(poster_data[,c('mpg', 'wt', 'cyl')])

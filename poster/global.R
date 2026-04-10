@@ -16,6 +16,8 @@ library(clav)
 source('R/utilities.R')
 source('R/renderRmd.R')
 
+source('daacs_setup.R')
+
 ggplot2::theme_set(ggplot2::theme_minimal())
 
 # Set the accuracy for ggplot2 labels
@@ -31,6 +33,7 @@ dev.off()
 navbar_title <- div(a(img(src="special_k_logo.png", height=35), # image must be in www/ folder
 					  href= poster_link, target='_new'),
 					style = "position: relative; top: -5px;")
+navbar_title <- ''
 
 poster_title <- 'Bootstrapping to Determine the Optimal Number of Clusters'
 poster_subtitle <- 'April 10, 2026, National Council on Measurement in Education, Los Angeles, CA'
