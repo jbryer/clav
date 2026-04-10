@@ -80,8 +80,6 @@ iris <- iris |>
 		dplyr::all_of(c('Sepal.Length', 'Petal.Length')),
 		clav::scale_this))
 
-data('daacs', package = 'clav')
-
 data_vars <- list(
 	penguins = list(
 		cluster_vars = c('bill_length_mm', 'flipper_length_mm'),
