@@ -2,13 +2,11 @@
 .Rhistory
 .RData
 .Ruserdata
-data-raw/PISA/
 README_cache/
 .Rdata
 .httr-oauth
 .DS_Store
 .quarto
-inst/daacs/
 private/
 /articles/
 sticker.R
@@ -18,6 +16,5 @@ vignettes/clustering_overlap_metric_cache/
 slides/clav_jsm_2025_cache/
 slides/clav_nyhackr_2026_cache/
 /.quarto/
-inst/doc
 data-raw/
 manuscript/
