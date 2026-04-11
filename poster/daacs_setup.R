@@ -5,11 +5,11 @@ library(ggplot2)
 daacs_cache_file <- 'data/daacs.Rda'
 daacs_cv_cache_file <- 'data/daacs_cv.Rda'
 
+daacs_cluster_vars <- c('Motivation', 'Metacognition', 'Strategies', 'Mathematics', 'Reading', 'Writing')
+daacs_outcome_vars <- c('FeedbackViews', 'TermSuccess')
+
 if(!file.exists(daacs_cache_file)) {
 	data("daacs", package = 'clav')
-
-	daacs_cluster_vars <- c('Motivation', 'Metacognition', 'Strategies', 'Mathematics', 'Reading', 'Writing')
-	daacs_outcome_vars <- c('FeedbackViews', 'TermSuccess')
 
 	# Standardize the scores
 	daacs <- daacs |>
@@ -24,7 +24,7 @@ if(!file.exists(daacs_cache_file)) {
 	daacs_af <- clav::cluster_agreement_fit(daacs[,daacs_cluster_vars])
 	plot(daacs_af)
 
-	save(daacs, daacs_oc, daacs_af, file = daacs_cache_file)
+	save(daacs, daacs_oc, daacs_of, daacs_af, file = daacs_cache_file)
 } else {
 	load(daacs_cache_file)
 }

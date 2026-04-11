@@ -40,7 +40,7 @@ shinyServer(function(input, output, session) {
 	})
 
 	output$daacs_profile_plot <- renderPlot({
-		daacs_fit <- stats::kmeans(daacs[,cluster_vars], input$daacs_k)
+		daacs_fit <- stats::kmeans(daacs[,daacs_cluster_vars], input$daacs_k)
 		clav::profile_plot(df = daacs[,daacs_cluster_vars],
 						   clusters = LETTERS[daacs_fit$cluster],
 						   df_dep = daacs[,daacs_outcome_vars,drop=FALSE])
