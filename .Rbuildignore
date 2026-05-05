@@ -19,3 +19,5 @@ vignettes/cluster_agreement_fit_cache/
 vignettes/clav_cache/
 manuscript/
 poster/
+^\.positai$
+^\.claude$

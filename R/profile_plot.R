@@ -116,7 +116,9 @@ profile_plot = function(
 	plots <- list()
 
 	df.melted <- reshape2::melt(cbind(df, cluster = as.character(clusters)), id.vars = 'cluster')
-	tab <- describe_by(df.melted, group = c('cluster', 'variable'))
+	tab <- describe_by(
+		df = df.melted,
+		group = c('cluster', 'variable'))
 	names(tab)[1:2] <- c('Cluster', 'Factor')
 
 	if(!missing(cluster_order)) {
@@ -150,6 +152,8 @@ profile_plot = function(
 	plots[[length(plots)]] <- plots[[length(plots)]] +
 		geom_hline(yintercept = 0, color = 'grey70') +
 		geom_path(aes(linetype = .data$Cluster)) +
+		ggplot2::guides(linetype = "none", shape = "none", label = "none", group = "none",
+						color = guide_legend(override.aes = list(label = ""))) +
 		geom_point(size = point_size) +
 		geom_errorbar(aes(ymin = .data$mean - se_factor * .data$se,
 						  ymax = .data$mean + se_factor * .data$se),

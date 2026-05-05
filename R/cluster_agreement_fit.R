@@ -192,18 +192,5 @@ cluster_agreement <- function(cv) {
 	# end <- Sys.time()
 	# end - start  # 0.17 seconds
 
-	# TODO: Is there a more efficient way of calculating this?
-	# start <- Sys.time()
-	# match_matrix <- matrix(NA, nrow = nrow(cluster_assignments), ncol = nrow(cluster_assignments))
-	# for(i in 1:(nrow(match_matrix)-1)) {
-	# 	row1 <- cluster_assignments[i,,drop=TRUE] |> as.integer()
-	# 	for(j in (i+1):nrow(match_matrix)) {
-	# 		row2 <- cluster_assignments[j,,drop=TRUE] |> as.integer()
-	# 		match_matrix[i,j] <- mean(row1 == row2)
-	# 	}
-	# }
-	# end <- Sys.time()
-	# end - start  # 21 seconds
-
 	return(match_matrix)
 }
